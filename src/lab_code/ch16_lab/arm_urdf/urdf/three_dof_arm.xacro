@@ -1,0 +1,196 @@
+<?xml version="1.0"?>
+<robot name="three_dof_arm" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- ==================== 常量定义 ==================== -->
+    <xacro:property name="M_PI" value="3.1415926535897931"/>
+    <xacro:property name="M_PI_2" value="1.5707963267948966"/>
+    <xacro:property name="arm_damping" value="50.0"/>
+    <xacro:property name="arm_friction" value="1.0"/>
+
+    <!-- ==================== 材料颜色 ==================== -->
+    <material name="yellow"><color rgba="1 1 0 1"/></material>
+    <material name="blue"><color rgba="0 0 1 1"/></material>
+    <material name="red"><color rgba="1 0 0 1"/></material>
+    <material name="green"><color rgba="0 1 0 1"/></material>
+    <material name="purple"><color rgba="1 0 1 1"/></material>
+    <material name="white"><color rgba="1 1 1 1"/></material>
+
+    <!-- ==================== 惯性矩阵宏 ==================== -->
+    <xacro:macro name="cylinder_inertial" params="m r l">
+        <inertial>
+            <mass value="${m}"/>
+            <inertia ixx="${m*(3*r*r+l*l)/12}" ixy="0" ixz="0"
+                     iyy="${m*(3*r*r+l*l)/12}" iyz="0"
+                     izz="${m*r*r/2}"/>
+        </inertial>
+    </xacro:macro>
+
+    <xacro:macro name="box_inertial" params="m l w h">
+        <inertial>
+            <mass value="${m}"/>
+            <inertia ixx="${m*(h*h+l*l)/12}" ixy="0" ixz="0"
+                     iyy="${m*(w*w+l*l)/12}" iyz="0"
+                     izz="${m*(w*w+h*h)/12}"/>
+        </inertial>
+    </xacro:macro>
+
+    <!-- ==================== 底座 ==================== -->
+    <link name="base_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0.09"/>
+            <geometry><cylinder length="0.18" radius="0.1"/></geometry>
+            <material name="yellow"/>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0.09"/>
+            <geometry><cylinder length="0.18" radius="0.1"/></geometry>
+        </collision>
+        <cylinder_inertial m="1" r="0.1" l="0.18"/>
+    </link>
+
+    <!-- ==================== 关节1 ==================== -->
+    <joint name="joint1" type="revolute">
+        <parent link="base_link"/>
+        <child link="link1"/>
+        <origin rpy="0 0 0" xyz="0 0 0.18"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="300" velocity="0.6"
+               lower="${-M_PI/3*2}" upper="${M_PI/3*2}"/>
+        <dynamics damping="${arm_damping}" friction="${arm_friction}"/>
+    </joint>
+
+    <!-- ==================== 连杆1 ==================== -->
+    <link name="link1">
+        <visual>
+            <geometry><box size="0.1 0.06 0.2"/></geometry>
+            <origin rpy="0 0 0" xyz="0 0.03 0.1"/>
+            <material name="blue"/>
+        </visual>
+        <collision>
+            <geometry><box size="0.1 0.06 0.2"/></geometry>
+            <origin rpy="0 0 0" xyz="0 0.03 0.1"/>
+        </collision>
+        <box_inertial m="1" l="0.2" w="0.06" h="0.1"/>
+    </link>
+
+    <!-- ==================== 关节2 ==================== -->
+    <joint name="joint2" type="revolute">
+        <parent link="link1"/>
+        <child link="link2"/>
+        <origin rpy="0 0 0" xyz="0 0 0.18"/>
+        <axis xyz="0 1 0"/>
+        <limit effort="300" velocity="0.6"
+               lower="${-M_PI/3*2}" upper="${M_PI/3*2}"/>
+        <dynamics damping="${arm_damping}" friction="${arm_friction}"/>
+    </joint>
+
+    <!-- ==================== 连杆2 ==================== -->
+    <link name="link2">
+        <visual>
+            <geometry><cylinder length="0.24" radius="0.03"/></geometry>
+            <origin rpy="0 0 0" xyz="0 0 0.12"/>
+            <material name="red"/>
+        </visual>
+        <collision>
+            <geometry><cylinder length="0.24" radius="0.03"/></geometry>
+            <origin rpy="0 0 0" xyz="0 0 0.12"/>
+        </collision>
+        <cylinder_inertial m="1" r="0.03" l="0.24"/>
+    </link>
+
+    <!-- ==================== 关节3 ==================== -->
+    <joint name="joint3" type="revolute">
+        <parent link="link2"/>
+        <child link="link3"/>
+        <origin rpy="0 0 0" xyz="0 0 0.24"/>
+        <axis xyz="0 1 0"/>
+        <limit effort="300" velocity="0.6"
+               lower="${-M_PI/3*2}" upper="${M_PI/3*2}"/>
+        <dynamics damping="${arm_damping}" friction="${arm_friction}"/>
+    </joint>
+
+    <!-- ==================== 连杆3 ==================== -->
+    <link name="link3">
+        <visual>
+            <geometry><box size="0.04 0.04 0.18"/></geometry>
+            <origin rpy="0 0 0" xyz="0 0 0.09"/>
+            <material name="green"/>
+        </visual>
+        <collision>
+            <geometry><box size="0.04 0.04 0.18"/></geometry>
+            <origin rpy="0 0 0" xyz="0 0 0.09"/>
+        </collision>
+        <box_inertial m="1" l="0.18" w="0.04" h="0.04"/>
+    </link>
+
+    <!-- ==================== 夹爪底座 ==================== -->
+    <joint name="gripper_base_joint" type="fixed">
+        <parent link="link3"/>
+        <child link="gripper_base_link"/>
+        <origin rpy="0 0 0" xyz="0 0 0.18"/>
+    </joint>
+    <link name="gripper_base_link">
+        <visual>
+            <geometry><box size="0.03 0.1 0.02"/></geometry>
+            <origin rpy="0 0 0" xyz="0 0 0.01"/>
+            <material name="white"/>
+        </visual>
+        <collision>
+            <geometry><box size="0.03 0.1 0.02"/></geometry>
+            <origin rpy="0 0 0" xyz="0 0 0.01"/>
+        </collision>
+        <box_inertial m="0.5" l="0.02" w="0.1" h="0.03"/>
+    </link>
+
+    <!-- ==================== 手指1 ==================== -->
+    <joint name="finger1_joint" type="prismatic">
+        <parent link="gripper_base_link"/>
+        <child link="finger1_link"/>
+        <origin rpy="0 0 0" xyz="0 0.03 0.02"/>
+        <axis xyz="0 1 0"/>
+        <limit effort="300" velocity="0.6" lower="-0.025" upper="0.01"/>
+        <dynamics damping="50" friction="1"/>
+    </joint>
+    <link name="finger1_link">
+        <visual>
+            <geometry><box size="0.03 0.01 0.05"/></geometry>
+            <origin rpy="0 0 0" xyz="0 0 0.025"/>
+            <material name="purple"/>
+        </visual>
+        <collision>
+            <geometry><box size="0.03 0.01 0.05"/></geometry>
+            <origin rpy="0 0 0" xyz="0 0 0.025"/>
+        </collision>
+        <box_inertial m="0.2" l="0.05" w="0.01" h="0.03"/>
+    </link>
+
+    <!-- ==================== 手指2 (mimic) ==================== -->
+    <joint name="finger2_joint" type="prismatic">
+        <parent link="gripper_base_link"/>
+        <child link="finger2_link"/>
+        <origin rpy="0 0 0" xyz="0 -0.03 0.02"/>
+        <axis xyz="0 1 0"/>
+        <limit effort="300" velocity="0.6" lower="-0.01" upper="0.025"/>
+        <dynamics damping="50" friction="1"/>
+        <mimic joint="finger1_joint" multiplier="-1"/>
+    </joint>
+    <link name="finger2_link">
+        <visual>
+            <geometry><box size="0.03 0.01 0.05"/></geometry>
+            <origin rpy="0 0 0" xyz="0 0 0.025"/>
+            <material name="purple"/>
+        </visual>
+        <collision>
+            <geometry><box size="0.03 0.01 0.05"/></geometry>
+            <origin rpy="0 0 0" xyz="0 0 0.025"/>
+        </collision>
+        <box_inertial m="0.2" l="0.05" w="0.01" h="0.03"/>
+    </link>
+
+    <!-- ==================== TCP ==================== -->
+    <joint name="gripper_center_joint" type="fixed">
+        <parent link="gripper_base_link"/>
+        <child link="gripper_center_link"/>
+        <origin rpy="0 0 0" xyz="0 0 0.045"/>
+    </joint>
+    <link name="gripper_center_link"/>
+</robot>

@@ -1,0 +1,55 @@
+<?xml version="1.0" ?>
+<sdf version="1.4">
+  <model name="ISCAS_Museum">
+    <link name="link">
+      <collision name="collision">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://ISCAS_Museum/meshes/ISCAS_museum.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <pose>0 0 0 0 0 0</pose>
+        <cast_shadows>false</cast_shadows>
+        <geometry>
+          <mesh>
+            <uri>model://ISCAS_Museum/meshes/ISCAS_museum.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <!-- Seal the two doorway openings while keeping the replacement faces
+         on the same planes as the surrounding museum walls. -->
+    <link name="sealed_door_wall_south">
+      <pose>10.69 0.99 1.25 0 0 0</pose>
+      <collision name="collision">
+        <geometry><box><size>0.32 3.55 2.5</size></box></geometry>
+      </collision>
+      <visual name="visual">
+        <geometry><box><size>0.32 3.55 2.5</size></box></geometry>
+        <material>
+          <ambient>0.42 0.45 0.48 1</ambient>
+          <diffuse>0.52 0.55 0.58 1</diffuse>
+          <specular>0.08 0.08 0.08 1</specular>
+        </material>
+      </visual>
+    </link>
+    <link name="sealed_door_wall_east">
+      <pose>-6.75 8.55 1.30 0 0 0</pose>
+      <collision name="collision">
+        <geometry><box><size>8.45 0.32 2.6</size></box></geometry>
+      </collision>
+      <visual name="visual">
+        <geometry><box><size>8.45 0.32 2.6</size></box></geometry>
+        <material>
+          <ambient>0.42 0.45 0.48 1</ambient>
+          <diffuse>0.52 0.55 0.58 1</diffuse>
+          <specular>0.08 0.08 0.08 1</specular>
+        </material>
+      </visual>
+    </link>
+    <static>1</static>
+  </model>
+</sdf>

@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "ROS2: Debug hello_ros2",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/lifecycle_demo/hello_node.py",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            },
+            "console": "integratedTerminal"
+        }
+    ]
+}

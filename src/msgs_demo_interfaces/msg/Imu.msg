@@ -1,0 +1,7 @@
+std_msgs/Header header
+Quaternion orientation
+float64[9] orientation_covariance
+Vector3 angular_velocity
+float64[9] angular_velocity_covariance
+Vector3 linear_acceleration
+float64[9] linear_acceleration_covariance

@@ -1,0 +1,9 @@
+recursive-include launch *.launch.py
+recursive-include config *
+recursive-include gui *
+recursive-include models *
+recursive-include rviz *
+recursive-include urdf *
+recursive-include worlds *
+recursive-include resource *
+include package.xml

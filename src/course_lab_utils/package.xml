@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>course_lab_utils</name>
+  <version>0.1.0</version>
+  <description>Shared ROS 2 Jazzy helpers for executable course labs.</description>
+  <maintainer email="course@example.com">ROS2 Course</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_python</buildtool_depend>
+
+  <depend>geometry_msgs</depend>
+  <depend>course_lab_interfaces</depend>
+  <depend>cv_bridge</depend>
+  <depend>moveit_msgs</depend>
+  <depend>moveit_py</depend>
+  <depend>rclpy</depend>
+  <depend>sensor_msgs</depend>
+  <depend>shape_msgs</depend>
+  <depend>std_srvs</depend>
+  <depend>tf2_geometry_msgs</depend>
+  <depend>tf2_ros_py</depend>
+  <depend>trajectory_msgs</depend>
+  <depend>visualization_msgs</depend>
+  <depend>vision_msgs</depend>
+  <exec_depend>python3-numpy</exec_depend>
+  <exec_depend>python3-opencv</exec_depend>
+  <test_depend>python3-pytest</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

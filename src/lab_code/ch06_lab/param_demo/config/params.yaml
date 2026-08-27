@@ -1,0 +1,6 @@
+param_demo:
+  ros__parameters:
+    robot_name: 'xbot'
+    max_speed: 2.0
+    mode: 'auto'
+    enable_debug: true

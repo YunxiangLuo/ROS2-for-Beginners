@@ -1,0 +1,106 @@
+/**
+ * robot_localization EKF 配置
+ * LiDAR + IMU + GNSS 松耦合融合
+ */
+ekf_filter_node:
+  ros__parameters:
+
+    # === 通用配置 ===
+    frequency: 30.0                       # EKF 更新频率 (Hz)
+    sensor_timeout: 0.1                   # 传感器超时 (s)
+    two_d_mode: false                     # 3D 定位
+    predict_to_current_time: false        # 预测到当前时间戳
+    print_diagnostics: true               # 打印诊断信息
+    debug: false                          # 调试模式
+
+    # === 坐标系 ===
+    map_frame: map                        # 世界固定坐标系
+    odom_frame: odom                      # 里程计坐标系
+    base_link_frame: base_link            # 车辆本体坐标系
+    world_frame: odom                     # EKF 估计的世界坐标系参考
+
+    # === IMU 配置 ===
+    imu0: /carla/imu                      # IMU 话题
+    imu0_config: [                        # [acc_x, acc_y, acc_z, ang_vel_x, ang_vel_y, ang_vel_z, orient_x, orient_y, orient_z, orient_w, vel_x, vel_y, vel_z, pos_x, pos_y, pos_z]
+      true,  true,  true,                 # 加速度 x, y, z 用于预测
+      true,  true,  true,                 # 角速度 x, y, z 用于预测
+      false, false, false, false,         # 不使用绝对方向 (由LiDAR提供)
+      false, false, false,                # 速度不来自IMU
+      false, false, false                 # 位置不来自IMU
+    ]
+    imu0_differential: false              # 不进行差分处理
+    imu0_relative: false
+    imu0_queue_size: 10
+    imu0_remove_gravitational_acceleration: true  # 去除重力分量
+
+    # === LiDAR SLAM 配置 ===
+    odom0: /odom_lidar                    # LiDAR SLAM 里程计话题
+    odom0_config: [                       # 6-DOF 位姿观测
+      true,  true,  true,                 # 位置 x, y, z
+      true,  true,  true,                 # 姿态 roll, pitch, yaw
+      false, false, false,                # 速度不使用
+      false, false, false,                # 角速度不使用
+      false, false, false                 # 加速度不使用
+    ]
+    odom0_differential: false             # 是否接收增量里程计
+    odom0_relative: false
+    odom0_queue_size: 5
+    odom0_pose_rejection_threshold: 2.0   # 位置马氏距离阈值 (σ)
+    odom0_twist_rejection_threshold: 1.0
+
+    # === GNSS 配置 ===
+    odom1: /carla/gnss                    # GNSS 位置话题
+    odom1_config: [
+      true,  true,  true,                 # 位置 x, y, z
+      false, false, false,                # 姿态不使用
+      false, false, false,                # 速度不使用
+      false, false, false,
+      false, false, false
+    ]
+    odom1_differential: false
+    odom1_relative: false
+    odom1_queue_size: 5
+    odom1_pose_rejection_threshold: 5.0   # GNSS 异常阈值 (较大)
+
+    # === 过程噪声协方差 (Q matrix) ===
+    process_noise_covariance: [0.01, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                               0.0, 0.01, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                               0.0, 0.0, 0.01, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                               0.0, 0.0, 0.0, 0.005, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                               0.0, 0.0, 0.0, 0.0, 0.005, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                               0.0, 0.0, 0.0, 0.0, 0.0, 0.005, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                               0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                               0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                               0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                               0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0,
+                               0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0,
+                               0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0, 0.0,
+                               0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0,
+                               0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0,
+                               0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5]
+
+    # === 初始协方差 (P0) ===
+    initial_estimate_covariance: [1e-9, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                                  0.0, 1e-9, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                                  0.0, 0.0, 1e-9, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                                  0.0, 0.0, 0.0, 1e-9, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                                  0.0, 0.0, 0.0, 0.0, 1e-9, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                                  0.0, 0.0, 0.0, 0.0, 0.0, 1e-9, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                                  0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1e-9, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                                  0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1e-9, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                                  0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1e-9, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                                  0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1e-9, 0.0, 0.0, 0.0, 0.0, 0.0,
+                                  0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1e-9, 0.0, 0.0, 0.0, 0.0,
+                                  0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1e-9, 0.0, 0.0, 0.0,
+                                  0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1e-9, 0.0, 0.0,
+                                  0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1e-9, 0.0,
+                                  0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1e-9]
+
+    # === 输出配置 ===
+    odom0_differential: false
+    publish_acceleration: true
+    publish_tf: false                      # 由 tf_broadcaster.py 处理 TF
+    map_frame: map
+    odom_frame: odom
+    base_link_frame: base_link
+    world_frame: odom

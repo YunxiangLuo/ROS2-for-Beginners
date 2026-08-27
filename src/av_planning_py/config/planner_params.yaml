@@ -1,0 +1,8 @@
+global_planner:
+  grid_resolution: 0.5
+  inflation_radius: 1.0
+  use_diagonal: true
+waypoint_generator:
+  waypoint_spacing: 2.0
+  default_speed: 10.0
+  max_speed: 20.0

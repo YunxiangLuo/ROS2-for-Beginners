@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="xarm">
+  <xacro:arg name="hardware_type" default="mock_components" />
+  <xacro:arg name="use_ros2_control" default="true" />
+  <xacro:arg name="initial_positions_file" default="$(find xarm_ros2_arm_only)/config/initial_positions.yaml" />
+  <xacro:arg name="controllers_file" default="" />
+  <xacro:arg name="include_world_joint" default="true" />
+  <xacro:arg name="base_height" default="0.0" />
+
+  <xacro:property name="M_PI" value="3.1415926535897931" />
+  <xacro:property name="M_PI_2" value="1.570796327" />
+  <xacro:property name="selected_hardware_type" value="$(arg hardware_type)" />
+
+  <xacro:include filename="$(find xarm_description)/urdf/arm.urdf.xacro" />
+
+  <xacro:macro name="arm_only_ros2_control" params="name hardware_type initial_positions_file">
+    <xacro:property
+      name="initial_positions"
+      value="${xacro.load_yaml(initial_positions_file)['initial_positions']}" />
+
+    <ros2_control name="${name}" type="system">
+      <hardware>
+        <xacro:if value="${hardware_type == 'mock_components'}">
+          <plugin>mock_components/GenericSystem</plugin>
+          <param name="calculate_dynamics">true</param>
+        </xacro:if>
+        <xacro:if value="${hardware_type == 'gz'}">
+          <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+        </xacro:if>
+      </hardware>
+
+      <xacro:macro name="controlled_joint" params="joint_name">
+        <joint name="${joint_name}">
+          <command_interface name="position" />
+          <state_interface name="position">
+            <param name="initial_value">${initial_positions[joint_name]}</param>
+          </state_interface>
+          <state_interface name="velocity">
+            <param name="initial_value">0.0</param>
+          </state_interface>
+        </joint>
+      </xacro:macro>
+
+      <xacro:controlled_joint joint_name="arm_1_joint" />
+      <xacro:controlled_joint joint_name="arm_2_joint" />
+      <xacro:controlled_joint joint_name="arm_3_joint" />
+      <xacro:controlled_joint joint_name="arm_4_joint" />
+      <xacro:controlled_joint joint_name="arm_5_joint" />
+      <xacro:controlled_joint joint_name="arm_6_joint" />
+      <xacro:controlled_joint joint_name="gripper_1_joint" />
+
+      <joint name="gripper_2_joint">
+        <param name="mimic">gripper_1_joint</param>
+        <param name="multiplier">1.0</param>
+        <xacro:unless value="${hardware_type == 'gz'}">
+          <command_interface name="position" />
+          <state_interface name="position" />
+          <state_interface name="velocity" />
+        </xacro:unless>
+      </joint>
+    </ros2_control>
+  </xacro:macro>
+
+  <xacro:xarm
+    include_world_joint="$(arg include_world_joint)"
+    base_height="$(arg base_height)" />
+
+  <xacro:if value="$(arg use_ros2_control)">
+    <xacro:arm_only_ros2_control
+      name="ArmOnlyXArmSystem"
+      hardware_type="${selected_hardware_type}"
+      initial_positions_file="$(arg initial_positions_file)" />
+  </xacro:if>
+
+  <xacro:if value="${selected_hardware_type == 'gz'}">
+    <gazebo>
+      <plugin
+        filename="gz_ros2_control-system"
+        name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+        <parameters>$(arg controllers_file)</parameters>
+        <position_proportional_gain>0.1</position_proportional_gain>
+      </plugin>
+    </gazebo>
+  </xacro:if>
+</robot>

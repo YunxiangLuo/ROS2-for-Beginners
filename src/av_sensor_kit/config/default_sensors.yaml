@@ -1,0 +1,45 @@
+sensors:
+  - name: front_rgb
+    type: sensor.camera.rgb
+    x: 1.5
+    y: 0.0
+    z: 1.8
+    roll: 0.0
+    pitch: 0.0
+    yaw: 0.0
+    width: 1280
+    height: 720
+    fov: 90
+  - name: front_depth
+    type: sensor.camera.depth
+    x: 1.5
+    y: 0.0
+    z: 1.8
+    roll: 0.0
+    pitch: 0.0
+    yaw: 0.0
+    width: 1280
+    height: 720
+    fov: 90
+  - name: lidar_top
+    type: sensor.lidar.ray_cast
+    x: 0.0
+    y: 0.0
+    z: 2.2
+    roll: 0.0
+    pitch: 0.0
+    yaw: 0.0
+    channels: 64
+    range: 120.0
+    points_per_second: 1300000
+    rotation_frequency: 10.0
+  - name: gnss
+    type: sensor.other.gnss
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  - name: imu
+    type: sensor.other.imu
+    x: 0.0
+    y: 0.0
+    z: 0.0

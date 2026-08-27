@@ -1,0 +1,4 @@
+string recipe_text
+---
+bool success
+string message

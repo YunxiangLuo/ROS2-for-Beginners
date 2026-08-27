@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>action_demo_py</name>
+  <version>0.1.0</version>
+  <description>ROS 2 Python action_demo nodes.</description>
+
+  <maintainer email="anchuanxu@todo.todo">ROS Academy</maintainer>
+  <license>BSD</license>
+
+  <buildtool_depend>ament_python</buildtool_depend>
+
+  <depend>action_demo_interfaces</depend>
+  <depend>rclpy</depend>
+  <test_depend>python3-pytest</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

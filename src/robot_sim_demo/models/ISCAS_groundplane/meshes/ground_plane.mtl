@@ -1,0 +1,7 @@
+newmtl ground_plane_material
+Ka 1.000 1.000 1.000
+Kd 1.000 1.000 1.000
+Ks 0.050 0.050 0.050
+Ns 2.000
+illum 2
+map_Kd ISCAS_groundplane.png

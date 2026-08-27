@@ -1,0 +1,10 @@
+safety_monitor:
+  ttc_threshold_warning: 4.0
+  ttc_threshold_critical: 2.5
+  ttc_threshold_emergency: 1.5
+  lane_deviation_warning: 0.5
+  lane_deviation_critical: 1.0
+  emergency_brake_decel: -5.0
+fault_injector:
+  default_fault_type: "drop"
+  default_probability: 0.1

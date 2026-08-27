@@ -1,0 +1,5 @@
+include package.xml
+recursive-include launch *.py
+recursive-include params *.yaml
+recursive-include rviz *.rviz
+recursive-include resource *

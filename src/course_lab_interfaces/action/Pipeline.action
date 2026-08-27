@@ -1,0 +1,8 @@
+string recipe_text
+---
+bool success
+string message
+---
+int32 current_step
+int32 total_steps
+string step_name

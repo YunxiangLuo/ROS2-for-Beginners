@@ -1,0 +1,11 @@
+#goal
+string target_location
+---
+#result
+bool success
+float32 total_time
+float32 avg_speed
+---
+#feedback
+string status
+float32 progress
