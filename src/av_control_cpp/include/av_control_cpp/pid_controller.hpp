@@ -58,6 +58,13 @@ public:
     kd_ = kd;
   }
 
+  void set_limits(double max_output, double integral_limit)
+  {
+    max_output_ = std::max(0.0, max_output);
+    integral_limit_ = std::max(0.0, integral_limit);
+    integral_ = std::clamp(integral_, -integral_limit_, integral_limit_);
+  }
+
   void get_gains(double & kp, double & ki, double & kd) const
   {
     kp = kp_;

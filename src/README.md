@@ -16,7 +16,8 @@
 ```text
 ├── src/
 │   ├── robot_sim_demo/              Gazebo 仿真核心包
-│   │   ├── launch/gazebo2.launch.py 主启动入口
+│   │   ├── launch/gazebo2.launch.py 主启动入口（museum.sdf）
+│   │   ├── launch/campus_pucrs.launch.py Campus PUCRS 启动入口
 │   │   ├── models/                  机器人、博物馆、地面模型
 │   │   ├── worlds/museum.sdf       仿真世界
 │   │   ├── config/                  ROS-Gazebo 桥配置
@@ -142,7 +143,7 @@ pip install ultralytics
 
 | 包名 | 类型 | 说明 |
 |------|------|------|
-| `robot_sim_demo` | Python | ISCAS Museum Gazebo 仿真：Wheeltec 机器人、传感器桥、巡航驱动 |
+| `robot_sim_demo` | Python | ISCAS Museum / Campus PUCRS Gazebo 仿真：Wheeltec 机器人、传感器桥、巡航驱动 |
 | `xarm_ros2_arm_only` | Python | xArm6 纯机械臂仿真：Gazebo Harmonic、ros2_control、MoveIt 2 和 RViz |
 | `navigation_sim_demo_ros2` | Python | Nav2 导航栈：地图、AMCL、规划、控制 |
 | `slam_sim_demo_ros2` | Python | slam_toolbox 在线建图 |

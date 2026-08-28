@@ -10,14 +10,18 @@ class SimulationAssetTest(unittest.TestCase):
     def test_required_files_exist(self):
         required = [
             "launch/gazebo2.launch.py",
+            "launch/campus_pucrs.launch.py",
             "robot_sim_demo/camera_info_publisher.py",
             "robot_sim_demo/patrol_driver.py",
             "config/gazebo2_bridge.yaml",
             "gui/museum.gui.config",
+            "gui/campus_pucrs.gui.config",
             "rviz/museum.rviz",
+            "rviz/campus_pucrs.rviz",
             "urdf/campus_patrol_robot.urdf",
             "wheeltec_robot_urdf/urdf/mini_akm_robot.urdf",
             "worlds/museum.sdf",
+            "worlds/campus_pucrs.world.sdf",
             "models/campus_patrol_robot/model.sdf",
             "models/campus_patrol_robot/model.config",
             "models/wheeltec_robot/model.sdf",
@@ -46,6 +50,7 @@ class SimulationAssetTest(unittest.TestCase):
     def test_sdf_and_urdf_are_well_formed(self):
         for relative_path in (
             "worlds/museum.sdf",
+            "worlds/campus_pucrs.world.sdf",
             "models/campus_patrol_robot/model.sdf",
             "models/wheeltec_robot/model.sdf",
             "models/ISCAS_Museum/model.sdf",
@@ -79,6 +84,40 @@ class SimulationAssetTest(unittest.TestCase):
         self.assertIn('"config" / "gazebo2_bridge.yaml"', launch_text)
         self.assertNotIn("robot_sim_demo_ros2", launch_text)
         self.assertNotIn("lost_found_ros", launch_text)
+
+    def test_campus_launch_uses_the_yellow_marker_center(self):
+        launch_text = (
+            self.package_root / "launch/campus_pucrs.launch.py"
+        ).read_text(encoding="utf-8")
+        self.assertIn('WORLD_NAME = "campus_pucrs"', launch_text)
+        self.assertIn('SPAWN_X = "20.0"', launch_text)
+        self.assertIn('SPAWN_Y = "0.0"', launch_text)
+        self.assertIn('SPAWN_Z = "0.017"', launch_text)
+        self.assertIn('"world": str(campus_world)', launch_text)
+        self.assertIn('"gui_config": gui_config', launch_text)
+        self.assertIn('"rviz_config": rviz_config', launch_text)
+
+    def test_campus_marker_center_has_a_physical_ground_plane(self):
+        world_root = ElementTree.parse(
+            self.package_root / "worlds/campus_pucrs.world.sdf"
+        ).getroot()
+        world = world_root.find("world")
+        self.assertIsNotNone(world)
+        self.assertEqual("campus_pucrs", world.get("name"))
+
+        ground = world.find("./model[@name='campus_ground']")
+        self.assertIsNotNone(ground)
+        self.assertIsNotNone(
+            ground.find("./link/collision[@name='ground_collision']")
+        )
+
+        marker = world.find("./model[@name='robot_spawn_marker_x']")
+        self.assertIsNotNone(marker)
+        marker_poses = marker.findall("./link/visual/pose")
+        self.assertEqual(2, len(marker_poses))
+        for pose in marker_poses:
+            coordinates = [float(value) for value in pose.text.split()[:2]]
+            self.assertEqual([20.0, 0.0], coordinates)
 
     def test_camera_info_node_matches_sensor(self):
         node_text = (

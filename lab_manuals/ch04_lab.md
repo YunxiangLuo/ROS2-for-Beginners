@@ -411,3 +411,11 @@ ros2 run speed_control speed_client 0.0 1.0 2.0
 1. 服务处理函数中直接 `time.sleep()` 是否会影响其他服务请求？如何改进？服务回调中直接使用 time.sleep() 会阻塞当前 Executor 线程，在单线程 Executor 下会影响其他服务请求和消息处理。改进方法包括使用 Action 处理长时间任务、采用异步线程、Timer 或 MultiThreadedExecutor，并合理配置 Callback Group。
 
 2. 如果同时在 Server 中处理话题发布和服务请求，两者如何协调？Server 同时处理 Topic 发布和 Service 请求时，需要通过 Executor 进行调度。简单场景可以使用单线程 Executor 保证安全；需要并发时使用 MultiThreadedExecutor，并结合 Callback Group 和 mutex 保护共享数据，避免服务请求影响实时话题发布。
+
+## 实际运行证据
+
+真实运行的 AddTwoInts Server、Client 和服务调用结果：
+
+![ch04 服务通信运行输出](images/runtime/ch04_service.png)
+
+原始录制：[ch04_service.cast](images/runtime/ch04_service.cast)。完整证据索引见[实际运行证据](runtime_evidence.md)。

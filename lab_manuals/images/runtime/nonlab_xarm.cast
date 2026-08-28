@@ -1,0 +1,4 @@
+{"version": 2, "width": 120, "height": 36, "timestamp": 1787906451, "env": {"SHELL": "/bin/bash", "TERM": "xterm-256color"}}
+[2.541619, "o", "$ ros2 run xarm_ros2_arm_only arm_only_runtime_smoke --timeout 3\r\n"]
+[7.091584, "o", "Runtime smoke test failed: Service /controller_manager/list_controllers is unavailable\r\n"]
+[7.323753, "o", "[ros2run]: Process exited with failure 1\r\n"]

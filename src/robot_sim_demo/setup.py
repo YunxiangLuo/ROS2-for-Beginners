@@ -8,6 +8,7 @@ package_name = "robot_sim_demo"
 
 
 def package_data_files():
+    nested_package = "wheeltec_robot_urdf"
     data_files = [
         (
             "share/ament_index/resource_index/packages",
@@ -59,6 +60,19 @@ def package_data_files():
                     [path],
                 )
             )
+            relative_parent = Path(path).parent.relative_to(nested_package)
+            data_files.append(
+                (
+                    "share/" + nested_package + "/" + relative_parent.as_posix(),
+                    [path],
+                )
+            )
+    data_files.append(
+        (
+            "share/ament_index/resource_index/packages",
+            [nested_package + "/resource/" + nested_package],
+        )
+    )
     return data_files
 
 

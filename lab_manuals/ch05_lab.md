@@ -1985,3 +1985,11 @@ Action 是一种通信机制，适用于执行时间较长、需要实时反馈�
 
 2. 如何在 execute 中同时处理 /odom 回调和 feedback 发布？
 在节点中订阅 /odom，通过回调实时更新机器人位姿；在 execute() 中循环读取最新位姿，计算任务进度并调用 publish_feedback() 发布反馈，达到目标后返回 Result。如果存在并发访问共享数据，应使用互斥锁等机制保证线程安全。
+
+## 实际运行证据
+
+真实运行的 DoDishes Action Server、Client 反馈进度和完成结果：
+
+![ch05 动作通信运行输出](images/runtime/ch05_action.png)
+
+原始录制：[ch05_action.cast](images/runtime/ch05_action.cast)。完整证据索引见[实际运行证据](runtime_evidence.md)。

@@ -15,6 +15,7 @@ find_package(sensor_msgs REQUIRED)
 find_package(av_carla_interfaces REQUIRED)
 
 add_executable(longitudinal_controller src/longitudinal_controller.cpp)
+target_include_directories(longitudinal_controller PRIVATE include)
 ament_target_dependencies(longitudinal_controller
   rclcpp
   geometry_msgs
@@ -26,6 +27,7 @@ ament_target_dependencies(longitudinal_controller
 )
 
 add_executable(lateral_controller src/lateral_controller.cpp)
+target_include_directories(lateral_controller PRIVATE include)
 ament_target_dependencies(lateral_controller
   rclcpp
   geometry_msgs
@@ -37,6 +39,7 @@ ament_target_dependencies(lateral_controller
 )
 
 add_executable(vehicle_controller src/vehicle_controller.cpp)
+target_include_directories(vehicle_controller PRIVATE include)
 ament_target_dependencies(vehicle_controller
   rclcpp
   geometry_msgs

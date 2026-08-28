@@ -1,0 +1,12 @@
+{"version": 2, "width": 120, "height": 36, "timestamp": 1787906451, "env": {"SHELL": "/bin/bash", "TERM": "xterm-256color"}}
+[2.654396, "o", "$ ros2 run av_control_cpp longitudinal_controller\r\n"]
+[2.655731, "o", "$ ros2 run av_control_cpp lateral_controller\r\n$ ros2 run av_control_cpp vehicle_controller\r\n"]
+[10.576405, "o", "$ ros2 topic echo /throttle_cmd --once\r\n"]
+[11.947264, "o", "data: 1.0\r\n---\r\n"]
+[12.132767, "o", "$ ros2 topic echo /steering_cmd --once\r\n"]
+[13.629074, "o", "linear:\r\n  x: 0.0\r\n  y: 0.0\r\n  z: 0.0\r\nangular:\r\n  x: 0.0\r\n  y: 0.0\r\n  z: 0.0\r\n---\r\n"]
+[13.837179, "o", "$ ros2 topic echo /carla/ego_vehicle/vehicle_control_cmd --once\r\n"]
+[15.265476, "o", "header:\r\n  stamp:\r\n    sec: 0\r\n    nanosec: 0\r\n  frame_id: ''\r\nthrottle: 1.0\r\nbrake: 0.0\r\nsteer: 0.0\r\ngear: 1\r\nhand_brake: false\r\nreverse: false\r\n---\r\n"]
+[15.462969, "o", "\r\n# longitudinal_controller process output\r\n"]
+[15.467628, "o", "\r\n# lateral_controller process output\r\n"]
+[15.47116, "o", "\r\n# vehicle_controller process output\r\n"]

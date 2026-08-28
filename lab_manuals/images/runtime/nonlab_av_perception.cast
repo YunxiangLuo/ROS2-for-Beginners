@@ -1,0 +1,13 @@
+{"version": 2, "width": 120, "height": 36, "timestamp": 1787906451, "env": {"SHELL": "/bin/bash", "TERM": "xterm-256color"}}
+[2.66365, "o", "$ ros2 run av_perception_py lidar_detector\r\n"]
+[2.664567, "o", "$ ros2 run av_perception_py object_detector --ros-args -p model_path:=missing.pt\r\n"]
+[2.665098, "o", "$ ros2 run av_perception_py fusion_node\r\n"]
+[6.673488, "o", "$ ros2 node list\r\n"]
+[8.148416, "o", "$ ros2 topic list\r\n"]
+[8.781962, "o", "/parameter_events\r\n/rosout\r\n"]
+[8.84756, "o", "\r\n# lidar_detector process output\r\n"]
+[8.852419, "o", "No executable found\r\n"]
+[8.853084, "o", "\r\n# object_detector process output\r\n"]
+[8.854982, "o", "No executable found\r\n"]
+[8.85527, "o", "\r\n# fusion_node process output\r\n"]
+[8.857731, "o", "No executable found\r\n"]

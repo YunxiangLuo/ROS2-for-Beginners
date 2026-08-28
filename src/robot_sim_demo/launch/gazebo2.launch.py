@@ -26,8 +26,8 @@ def generate_launch_description() -> LaunchDescription:
     robot_sdf = share / "models" / ROBOT_NAME / "model.sdf"
     robot_urdf = share / "wheeltec_robot_urdf" / "urdf" / "mini_akm_robot.urdf"
     bridge_config = share / "config" / "gazebo2_bridge.yaml"
-    gui_config = share / "gui" / "museum.gui.config"
-    rviz_config = share / "rviz" / "museum.rviz"
+    default_gui_config = share / "gui" / "museum.gui.config"
+    default_rviz_config = share / "rviz" / "museum.rviz"
 
     gui = LaunchConfiguration("gui")
     rviz = LaunchConfiguration("rviz")
@@ -45,6 +45,8 @@ def generate_launch_description() -> LaunchDescription:
     spawn_yaw = LaunchConfiguration("spawn_yaw")
     use_sim_time = LaunchConfiguration("use_sim_time")
     world_path = LaunchConfiguration("world")
+    gui_config = LaunchConfiguration("gui_config")
+    rviz_config = LaunchConfiguration("rviz_config")
 
     robot_description = robot_urdf.read_text(encoding="utf-8")
 
@@ -52,7 +54,7 @@ def generate_launch_description() -> LaunchDescription:
     gazebo_gui = ExecuteProcess(
         cmd=[
             gz_executable, "sim", "-r",
-            "--gui-config", str(gui_config),
+            "--gui-config", gui_config,
             world_path,
         ],
         name="gazebo",
@@ -139,6 +141,8 @@ def generate_launch_description() -> LaunchDescription:
             DeclareLaunchArgument("gz_partition", default_value="robot_sim_demo"),
             DeclareLaunchArgument("world", default_value=str(default_world)),
             DeclareLaunchArgument("world_name", default_value=WORLD_NAME),
+            DeclareLaunchArgument("gui_config", default_value=str(default_gui_config)),
+            DeclareLaunchArgument("rviz_config", default_value=str(default_rviz_config)),
             SetEnvironmentVariable(name="GZ_PARTITION", value=gz_partition),
             DeclareLaunchArgument("spawn_x", default_value="0.0"),
             DeclareLaunchArgument("spawn_y", default_value="0.0"),
@@ -226,7 +230,7 @@ def generate_launch_description() -> LaunchDescription:
                 name="museum_rviz",
                 condition=IfCondition(rviz),
                 output="screen",
-                arguments=["-d", str(rviz_config)],
+                arguments=["-d", rviz_config],
                 parameters=[{"use_sim_time": use_sim_time}],
             ),
         ]

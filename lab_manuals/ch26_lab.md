@@ -171,3 +171,11 @@ python lat_lon_ctrl.py
 | Pure Pursuit实现 | 30分 | 预瞄自适应、弯道跟踪稳定 |
 | CARLA集成测试 | 30分 | 闭环跟踪、误差在范围内 |
 | 实验报告 | 10分 | 分析充分、数据完整 |
+
+## 实际运行证据
+
+当前环境已实际运行 PID 和 Pure Pursuit 控制器测试；CARLA 闭环部分因缺少 CARLA 服务器暂未登记截图。
+
+![ch26 控制器测试输出](images/runtime/ch26_control.png)
+
+原始录制：[ch26_control.cast](images/runtime/ch26_control.cast)。完整证据索引见[实际运行证据](runtime_evidence.md)。

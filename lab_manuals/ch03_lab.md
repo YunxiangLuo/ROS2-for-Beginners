@@ -506,3 +506,11 @@ ros2 run topic_demo square_driver  # 需添加 entry_points
 ### 思考题
 1. 如何精确控制机器人走 2m×2m 的正方形？调整哪些参数？用直线运动+原地旋转90°循环四次。要调整线速度、角速度、运动时间、控制频率
 2. 如果需要在正方形路径上添加圆角过渡，如何实现？在拐角处加入圆弧轨迹。在接近拐角时同时设置线速度和角速度，使机器人沿圆弧过渡。
+
+## 实际运行证据
+
+真实运行的话题发布、订阅、自定义消息接口和消息输出：
+
+![ch03 话题通信运行输出](images/runtime/ch03_topics.png)
+
+原始录制：[ch03_topics.cast](images/runtime/ch03_topics.cast)。完整证据索引见[实际运行证据](runtime_evidence.md)。

@@ -215,3 +215,15 @@ ros2 run sim_demo sensor_reader
 ### 思考题
 1. LaserScan 消息中 `ranges` 数组的长度由哪个字段决定？
 2. 如何判断 LiDAR 是否被遮挡（大量 NaN 值）？
+
+## 实际运行证据
+
+Gazebo headless 会话真实输出了 `/clock`、`/scan`、`/odom` 和实体创建结果：
+
+![ch09 Gazebo headless 运行输出](images/runtime/ch09_gazebo_headless.png)
+
+Campus PUCRS 场景由 Gazebo GUI Screenshot 插件生成：
+
+![Campus PUCRS Gazebo 场景](images/runtime/campus_pucrs_gazebo_gui.png)
+
+原始终端录制：[ch09_gazebo_headless.cast](images/runtime/ch09_gazebo_headless.cast) · [Campus headless](images/runtime/campus_pucrs_headless.png)。完整证据索引见[实际运行证据](runtime_evidence.md)。

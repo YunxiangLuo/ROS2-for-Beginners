@@ -7,11 +7,13 @@ ISCAS Museum Gazebo Sim 仿真包：使用 Wheeltec Mini AKM 机器人模型在 
 ```text
 src/robot_sim_demo/
 ├── launch/                    Gazebo 启动文件
-│   └── gazebo2.launch.py      主启动入口
+│   ├── gazebo2.launch.py      博物馆主启动入口
+│   └── campus_pucrs.launch.py Campus PUCRS 启动入口
 ├── config/
 │   └── gazebo2_bridge.yaml    ROS-Gazebo 话题桥配置
 ├── gui/
-│   └── museum.gui.config      Gazebo GUI 配置（顶视 3D Scene）
+│   ├── museum.gui.config      博物馆 Gazebo GUI 配置
+│   └── campus_pucrs.gui.config Campus PUCRS GUI 配置
 ├── models/
 │   ├── wheeltec_robot/         Wheeltec Mini AKM 机器人 SDF 模型
 │   ├── ISCAS_Museum/           博物馆场景模型（含 DAE 网格和纹理）
@@ -19,9 +21,11 @@ src/robot_sim_demo/
 │   └── campus_patrol_robot/    备用巡逻机器人模型
 ├── wheeltec_robot_urdf/        Wheeltec URDF 和 STL 网格资源
 ├── worlds/
-│   └── museum.sdf             ISCAS Museum 世界文件
+│   ├── museum.sdf             ISCAS Museum 世界文件
+│   └── campus_pucrs.world.sdf Campus PUCRS 世界文件
 ├── rviz/
-│   └── museum.rviz            RViz 配置（默认不启动）
+│   ├── museum.rviz            博物馆 RViz 配置（默认不启动）
+│   └── campus_pucrs.rviz      Campus PUCRS RViz 配置
 ├── urdf/
 │   └── campus_patrol_robot.urdf
 └── robot_sim_demo/
@@ -59,6 +63,17 @@ ros2 launch robot_sim_demo gazebo2.launch.py
 ```
 
 启动 Gazebo 3D Scene 窗口、Wheeltec 机器人、传感器桥和自动巡航。
+
+### Campus PUCRS 启动（黄色标志中心）
+
+```bash
+ros2 launch robot_sim_demo campus_pucrs.launch.py
+```
+
+该入口使用 `worlds/campus_pucrs.world.sdf`，将 Wheeltec 初始位置固定在世界中
+黄色 X 标志的中心 `(x=20.0, y=0.0, z=0.017)`。为避免车辆在启动后离开标志，
+该入口默认关闭自动巡航；需要运动时显式设置 `drive:=true`。原有
+`gazebo2.launch.py` 仍使用 `museum.sdf`，其行为和默认位置不变。
 
 ### 常用选项
 

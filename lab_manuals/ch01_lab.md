@@ -502,3 +502,11 @@ if __name__ == '__main__':
 1. 仿真中 XBot-U 机器人的 `/cmd_vel` 话题有什么作用？速度控制，像机器人发送geometry_msgs/msg/Twist类型消息，实现前进后退等运动指令
 2. 如果 Gazebo 无法启动（黑屏/崩溃），可能的原因有哪些？渲染环境有问题，卡死了或者不稳定；相关依赖没完整安装
 3. VS Code 断点调试与传统 `print()` 调试相比有哪些优势？可以直接查看当前变量值、对象状态、函数调用过程以及程序执行顺序
+
+## 实际运行证据
+
+ROS 2 生命周期节点、状态查询和 `/cmd_vel` 输出的真实限时运行记录：
+
+![ch01 生命周期节点运行输出](images/runtime/ch01_lifecycle.png)
+
+原始录制：[ch01_lifecycle.cast](images/runtime/ch01_lifecycle.cast)。完整证据索引见[实际运行证据](runtime_evidence.md)。

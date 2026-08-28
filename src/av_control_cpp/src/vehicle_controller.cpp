@@ -1,4 +1,7 @@
 #include <memory>
+#include <algorithm>
+#include <cmath>
+#include <vector>
 
 #include "tf2/LinearMath/Matrix3x3.h"
 #include "tf2/LinearMath/Quaternion.h"
@@ -36,6 +39,9 @@ public:
       get_parameter("kp").as_double(),
       get_parameter("ki").as_double(),
       get_parameter("kd").as_double());
+    speed_pid_.set_limits(
+      get_parameter("max_output").as_double(),
+      get_parameter("integral_limit").as_double());
     pure_pursuit_.set_lookahead_distance(get_parameter("lookahead_distance").as_double());
 
     waypoints_sub_ = create_subscription<av_carla_interfaces::msg::WaypointArray>(
@@ -139,7 +145,7 @@ private:
 
   rclcpp::Subscription<av_carla_interfaces::msg::WaypointArray>::SharedPtr waypoints_sub_;
   rclcpp::Subscription<av_carla_interfaces::msg::EgoState>::SharedPtr ego_state_sub_;
-  rclcpp::Publisher<av_carla_interfaces::msg::VehicleControl>::SharedPtr control_pub_;
+  rclcpp::Publisher<av_carla_interfaces::msg::ControlCmd>::SharedPtr control_pub_;
   rclcpp::TimerBase::SharedPtr control_timer_;
 };
 

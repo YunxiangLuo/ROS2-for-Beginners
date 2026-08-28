@@ -1,0 +1,8 @@
+{"version": 2, "width": 120, "height": 36, "timestamp": 1787906451, "env": {"SHELL": "/bin/bash", "TERM": "xterm-256color"}}
+[2.659309, "o", "$ ros2 run xacro xacro ...\r\n"]
+[3.006907, "o", "xacro generated and XML validated: "]
+[3.010193, "o", "4020\r\n"]
+[3.011102, "o", "$ ros2 launch urdf_demo_ros2 display_xacro.launch.py use_gui:=false use_rviz:=false\r\n"]
+[4.017694, "o", "[INFO] [launch]: All log files can be found below /home/dev/.ros/log/2026-08-28-16-40-55-847907-frohtiger-869\r\n[INFO] [launch]: Default logging verbosity is set to INFO\r\n"]
+[4.39059, "o", "[INFO] [robot_state_publisher-1]: process started with pid [990]\r\n"]
+[4.528801, "o", "[robot_state_publisher-1] [INFO] [1787906456.360965930] [robot_state_publisher]: Robot initialized\r\n"]

@@ -1,0 +1,10 @@
+{"version": 2, "width": 120, "height": 36, "timestamp": 1787891828, "env": {"SHELL": "/bin/bash", "TERM": "xterm-256color"}}
+[0.472193, "o", "$ ros2 run service_demo server\r\n"]
+[1.648255, "o", "$ ros2 run service_demo client 12 -4\r\n"]
+[2.520896, "o", "\u001b[0m[INFO] [1787891830.604317695] [add_two_ints_client]: 结果: 8\u001b[0m\r\n"]
+[2.706838, "o", "$ ros2 service call /add_two_ints example_interfaces/srv/AddTwoInts \"{a: 3, b: 4}\"\r\n"]
+[3.093094, "o", "waiting for service to become available...\r\n"]
+[3.593947, "o", "requester: making request: example_interfaces.srv.AddTwoInts_Request(a=3, b=4)\r\n\r\n"]
+[3.595933, "o", "response:\r\nexample_interfaces.srv.AddTwoInts_Response(sum=7)\r\n\r\n"]
+[3.751374, "o", "\r\n# service_server process output\r\n"]
+[3.752798, "o", "[INFO] [1787891830.589789976] [add_two_ints_server]: 12+-4=8\r\n[INFO] [1787891831.678804382] [add_two_ints_server]: 3+4=7\r\n"]

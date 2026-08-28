@@ -109,6 +109,30 @@
 
 ---
 
+## 课程资料索引
+
+### 理论章节
+
+| 模块 | 文档 |
+|:---|:---|
+| Part 1 | [第1章](teaching_docs/ch01_ROS2概述与架构.md) · [第2章](teaching_docs/ch02_核心编程基础.md) · [第3章](teaching_docs/ch03_话题通信.md) · [第4章](teaching_docs/ch04_服务通信.md) · [第5章](teaching_docs/ch05_动作通信.md) · [第6章](teaching_docs/ch06_参数与Launch.md) · [第7章](teaching_docs/ch07_TF2坐标变换.md) · [第8章](teaching_docs/ch08_URDF机器人建模.md) · [第9章](teaching_docs/ch09_Gazebo仿真.md) |
+| Part 2 | [第10章](teaching_docs/ch10_SLAM基本概念与贝叶斯框架.md) · [第11章](teaching_docs/ch11_ICP与PLICP扫描匹配.md) · [第12章](teaching_docs/ch12_Hector_SLAM.md) · [第13章](teaching_docs/ch13_gmapping粒子滤波SLAM.md) · [第14章](teaching_docs/ch14_AMCL定位.md) · [第15章](teaching_docs/ch15_Cartographer图优化SLAM.md) · [第16章](teaching_docs/ch16_Nav2架构与核心组件.md) · [第17章](teaching_docs/ch17_全局代价地图.md) · [第18章](teaching_docs/ch18_全局路径规划.md) · [第19章](teaching_docs/ch19_局部路径规划.md) · [第20章](teaching_docs/ch20_行为树与恢复行为.md) · [第21章](teaching_docs/ch21_视觉SLAM导论.md) · [第22章](teaching_docs/ch22_多传感器融合SLAM.md) · [第23章](teaching_docs/ch23_SLAM与导航综合实训.md) |
+| Part 3 | [第24章](teaching_docs/ch24_机械臂基础知识.md) · [第25章](teaching_docs/ch25_ROS2机械臂建模.md) · [第26章](teaching_docs/ch26_MoveIt2基础.md) · [第27章](teaching_docs/ch27_MoveIt2_Python规划.md) · [第28章](teaching_docs/ch28_MoveIt2_笛卡尔空间与避障.md) · [第29章](teaching_docs/ch29_抓取与放置编程.md) · [第30章](teaching_docs/ch30_ROS2图像接口与相机标定.md) · [第31章](teaching_docs/ch31_颜色检测与YOLO检测.md) · [第32章](teaching_docs/ch32_AR标签检测与手眼标定.md) · [第33章](teaching_docs/ch33_视觉大模型与ROS2应用.md) · [第34章](teaching_docs/ch34_视觉抓取应用.md) · [第35章](teaching_docs/ch35_综合实训.md) |
+| Part 4 | [第36章](teaching_docs/ch36_自动驾驶概述与CARLA基础.md) · [第37章](teaching_docs/ch37_CARLA_ROS2桥接与车辆部署.md) · [第38章](teaching_docs/ch38_多传感器套件与数据采集.md) · [第39章](teaching_docs/ch39_全局路径规划与地图导航.md) · [第40章](teaching_docs/ch40_车辆纵横向控制.md) · [第41章](teaching_docs/ch41_多传感器融合定位.md) · [第42章](teaching_docs/ch42_交通参与者感知.md) · [第43章](teaching_docs/ch43_行为决策与交通规则.md) · [第44章](teaching_docs/ch44_安全验证与系统集成.md) · [第45章](teaching_docs/ch45_综合项目.md) |
+
+### 实验手册
+
+| 模块 | 手册 |
+|:---|:---|
+| Part 1 | [ch01](lab_manuals/ch01_lab.md) · [ch02](lab_manuals/ch02_lab.md) · [ch03](lab_manuals/ch03_lab.md) · [ch04](lab_manuals/ch04_lab.md) · [ch05](lab_manuals/ch05_lab.md) · [ch06](lab_manuals/ch06_lab.md) · [ch07](lab_manuals/ch07_lab.md) · [ch08](lab_manuals/ch08_lab.md) · [ch09](lab_manuals/ch09_lab.md) |
+| Part 2 | [ch10](lab_manuals/ch10_lab.md) · [ch11](lab_manuals/ch11_lab.md) · [ch12](lab_manuals/ch12_lab.md) · [ch13](lab_manuals/ch13_lab.md) · [ch14](lab_manuals/ch14_lab.md) |
+| Part 3 | [ch15](lab_manuals/ch15_lab.md) · [ch16](lab_manuals/ch16_lab.md) · [ch17](lab_manuals/ch17_lab.md) · [ch18](lab_manuals/ch18_lab.md) · [ch19](lab_manuals/ch19_lab.md) · [ch20](lab_manuals/ch20_lab.md) · [ch21](lab_manuals/ch21_lab.md) |
+| Part 4 | [ch22](lab_manuals/ch22_lab.md) · [ch23](lab_manuals/ch23_lab.md) · [ch24](lab_manuals/ch24_lab.md) · [ch25](lab_manuals/ch25_lab.md) · [ch26](lab_manuals/ch26_lab.md) · [ch27](lab_manuals/ch27_lab.md) · [ch28](lab_manuals/ch28_lab.md) · [ch29](lab_manuals/ch29_lab.md) · [ch30](lab_manuals/ch30_lab.md) · [ch31](lab_manuals/ch31_lab.md) |
+
+实际运行截图和原始录制见[实际运行证据索引](lab_manuals/runtime_evidence.md)。
+
+---
+
 ## 课时汇总
 
 | 模块 | 理论 | 实验 | 总课时 |
@@ -223,9 +247,10 @@ cd ~/ros2_course_ws
 
 ## Gazebo 仿真启动（robot_sim_demo）
 
-`robot_sim_demo` 使用 Gazebo Sim Harmonic 在 ISCAS Museum 场景中启动 Wheeltec
-机器人。`gazebo2.launch.py` 负责 Gazebo、机器人生成、ROS-Gazebo 桥接、相机内参
-发布和可选的自动巡航。
+`robot_sim_demo` 使用 Gazebo Sim Harmonic 启动 Wheeltec 机器人。原有
+`gazebo2.launch.py` 继续使用 ISCAS Museum 的 `museum.sdf`；新增
+`campus_pucrs.launch.py` 使用 Campus PUCRS 的 `campus_pucrs.world.sdf`，并将车辆
+放在黄色 X 标志中心 `(20.0, 0.0)` 的无障碍区域。
 
 ### 默认启动（Gazebo + 机器人 + 自动巡航）
 
@@ -246,6 +271,15 @@ ros2 launch robot_sim_demo gazebo2.launch.py rviz:=true drive:=false
 ros2 run teleop_twist_keyboard teleop_twist_keyboard
 ```
 
+### Campus PUCRS 世界
+
+```bash
+ros2 launch robot_sim_demo campus_pucrs.launch.py
+```
+
+Campus 入口默认启动 GUI、传感器桥和 RViz 可选项，但不自动巡航；车辆初始位姿
+为 `x=20.0, y=0.0, z=0.017, yaw=0.0`，对应世界中黄色标志的中心。
+
 ### Launch 参数
 
 | 参数 | 默认值 | 说明 |
@@ -262,6 +296,8 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard
 | `world_name` | `default` | Gazebo 世界名称 |
 | `spawn_x/y/z/yaw` | `0/0/0.017/0` | 机器人生成位姿 |
 | `use_sim_time` | `true` | 使用 Gazebo 仿真时钟 |
+
+![Nav2 导航](./nav2.gif)
 
 ### 常用启动方式
 
@@ -295,8 +331,6 @@ ros2 topic echo /scan --once
 ros2 topic echo /camera/camera_info --once
 ros2 topic hz /camera/image_raw
 ```
-
-![Nav2 导航](./nav2.gif)
 
 ---
 

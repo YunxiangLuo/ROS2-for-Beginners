@@ -1,0 +1,10 @@
+{"version": 2, "width": 120, "height": 36, "timestamp": 1787891828, "env": {"SHELL": "/bin/bash", "TERM": "xterm-256color"}}
+[0.55118, "o", "$ ros2 run param_demo param_node\r\n"]
+[1.723709, "o", "$ ros2 param list /param_demo\r\n"]
+[2.607626, "o", "  enable_debug\r\n  max_speed\r\n  mode\r\n  robot_name\r\n  start_type_description_service\r\n  use_sim_time\r\n"]
+[2.770815, "o", "$ ros2 param set /param_demo max_speed 3.5\r\n"]
+[3.639263, "o", "Set parameter successful\r\n"]
+[3.786172, "o", "$ ros2 param set /param_demo max_speed 15.0\r\n"]
+[4.674502, "o", "Setting parameter failed: max_speed 必须在 [0.0, 10.0] 范围内\r\n"]
+[4.832764, "o", "\r\n# param_node process output\r\n"]
+[4.835048, "o", "[INFO] [1787891830.201952150] [param_demo]: Robot: xbot | Speed: 2.0m/s | Mode: auto | Debug: False\r\n[INFO] [1787891831.195777417] [param_demo]: Robot: xbot | Speed: 2.0m/s | Mode: auto | Debug: False\r\n[INFO] [1787891832.195599555] [param_demo]: Robot: xbot | Speed: 3.5m/s | Mode: auto | Debug: False\r\n"]

@@ -1,4 +1,5 @@
 #include <memory>
+#include <algorithm>
 
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/twist_stamped.hpp"
@@ -29,6 +30,9 @@ public:
       get_parameter("kp").as_double(),
       get_parameter("ki").as_double(),
       get_parameter("kd").as_double());
+    pid_.set_limits(
+      get_parameter("max_output").as_double(),
+      get_parameter("integral_limit").as_double());
 
     speed_sub_ = create_subscription<geometry_msgs::msg::TwistStamped>(
       "/carla/ego_vehicle/speed", 10, std::bind(&LongitudinalController::speed_callback, this, _1));

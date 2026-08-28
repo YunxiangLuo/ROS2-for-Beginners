@@ -1,5 +1,5 @@
 """DoDishes Action Server — 模拟洗碗任务，支持进度反馈和取消"""
-import asyncio
+import time
 import rclpy
 from rclpy.node import Node
 from rclpy.action import ActionServer, GoalResponse, CancelResponse
@@ -24,7 +24,7 @@ class DoDishesServer(Node):
         self.get_logger().info('收到取消请求')
         return CancelResponse.ACCEPT
 
-    async def execute(self, goal_handle):
+    def execute(self, goal_handle):
         dishwasher_id = goal_handle.request.dishwasher_id
         duration = float(self.get_parameter('step_duration_sec').value)
         fb = DoDishes.Feedback()
@@ -34,7 +34,7 @@ class DoDishesServer(Node):
                 result = DoDishes.Result()
                 result.total_dishes_cleaned = (step - 1) * dishwasher_id
                 return result
-            await asyncio.sleep(duration)
+            time.sleep(duration)
             fb.percent_complete = float(step * 20)
             goal_handle.publish_feedback(fb)
             self.get_logger().info(f'进度: {fb.percent_complete:.0f}%')

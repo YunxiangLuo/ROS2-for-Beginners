@@ -181,3 +181,11 @@ ros2 run tf_demo tf_lookup
 ### 思考题
 1. TF 树中 `base_footprint` 和 `base_link` 的区别是什么？
 2. 如果 TF 查询超时，如何处理？
+
+## 实际运行证据
+
+真实运行的 TF broadcaster、listener 和 `tf2_echo` 输出：
+
+![ch07 TF2 运行输出](images/runtime/ch07_tf.png)
+
+原始录制：[ch07_tf.cast](images/runtime/ch07_tf.cast)。完整证据索引见[实际运行证据](runtime_evidence.md)。

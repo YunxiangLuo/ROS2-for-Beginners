@@ -1,0 +1,4 @@
+{"version": 2, "width": 120, "height": 36, "timestamp": 1787906451, "env": {"SHELL": "/bin/bash", "TERM": "xterm-256color"}}
+[2.658503, "o", "$ ros2 run av_safety_monitor safety_monitor\r\n"]
+[2.65952, "o", "$ ros2 run av_safety_monitor fault_injector --ros-args -p target_topic:=/fault_input -p fault_probability:=1.0\r\n"]
+[29.381119, "o", "Timed out waiting for /safety_monitor\r\n"]

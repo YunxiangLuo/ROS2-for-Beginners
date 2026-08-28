@@ -1,4 +1,6 @@
 #include <memory>
+#include <cmath>
+#include <vector>
 
 #include "tf2/LinearMath/Matrix3x3.h"
 #include "tf2/LinearMath/Quaternion.h"

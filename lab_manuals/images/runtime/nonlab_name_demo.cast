@@ -1,0 +1,4 @@
+{"version": 2, "width": 120, "height": 36, "timestamp": 1787906075, "env": {"SHELL": "/bin/bash", "TERM": "xterm-256color"}}
+[1.647459, "o", "$ ros2 run name_demo_cpp name_demo_node --ros-args -r __ns:=/fleet -p serial:=7 -p global_serial:=42\r\n"]
+[2.306335, "o", "\u001b[0m[INFO] [1787906078.219275145] [fleet.name_demo]: fully qualified node name: /fleet/name_demo\u001b[0m\r\n"]
+[2.306372, "o", "\u001b[0m[INFO] [1787906078.219410170] [fleet.name_demo]: namespace: /fleet\u001b[0m\r\n\u001b[0m[INFO] [1787906078.219420249] [fleet.name_demo]: serial = 7\u001b[0m\r\n\u001b[0m[INFO] [1787906078.219425571] [fleet.name_demo]: global_serial = 42\u001b[0m\r\n"]

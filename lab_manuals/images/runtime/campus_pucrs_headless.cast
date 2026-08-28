@@ -1,0 +1,11 @@
+{"version": 2, "width": 120, "height": 42, "timestamp": 1787892415, "env": {"SHELL": "/bin/bash", "TERM": "xterm-256color"}}
+[1.242723, "o", "$ ros2 launch robot_sim_demo campus_pucrs.launch.py gui:=false rviz:=false drive:=false gz_partition:=runtime_capture_campus\r\n"]
+[8.247396, "o", "$ ros2 topic info /odom\r\n"]
+[9.610885, "o", "Type: nav_msgs/msg/Odometry\r\n"]
+[9.610973, "o", "Publisher count: 1\r\nSubscription count: 0\r\n"]
+[9.804058, "o", "$ ros2 topic echo /odom --once --field pose.pose --no-lost-messages\r\n"]
+[11.53807, "o", "position:\r\n  x: -8.872241733409398e-12\r\n  y: -1.5956420571748475e-29\r\n  z: 0.0\r\norientation:\r\n  x: 0.0\r\n  y: 0.0\r\n  z: 2.9347790136889433e-18\r\n  w: 1.0\r\n---\r\n"]
+[11.73263, "o", "\r\n# campus process output\r\n"]
+[11.735812, "o", "[robot_state_publisher-5] [INFO] [1787892417.465679820] [gazebo2_robot_state_publisher]: Robot initialized\r\n"]
+[11.736022, "o", "[parameter_bridge-2] [INFO] [1787892418.512440491] [gazebo2_bridge]: Creating GZ->ROS Bridge: [/clock (gz.msgs.Clock) -> /clock (rosgraph_msgs/msg/Clock)] (Lazy 0)\r\n[parameter_bridge-2] [INFO] [1787892418.518508853] [gazebo2_bridge]: Creating GZ->ROS Bridge: [/scan (gz.msgs.LaserScan) -> /scan (sensor_msgs/msg/LaserScan)] (Lazy 0)\r\n[parameter_bridge-2] [INFO] [1787892418.529956720] [gazebo2_bridge]: Creating GZ->ROS Bridge: [/odom (gz.msgs.Odometry) -> /odom (nav_msgs/msg/Odometry)] (Lazy 0)\r\n[parameter_bridge-2] [INFO] [1787892418.533637069] [gazebo2_bridge]: Creating GZ->ROS Bridge: [/tf (gz.msgs.Pose_V) -> /tf (tf2_msgs/msg/TFMessage)] (Lazy 0)\r\n"]
+[11.736195, "o", "[create-6] [INFO] [1787892420.689413600] [ros_gz_sim]: Entity creation successful.\r\n"]

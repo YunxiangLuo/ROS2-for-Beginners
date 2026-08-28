@@ -1,4 +1,3 @@
-import asyncio
 from types import SimpleNamespace
 from unittest.mock import Mock
 
@@ -48,7 +47,7 @@ def test_server_execute_reports_progress_and_result_without_waiting():
     )
 
     try:
-        result = asyncio.run(node.execute(goal_handle))
+        result = node.execute(goal_handle)
         assert result.total_dishes_cleaned == 10
         assert goal_handle.publish_feedback.call_count == 5
         assert goal_handle.publish_feedback.call_args.args[0].percent_complete == pytest.approx(100.0)

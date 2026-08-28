@@ -1,0 +1,12 @@
+{"version": 2, "width": 120, "height": 36, "timestamp": 1787906075, "env": {"SHELL": "/bin/bash", "TERM": "xterm-256color"}}
+[1.651976, "o", "$ ros2 run tf_follower_ros2 fake_target_broadcaster\r\n"]
+[1.652589, "o", "$ ros2 run tf_follower_ros2 tf_follower\r\n"]
+[5.69271, "o", "$ ros2 topic echo /mybot_cmd_vel --once\r\n"]
+[6.707604, "o", "linear:\r\n  x: 0.316227766016838\r\n  y: 0.0\r\n  z: 0.0\r\nangular:\r\n  x: 0.0\r\n  y: 0.0\r\n  z: -0.1287002217586569\r\n---\r\n"]
+[6.905624, "o", "$ ros2 topic info /mybot_cmd_vel\r\n"]
+[7.379623, "o", "Type: geometry_msgs/msg/Twist\r\n"]
+[7.382024, "o", "Publisher count: 1\r\n"]
+[7.384293, "o", "Subscription count: 0\r\n"]
+[7.447854, "o", "\r\n# target_broadcaster process output\r\n"]
+[7.451627, "o", "\r\n# tf_follower process output\r\n"]
+[7.454053, "o", "[INFO] [1787906078.718783115] [tf_follower]: Following 'base_footprint' from 'mybot_link' and publishing Twist on '/mybot_cmd_vel'\r\n[WARN] [1787906078.811092952] [tf_follower]: Transform lookup failed: \"mybot_link\" passed to lookupTransform argument target_frame does not exist. \r\n"]
