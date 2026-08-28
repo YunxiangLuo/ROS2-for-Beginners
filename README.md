@@ -369,3 +369,7 @@ src/xarm/
 ```
 
 > **前置依赖**：MoveIt2 依赖由 `setup_course.sh` 和 rosdep 安装。机械臂 URDF 模型定义在 `xarm_description` 包中，meshes 文件位于 `xarm_description/meshes/`。
+
+备注：
+
+1. [openEuler(x86/arm/RISC-V)下ROS2的安装](https://docs.openeuler.org/zh/docs/24.03_LTS_SP3/tools/application/ros/ros_user_guide.html)
