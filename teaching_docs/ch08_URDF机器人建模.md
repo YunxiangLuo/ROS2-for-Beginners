@@ -1,5 +1,47 @@
 # 第8章：URDF/Xacro 机器人建模
 
+## 仿真结合实例（当前仓库）：从 Xacro 模型到 RViz RobotModel
+
+### 目标与知识点对应
+
+先用 `xacro` 展开课程提供的模型，再由 `robot_state_publisher` 发布 TF，并在 RViz 中显示 RobotModel，能够把本章的 link/joint、Xacro 参数化和状态发布串成一条可运行链路。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+
+# 终端 1：展开并校验 Xacro
+ros2 run xacro xacro \
+  src/urdf_demo_ros2/urdf/mybot.xacro > /tmp/mybot.urdf
+xmllint --noout /tmp/mybot.urdf
+
+# 终端 2：启动 robot_state_publisher + RViz
+ros2 launch urdf_demo_ros2 display_xacro.launch.py \
+  use_gui:=false use_rviz:=true
+```
+
+需要对照 Gazebo 模型时，再开一个终端：
+
+```bash
+source install/setup.bash
+ros2 launch robot_sim_demo gazebo2.launch.py gui:=true rviz:=false drive:=false
+```
+
+### 观察结果
+
+- RViz 的 RobotModel 能显示 Xacro 展开的连杆和关节，TF 面板能看到模型的坐标树。
+- `xmllint` 通过表示 Xacro 输出是合法 XML；Gazebo 侧则使用其 SDF Wheeltec 模型和传感器配置。
+
+### 源码与边界
+
+- Xacro：`src/urdf_demo_ros2/urdf/mybot.xacro`
+- Launch：`src/urdf_demo_ros2/launch/display_xacro.launch.py`
+- Gazebo 模型：`src/robot_sim_demo/models/wheeltec_robot/model.sdf`
+
+两个入口用于对比 URDF/Xacro 与 SDF 的建模路径；不要把 Wheeltec 的 SDF 文件当作 `urdf_demo_ros2` 的 Xacro 源文件。
+
 > **课程**：ROS2 Python 编程  
 > **章节**：第8章  
 > **课时**：2 课时（90 分钟）  

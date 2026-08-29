@@ -14,6 +14,7 @@ ROS 2 Jazzy 下的 Python 话题通信示例（ament_python）。演示发布者
 ## 构建
 
 ```bash
+
 colcon build --symlink-install --packages-select topic_demo_py
 ```
 
@@ -28,6 +29,7 @@ source /opt/ros/jazzy/setup.bash && source install/setup.bash
 在终端 1 启动发布者：
 
 ```bash
+
 ros2 run topic_demo_py pytalker
 ```
 

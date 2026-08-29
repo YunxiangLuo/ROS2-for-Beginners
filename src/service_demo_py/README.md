@@ -14,6 +14,7 @@ ROS 2 Jazzy 下的 Python 服务通信示例（ament_python）。演示服务端
 ## 构建
 
 ```bash
+
 colcon build --symlink-install --packages-select service_demo_py
 ```
 
@@ -28,6 +29,7 @@ source /opt/ros/jazzy/setup.bash && source install/setup.bash
 在终端 1 启动服务端：
 
 ```bash
+
 ros2 run service_demo_py server_demo
 ```
 

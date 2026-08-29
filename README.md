@@ -198,7 +198,9 @@ ROS2/
 - **CARLA profile：** CARLA 0.9.16，支持 Noble 的 Python 3.12
 
 安装器优先通过 `package.xml` 和 `rosdep` 解析 ROS 依赖。NumPy、OpenCV、SciPy
+
 等 ABI 敏感依赖由 apt 安装；ML 依赖进入独立 venv，不会覆盖 `cv_bridge` 使用的
+
 系统 Python 包。
 
 ## 快速开始
@@ -231,15 +233,21 @@ bash setup_course.sh --all-profiles --run-tests
 ```
 
 源码会使用 `rsync --delete` 同步到脚本管理的 `~/ros2_course_ws`：课程 ROS 包位于
+
 `src/course/`，实验代码位于 `src/labs/`；源码树中的 `src/lab_code/` 不会再次复制到
+
 `src/course/`，以避免嵌套实验包重复发现。比如源码中的 `src/xarm/` 在托管工作空间中
+
 对应 `src/course/xarm/`。这样也能避开 WSL 中 `/mnt/c` 的编译性能和中文路径问题。
+
 脚本不会修改已有的非托管工作空间；可通过 `--workspace /absolute/path` 选择新的目标目录。
 
 安装完成后重新打开终端，或执行：
 
 ```bash
+
 source ~/.config/ros2-course/env.bash
+
 cd ~/ros2_course_ws
 ```
 
@@ -262,6 +270,7 @@ ros2 launch robot_sim_demo gazebo2.launch.py
 默认启动 GUI 和自动巡航，RViz 默认关闭。需要手动控制时，先关闭自动巡航：
 
 ```bash
+
 ros2 launch robot_sim_demo gazebo2.launch.py rviz:=true drive:=false
 ```
 
@@ -274,6 +283,7 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard
 ### Campus PUCRS 世界
 
 ```bash
+
 ros2 launch robot_sim_demo campus_pucrs.launch.py
 ```
 
@@ -326,9 +336,13 @@ ros2 launch robot_sim_demo gazebo2.launch.py \
 常用验证命令：
 
 ```bash
+
 ros2 topic echo /odom --once
+
 ros2 topic echo /scan --once
+
 ros2 topic echo /camera/camera_info --once
+
 ros2 topic hz /camera/image_raw
 ```
 
@@ -361,7 +375,9 @@ ros2 launch xarm_ros2_arm_only arm_only.launch.py
 ### 仅启动 MoveIt2（不含 Gazebo）
 
 ```bash
+
 ros2 launch xarm_ros2_arm_only arm_only.launch.py \
+
   use_gazebo:=false use_sim_time:=false
 ```
 

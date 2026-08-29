@@ -27,7 +27,7 @@ xarm_controller:
 
 gripper_controller:
   ros__parameters:
-    joints: [gripper_1_joint]
+    joints: [gripper_1_joint, gripper_2_joint]
     command_interfaces: [position]
     state_interfaces: [position, velocity]
     allow_nonzero_velocity_at_trajectory_end: true

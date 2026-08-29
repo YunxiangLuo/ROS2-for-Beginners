@@ -1,5 +1,45 @@
 # 第11章 Nav2 自主导航
 
+## 仿真结合实例（当前仓库）：Nav2 生命周期与目标导航
+
+### 目标与知识点对应
+
+使用预置地图、AMCL、规划器和控制器启动 Nav2，观察生命周期节点从配置到激活的过程，再发送 `NavigateToPose` 目标验证导航接口。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+
+# 终端 1：一键启动 Gazebo + Nav2，不启动 RViz 也可 headless 验证
+ros2 launch navigation_sim_demo_ros2 nav2_demo.launch.py \
+  use_gazebo:=true use_rviz:=true gz_headless:=false
+```
+
+```bash
+# 终端 2：检查生命周期和发送目标
+source install/setup.bash
+ros2 run navigation_sim_demo_ros2 nav2_lifecycle_runner
+ros2 run navigation_sim_demo_ros2 nav_goal_runner \
+  --ros-args -p goal_x:=1.0 -p goal_y:=0.0
+```
+
+### 观察结果
+
+- Nav2 启动日志应出现 `map_server`、`amcl`、`planner_server`、`controller_server` 等组件的配置/激活信息。
+- RViz 可查看地图、机器人位姿、路径和代价地图；`nav_goal_runner` 在检测到里程计变化后输出 `navigation-motion-detected`。
+
+### 源码与证据
+
+- Launch：`src/navigation_sim_demo_ros2/launch/nav2_demo.launch.py`
+- 生命周期：`src/navigation_sim_demo_ros2/navigation_sim_demo_ros2/nav2_lifecycle_runner.py`
+- 目标：`src/navigation_sim_demo_ros2/navigation_sim_demo_ros2/nav_goal_runner.py`
+- 参数/地图：`src/navigation_sim_demo_ros2/params/nav2_params.yaml`、`maps/Software_Museum.yaml`
+- 启动日志证据：`lab_manuals/images/runtime/nonlab_nav2.png`
+
+`nonlab_nav2.png` 主要证明导航组件加载与生命周期启动；完整到达目标的结果应在本地运行中按终端输出判断。
+
 ## 11.1 知识要点
 
 ### 11.1.1 Nav2 行为树架构

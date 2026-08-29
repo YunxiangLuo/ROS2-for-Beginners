@@ -14,7 +14,9 @@
 ### 步骤1：启动导航
 
 ```bash
+
 cd src/lab_code/ch14_lab/
+
 bash nav2_bringup.sh
 ```
 
@@ -32,6 +34,8 @@ python3 nav_goal_runner.py
 也可以通过 RViz2 的 "2D Goal Pose" 按钮手动设置导航目标，或使用命令行：
 
 ```bash
+
 ros2 topic pub /goal_pose geometry_msgs/msg/PoseStamped \
+
   "{header: {frame_id: 'map'}, pose: {position: {x: 1.0, y: 0.5, z: 0.0}}}"
 ```

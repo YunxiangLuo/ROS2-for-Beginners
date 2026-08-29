@@ -1,5 +1,38 @@
 # 第21章 视觉SLAM导论
 
+## 仿真结合实例（当前仓库）：用 Gazebo 相机检查视觉 SLAM 输入
+
+### 目标与知识点对应
+
+视觉 SLAM 需要连续图像、相机内参和坐标变换。本仓库没有 ORB-SLAM 节点，因此使用 `robot_sim_demo` 验证 RGB 图像、`CameraInfo` 和 TF 输入的格式与时间戳。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+ros2 launch robot_sim_demo gazebo2.launch.py \
+  gui:=true rviz:=false drive:=true
+```
+
+```bash
+ros2 topic echo /camera/image_raw --once
+ros2 topic echo /camera/camera_info --once
+ros2 run tf2_ros tf2_echo base_link camera_link
+```
+
+### 观察结果
+
+相机图像应持续更新，`CameraInfo` 应包含 320x180 的内参；TF 查询用于把相机观测关联到机器人坐标系。
+
+### 源码与边界
+
+- 相机桥与 Gazebo：`src/robot_sim_demo/launch/gazebo2.launch.py`
+- 内参节点：`src/robot_sim_demo/robot_sim_demo/camera_info_publisher.py`
+- 模型 TF：`src/robot_sim_demo/models/wheeltec_robot/model.sdf`
+
+没有 ORB-SLAM/DSO 实现，不能由此实例宣称完成视觉里程计或地图构建。
+
 ## 学习目标
 - 理解视觉SLAM的基本原理和经典框架
 - 掌握ORB-SLAM2/3的特征提取与跟踪方法

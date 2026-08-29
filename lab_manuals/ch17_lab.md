@@ -1,5 +1,32 @@
 # 第17章 实验：MoveIt2 基础与运动学规划
 
+## 当前仓库仿真验证：xArm FK/IK 与 MotionPlanning
+
+### 实验目标
+
+在 xArm6 的 MoveIt2/RViz 环境中验证规划组、正逆运动学目标和关节状态，配合本实验的 MoveItPy 程序检查规划结果。
+
+### 运行步骤
+
+需要兼容的外部 `xarm_description` 2.0.0：
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+source /path/to/xarm_description_workspace/install/setup.bash
+ros2 launch xarm_ros2_arm_only arm_only_move_group.launch.py use_rviz:=true
+```
+
+```bash
+source install/setup.bash
+ros2 run moveit_fk_ik_lab fk_demo
+ros2 topic echo /joint_states --once
+```
+
+### 观察与验收
+
+RViz 中检查 `xarm` 规划组和 `gripper_centor_link` 末端；程序输出的关节目标与 RViz 轨迹应能对应。源码：`src/lab_code/ch17_lab/moveit_fk_ik_lab/`、`src/xarm/config/`。缺少底层描述包时只记录为环境未满足。
+
 > **对应理论章节**：第26章《MoveIt2配置与基础规划》、第27章《Python关节空间规划》
 > **实验课时**：4课时  
 > **实验代码**：`src/lab_code/ch17_lab/moveit_fk_ik_lab/`  

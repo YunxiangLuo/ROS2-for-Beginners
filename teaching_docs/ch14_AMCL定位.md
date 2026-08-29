@@ -1,5 +1,39 @@
 # 第14章 AMCL定位
 
+## 仿真结合实例（当前仓库）：预置地图上的 AMCL 初始位姿
+
+### 目标与知识点对应
+
+AMCL 需要地图、激光、里程计和初始位姿。本实例通过 `navigation_sim_demo_ros2` 启动 `map_server` 与 `amcl`，然后观察初始位姿发布和 `/amcl_pose` 输出。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+ros2 launch navigation_sim_demo_ros2 nav2_demo.launch.py \
+  use_gazebo:=true use_rviz:=true gz_headless:=false \
+  initial_pose_x:=0.0 initial_pose_y:=0.0 initial_pose_yaw:=0.0
+```
+
+```bash
+ros2 topic echo /amcl_pose --once
+ros2 topic echo /particlecloud --once
+ros2 topic info /map
+```
+
+### 观察结果
+
+RViz 可显示地图、LaserScan 和 AMCL 位姿；调整 `initial_pose_x/y/yaw` 后重启，比较初始估计对定位过程的影响。
+
+### 源码与边界
+
+- Nav2 Launch：`src/navigation_sim_demo_ros2/launch/nav2_demo.launch.py`
+- 初始位姿节点：`src/navigation_sim_demo_ros2/navigation_sim_demo_ros2/initial_pose_publisher.py`
+- 地图：`src/navigation_sim_demo_ros2/maps/Software_Museum.yaml`
+
+粒子云是否收敛应以本地 RViz 和 `/amcl_pose` 实际输出判断；启动日志本身不等于定位精度验证。
+
 ## 学习目标
 - 理解自适应蒙特卡洛定位(AMCL)的原理和算法流程
 - 掌握粒子滤波定位的核心技术

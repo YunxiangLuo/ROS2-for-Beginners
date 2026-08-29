@@ -1,5 +1,33 @@
 # 第6章 实验指导书：参数系统与 Launch 文件
 
+## 当前仓库仿真验证：Launch 参数控制 Gazebo、RViz 和巡航
+
+### 实验目标
+
+用一个 Launch 入口切换 GUI、RViz 和巡航驱动，观察 Launch 参数与节点运行时参数对仿真的影响。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+ros2 launch robot_sim_demo gazebo2.launch.py --show-args
+ros2 launch robot_sim_demo gazebo2.launch.py \
+  gui:=false rviz:=false drive:=false
+```
+
+重新启动时比较：
+
+```bash
+ros2 launch robot_sim_demo gazebo2.launch.py \
+  gui:=true rviz:=true drive:=true \
+  drive_linear_speed:=0.12 drive_angular_speed:=0.45
+```
+
+### 观察与验收
+
+`drive:=false` 时没有 `patrol_driver` 运动指令；`drive:=true` 时 `/cmd_vel` 有数据。源码：`src/robot_sim_demo/launch/gazebo2.launch.py`、`src/robot_sim_demo/robot_sim_demo/patrol_driver.py`。
+
 > **实验课时**：2 课时（90 分钟） | XBot-U Gazebo 仿真
 
 ---
@@ -1152,6 +1180,6 @@ ros2 topic info /cmd_vel --verbose
 
 真实运行的参数列表、合法参数更新和非法边界值拒绝输出：
 
-![ch06 参数系统运行输出](images/runtime/ch06_parameters.png)
+![ch06 参数系统运行输出](images/runtime/ch06_parameters.gif)
 
 原始录制：[ch06_parameters.cast](images/runtime/ch06_parameters.cast)。完整证据索引见[实际运行证据](runtime_evidence.md)。

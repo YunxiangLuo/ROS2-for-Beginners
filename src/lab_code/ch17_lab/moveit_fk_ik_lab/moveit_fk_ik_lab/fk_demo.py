@@ -36,7 +36,7 @@ class MoveItFKDemo(Node):
         self.get_logger().info("FK demo complete")
 
     def _execute(self, component, description: str):
-        if not plan_and_execute(self.moveit, component):
+        if not plan_and_execute(self.moveit, component, self):
             raise RuntimeError(f"Planning failed for {description}")
         self.get_logger().info(description)
         time.sleep(1.0)

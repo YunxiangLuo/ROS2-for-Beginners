@@ -1,7 +1,9 @@
 # src/lab_code/ — ROS 2 教学实验代码
 
 本目录包含 ROS 2 Jazzy 教学课程的实验代码，覆盖节点、话题、服务、动作、参数、
+
 TF、URDF、Gazebo 仿真、SLAM、Nav2、MoveIt 2、视觉与 CARLA 自动驾驶等主题。
+
 共 **31 个章节**（ch01-ch31）：
 
 - **ch01-ch21**：ROS 2 基础与机器人仿真（以 ROS 2 包为主；ch16 为纯文件示例，ch20 为设计说明占位）
@@ -26,9 +28,13 @@ TF、URDF、Gazebo 仿真、SLAM、Nav2、MoveIt 2、视觉与 CARLA 自动驾�
 | CARLA 自动驾驶 | CARLA 0.9.16 + `carla_ros_bridge` + av_* 包 | ch22-ch31 |
 
 `robot_sim_demo` 与 `xarm_ros2_arm_only` 均位于 `src/` 下，单独构建即可。
+
 视觉章节（ch19、ch21）的相机输入可来自 `robot_sim_demo` 的 `/camera/image_raw`
+
 或真实 USB/RealSense 相机。CARLA 章节需先安装 CARLA 仿真器（见
+
 [ch22_lab/install_carla.sh](ch22_lab/install_carla.sh)）并启动
+
 `carla_ros_bridge`。
 
 ## 章节清单与测试状态
@@ -88,10 +94,13 @@ TF、URDF、Gazebo 仿真、SLAM、Nav2、MoveIt 2、视觉与 CARLA 自动驾�
 ch01-ch21 以 ROS 2 包为主；ch16 为纯文件示例、ch20 为设计说明占位，二者不参与 colcon 构建。在工作区根目录构建其余功能包：
 
 ```bash
+
 source /opt/ros/jazzy/setup.bash
 # 构建机械臂相关章节前，需 source 兼容的 xarm_description 底层工作区
 cd <robot_sim_demo 工作区>
+
 colcon build --symlink-install
+
 source install/setup.bash
 ```
 
@@ -112,6 +121,7 @@ cd ~/carla && ./CarlaUE4.sh -quality-level=Low
 
 # Python 依赖
 pip install carla numpy opencv-python
+
 pip install ultralytics scikit-learn filterpy   # ch28 可选
 ```
 
@@ -131,6 +141,7 @@ colcon test-result --all
 CARLA 控制算法自检（无需仿真器）：
 
 ```bash
+
 cd src/lab_code/ch26_lab && python3 pid_controller.py --test && python3 pure_pursuit.py --test
 ```
 
@@ -175,5 +186,7 @@ src/lab_code/
 ## 运行结果截图
 
 各章节 README 的「运行结果」小节说明了预期现象与截图保存路径（一般为
+
 `docs/images/`）。截图需在实际启动仿真或节点后捕获；核心通信章节可在终端
+
 直接观察日志输出作为运行证据。

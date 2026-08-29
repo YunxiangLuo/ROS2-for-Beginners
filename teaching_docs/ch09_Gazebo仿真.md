@@ -1,5 +1,53 @@
 # 第9章：Gazebo 仿真
 
+## 仿真结合实例（当前仓库）：ISCAS Museum Gazebo 传感器与底盘控制
+
+### 目标与知识点对应
+
+本实例使用仓库当前的 `robot_sim_demo`，完整验证 Gazebo 世界加载、机器人 spawn、ROS-Gazebo Bridge、LiDAR/相机数据和 `/cmd_vel` 底盘控制，替代旧的 Gazebo Classic 示例命令。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+
+# 终端 1：启动 Gazebo、机器人、桥接和 RViz
+ros2 launch robot_sim_demo gazebo2.launch.py \
+  gui:=true rviz:=true drive:=false
+```
+
+```bash
+# 终端 2：检查桥接数据
+source install/setup.bash
+ros2 topic echo /clock --once
+ros2 topic info /scan
+ros2 topic echo /camera/camera_info --once
+ros2 topic echo /odom --once
+```
+
+```bash
+# 终端 3：发送短时速度指令并观察里程计
+ros2 topic pub --rate 5 /cmd_vel geometry_msgs/msg/Twist \
+  "{linear: {x: 0.15}, angular: {z: 0.0}}"
+```
+
+### 观察结果
+
+- Gazebo 中加载 ISCAS Museum 场景并生成 Wheeltec；RViz 可显示 RobotModel、TF 和 LaserScan。
+- `/clock`、`/scan`、`/odom` 由 `ros_gz_bridge` 转成 ROS 2 消息；发布 `/cmd_vel` 后可在 `/odom` 观察运动变化。
+- 关闭终端 3 的发布命令后，机器人不再接受新的速度指令。
+
+### 源码与运行证据
+
+- Launch：`src/robot_sim_demo/launch/gazebo2.launch.py`
+- Bridge：`src/robot_sim_demo/config/gazebo2_bridge.yaml`
+- 世界：`src/robot_sim_demo/worlds/museum.sdf`
+- RViz：`src/robot_sim_demo/rviz/museum.rviz`
+- 终端运行证据：`lab_manuals/images/runtime/ch09_gazebo_headless.png`
+
+当前入口使用 Gazebo Sim Harmonic；文中 Gazebo Classic 的 API 仅作为历史概念对照，不能与本实例的启动命令混用。
+
 > **课程**：ROS2 Python 编程  
 > **章节**：第9章  
 > **课时**：2 课时（90 分钟）  

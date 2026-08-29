@@ -26,9 +26,13 @@ ROS 2 Jazzy（ament_python）Python 参数系统示例，演示参数的声明�
 ## 构建
 
 ```bash
+
 cd robot_sim_demo
+
 source /opt/ros/jazzy/setup.bash
+
 colcon build --symlink-install --packages-select param_demo_py
+
 source install/setup.bash
 ```
 
@@ -41,7 +45,9 @@ ros2 run param_demo_py param_demo
 查询参数：
 
 ```bash
+
 ros2 param list /param_demo_py
+
 ros2 param get /param_demo_py param1
 ```
 

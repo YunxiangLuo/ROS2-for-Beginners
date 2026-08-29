@@ -1,5 +1,38 @@
 # 第15章 Cartographer图优化SLAM
 
+## 仿真结合实例（当前仓库）：记录 Cartographer 图优化所需传感器数据
+
+### 目标与知识点对应
+
+Cartographer 需要连续的激光、里程计和 TF 数据。本仓库没有 Cartographer 配置的可运行实现，因此先用 `robot_sim_demo` 采集一组可复现输入，理解局部子图和后端优化所依赖的数据关系。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+ros2 launch robot_sim_demo gazebo2.launch.py \
+  gui:=true rviz:=true drive:=true
+```
+
+```bash
+ros2 bag record -o /tmp/cartographer_input /scan /odom /tf /tf_static /clock
+# 运行约 10 秒后 Ctrl+C
+ros2 bag info /tmp/cartographer_input
+```
+
+### 观察结果
+
+RViz 中可看到机器人运动和激光扫描；bag 的时间序列可用于后续 Cartographer 离线配置与回环实验。
+
+### 源码与边界
+
+- 仿真入口：`src/robot_sim_demo/launch/gazebo2.launch.py`
+- 传感器桥：`src/robot_sim_demo/config/gazebo2_bridge.yaml`
+- RViz：`src/robot_sim_demo/rviz/museum.rviz`
+
+当前仓库没有 Cartographer 后端，不能把 `slam_toolbox` 的在线地图称为 Cartographer 图优化结果。
+
 ## 学习目标
 - 理解图优化SLAM的基本原理和数学框架
 - 掌握Cartographer系统的整体架构和设计思想

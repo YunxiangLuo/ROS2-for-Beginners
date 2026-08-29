@@ -9,6 +9,7 @@ Nav2 导航仿真演示包：基于 Nav2 栈在 ISCAS Museum 仿真场景中实�
 - `slam_toolbox`（可选，用于建图）
 
 ```bash
+
 sudo apt install -y ros-jazzy-navigation2 ros-jazzy-nav2-bringup ros-jazzy-nav2-simple-commander
 ```
 
@@ -31,10 +32,12 @@ ros2 launch robot_sim_demo gazebo2.launch.py gui:=false rviz:=false drive:=false
 
 # 终端 2：启动 Nav2 栈（不重复启动 Gazebo）
 ros2 launch navigation_sim_demo_ros2 nav2_demo.launch.py \
+
   use_gazebo:=false use_rviz:=false use_sim_time:=true
 
 # 终端 3：发送导航目标
 ros2 run navigation_sim_demo_ros2 nav_goal_runner \
+
   --ros-args -p use_sim_time:=true -p goal_x:=1.0 -p goal_y:=0.0
 ```
 
@@ -48,7 +51,9 @@ ros2 launch navigation_sim_demo_ros2 nav2_demo.launch.py \
 ### 方式三：带 RViz
 
 ```bash
+
 ros2 launch navigation_sim_demo_ros2 nav2_demo.launch.py \
+
   use_gazebo:=true use_rviz:=true
 ```
 

@@ -1,5 +1,48 @@
 # 第23章 SLAM与导航综合实训
 
+## 仿真结合实例（当前仓库）：从在线建图切换到 Nav2 导航
+
+### 目标与知识点对应
+
+先用 `slam_sim_demo_ros2` 在 Gazebo 中建立地图并检查地图增长，再用 `navigation_sim_demo_ros2` 加载预置地图启动 Nav2，串联 SLAM、定位、规划与控制四个阶段。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+
+# 终端 1：在线建图
+ros2 launch slam_sim_demo_ros2 slam_demo.launch.py \
+  use_gazebo:=true use_rviz:=true gz_headless:=false
+# 终端 2：驱动并检查地图
+ros2 run slam_sim_demo_ros2 slam_map_runner
+```
+
+完成输入检查后，停止该组进程，在新的 ROS 域或干净终端中运行：
+
+```bash
+# 终端 3：加载预置地图并启动 Nav2
+ros2 launch navigation_sim_demo_ros2 nav2_demo.launch.py \
+  use_gazebo:=true use_rviz:=true gz_headless:=false
+# 终端 4：检查生命周期并发送目标
+ros2 run navigation_sim_demo_ros2 nav2_lifecycle_runner
+ros2 run navigation_sim_demo_ros2 nav_goal_runner
+```
+
+### 观察结果
+
+第一阶段观察 `/map` 更新和 `slam-map-updated`；第二阶段观察 Nav2 组件激活、RViz 地图/路径和 `/odom` 变化。
+
+### 源码与证据
+
+- SLAM：`src/slam_sim_demo_ros2/`
+- Nav2：`src/navigation_sim_demo_ros2/`
+- Gazebo：`src/robot_sim_demo/`
+- 终端证据：`lab_manuals/images/runtime/nonlab_slam.png`、`nonlab_nav2.png`
+
+两套 Launch 都可能启动 Gazebo，切换时必须先停止上一套进程，避免两个仿真器争用同一 ROS/Gazebo 图。
+
 ## 学习目标
 - 掌握从SLAM建图到自主导航的完整流程
 - 能够在仿真环境中完成建图、保存地图和导航

@@ -1,5 +1,33 @@
 # 第8章 实验指导书：URDF/Xacro 机器人建模
 
+## 当前仓库仿真验证：Xacro 模型与 Gazebo/RViz 对照
+
+### 实验目标
+
+验证 Xacro 展开、Robot State Publisher 和 RViz RobotModel，并将课程自定义 URDF 与 `robot_sim_demo` 的 Wheeltec SDF 模型进行对照。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+ros2 run xacro xacro src/urdf_demo_ros2/urdf/mybot.xacro > /tmp/mybot.urdf
+xmllint --noout /tmp/mybot.urdf
+ros2 launch urdf_demo_ros2 display_xacro.launch.py \
+  use_gui:=false use_rviz:=true
+```
+
+另开终端查看 Gazebo 模型：
+
+```bash
+ros2 launch robot_sim_demo gazebo2.launch.py \
+  gui:=true rviz:=false drive:=false
+```
+
+### 观察与验收
+
+RViz 应显示 Xacro 模型及其 TF；Gazebo 显示 Wheeltec 传感器模型。源码：`src/urdf_demo_ros2/urdf/`、`src/robot_sim_demo/models/wheeltec_robot/model.sdf`。
+
 > **实验课时**：2 课时（90 分钟） | XBot-U 模型
 
 ---

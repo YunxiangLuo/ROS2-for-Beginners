@@ -50,12 +50,37 @@ class MoveIt2HelpersTest(unittest.TestCase):
     def test_plan_and_execute_uses_moveit_instance(self):
         moveit = MagicMock()
         component = MagicMock()
+        node = MagicMock()
         trajectory = object()
         component.plan.return_value = SimpleNamespace(trajectory=trajectory)
-
-        self.assertTrue(moveit2.plan_and_execute(moveit, component))
-
+        with patch.object(moveit2, "ensure_execution_servers", return_value=True) as guard:
+            self.assertTrue(moveit2.plan_and_execute(moveit, component, node))
+        guard.assert_called_once_with(node)
         moveit.execute.assert_called_once_with(trajectory, controllers=[])
+
+    def test_plan_and_execute_skips_execution_without_servers(self):
+        moveit = MagicMock()
+        component = MagicMock()
+        component.plan.return_value = SimpleNamespace(trajectory=object())
+        with patch.object(moveit2, "ensure_execution_servers", return_value=False):
+            self.assertFalse(moveit2.plan_and_execute(moveit, component, MagicMock()))
+        moveit.execute.assert_not_called()
+
+    def test_ensure_execution_servers_fails_fast(self):
+        node = MagicMock()
+        with patch.object(moveit2, "ActionClient") as client_type:
+            client = client_type.return_value
+            client.wait_for_server.return_value = False
+            self.assertFalse(moveit2.ensure_execution_servers(node, timeout_sec=0.1))
+        self.assertEqual(client_type.call_count, 1)
+
+    def test_ensure_execution_servers_waits_for_all(self):
+        node = MagicMock()
+        with patch.object(moveit2, "ActionClient") as client_type:
+            client = client_type.return_value
+            client.wait_for_server.return_value = True
+            self.assertTrue(moveit2.ensure_execution_servers(node, timeout_sec=0.1))
+        self.assertEqual(client_type.call_count, len(moveit2.EXECUTION_ACTION_SERVERS))
 
     def test_build_cartesian_request(self):
         start_state = RobotStateMessage()

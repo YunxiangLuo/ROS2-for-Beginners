@@ -6,16 +6,23 @@
 ## 简介
 
 本章练习 RealSense D400 系列深度相机的集成。`realsense_lab` 包提供
+
 `realsense.launch.py`，委托 `realsense2_camera/rs_launch.py` 启动相机并发布
+
 彩色图、深度图与点云；章节根目录的 `realsense_launch.sh` 为等价的交互式
+
 shell 脚本。
 
 ## 构建
 
 ```bash
+
 cd <robot_sim_demo 工作区>
+
 source /opt/ros/jazzy/setup.bash
+
 colcon build --symlink-install --packages-select realsense_lab
+
 source install/setup.bash
 ```
 
@@ -42,6 +49,7 @@ cd src/lab_code/ch12_lab && bash realsense_launch.sh
 ## 依赖安装
 
 ```bash
+
 sudo apt install ros-jazzy-realsense2-camera
 ```
 
@@ -55,4 +63,5 @@ colcon test-result --all
 ## 运行结果
 
 相机启动后可用 `rqt_image_view /camera/color/image_raw` 查看图像，
+
 截图保存至 `docs/images/realsense_topics.png`（需真实相机硬件）。

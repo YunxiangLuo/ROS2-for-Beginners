@@ -820,3 +820,35 @@ Rviz MotionPlanning 插件配置：
 4. 编写程序，将物体附着到末端执行器后规划运动，再分离物体，比较附着前后的规划行为差异。
 
 5. 设计一个包含狭窄通道的避障场景，测试不同规划器（RRTConnect、PRM、EST）通过狭窄通道的成功率。
+
+---
+
+## 仿真结合实例（当前仓库）：xArm RViz 规划场景中的笛卡尔路径
+
+### 目标与知识点对应
+
+使用 xArm6 的 MoveIt2/RViz 规划场景，添加碰撞物体并用本章的笛卡尔路径代码生成末端 waypoint，观察路径约束和碰撞检测的作用。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+source /path/to/xarm_description_workspace/install/setup.bash
+ros2 launch xarm_ros2_arm_only arm_only_move_group.launch.py use_rviz:=true
+```
+
+在 RViz MotionPlanning 中打开 Planning Scene，添加盒体障碍物；将本章示例的规划组改为 `xarm`、末端改为 `gripper_centor_link`，再观察规划轨迹和碰撞结果。
+
+```bash
+ros2 topic echo /display_planned_path --once
+ros2 topic echo /planning_scene --once
+```
+
+### 源码与边界
+
+- 实验参考：`src/lab_code/ch18_lab/moveit_pick_place_lab/`
+- xArm 配置：`src/xarm/config/arm_only_ompl_planning.yaml`
+- RViz：`src/xarm/config/arm_only_moveit.rviz`
+
+仓库没有预置可保证成功的障碍物场景；结果以本地 RViz 和 MoveIt 返回值为准。

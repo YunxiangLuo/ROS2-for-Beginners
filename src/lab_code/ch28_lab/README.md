@@ -20,7 +20,9 @@
 - ROS 2 Jazzy + sensor_msgs_py
 
 ```bash
+
 pip install ultralytics scikit-learn filterpy opencv-python
+
 pip install sensor-msgs-py  # ROS2包
 ```
 
@@ -46,6 +48,7 @@ python3 src/lab_code/ch24_lab/sensor_config.py
 ```bash
 # 终端4: YOLO目标检测
 cd src/lab_code/ch28_lab/
+
 python3 yolo_detector.py
 
 # 终端5: LiDAR聚类
@@ -82,8 +85,11 @@ pip install numpy scikit-learn filterpy ultralytics opencv-python
 ## 运行方法
 
 ```bash
+
 python lidar_cluster.py    # LiDAR 点云: 直通滤波+体素降采样+DBSCAN 聚类 (需 ROS2)
+
 python object_tracker.py   # 卡尔曼滤波+匈牙利匹配 多目标跟踪 (需 ROS2)
+
 python yolo_detector.py    # YOLOv8 视觉检测 (需 ROS2 + 权重)
 ```
 

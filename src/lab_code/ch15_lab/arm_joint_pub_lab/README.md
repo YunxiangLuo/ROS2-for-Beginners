@@ -6,17 +6,25 @@
 ## 简介
 
 本章练习通过 `/joint_states` 话题驱动机械臂模型运动。`arm_joints_pub1`、
+
 `arm_gripper`、`gripper_open_close` 使用 xArm 关节命名
+
 （`arm_1_joint` 至 `arm_6_joint`、`gripper_1_joint`、`gripper_2_joint`），
+
 配合 `robot_state_publisher` 可直接可视化 xArm URDF；`hello_arm_node` 为
+
 通用教学示例（`joint1`/`finger` 命名，适用于任意简单模型）。
 
 ## 构建
 
 ```bash
+
 cd <robot_sim_demo 工作区>
+
 source /opt/ros/jazzy/setup.bash
+
 colcon build --symlink-install --packages-select arm_joint_pub_lab
+
 source install/setup.bash
 ```
 
@@ -35,6 +43,7 @@ ros2 run arm_joint_pub_lab hello_arm_node
 验证（另开终端）：
 
 ```bash
+
 ros2 topic echo /joint_states --once
 ```
 
@@ -48,4 +57,5 @@ colcon test-result --all
 ## 运行结果
 
 `/joint_states` 中关节位置持续变化；配合 `robot_state_publisher` +
+
 RViz 可见机械臂往复运动。截图保存至 `docs/images/arm_joint_pub.png`。

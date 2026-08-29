@@ -1,5 +1,40 @@
 # 第16章 Nav2架构与核心组件
 
+## 仿真结合实例（当前仓库）：查看 Nav2 组件生命周期
+
+### 目标与知识点对应
+
+用 `navigation_sim_demo_ros2` 在 Gazebo Wheeltec 场景中启动 Nav2，观察 `map_server`、`amcl`、`planner_server`、`controller_server` 和 `bt_navigator` 的生命周期编排，对应本章的组件分层与行为树入口。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+ros2 launch navigation_sim_demo_ros2 nav2_demo.launch.py \
+  use_gazebo:=true use_rviz:=true gz_headless:=false
+```
+
+```bash
+ros2 run navigation_sim_demo_ros2 nav2_lifecycle_runner
+ros2 node list
+ros2 topic info /map
+ros2 action list | grep navigate
+```
+
+### 观察结果
+
+终端可看到定位组和导航组依次配置、激活；RViz 可查看地图、代价地图、TF 和导航相关显示。`nav2_params.yaml` 中的插件配置决定规划器、控制器和代价地图层。
+
+### 源码与证据
+
+- Launch：`src/navigation_sim_demo_ros2/launch/nav2_demo.launch.py`
+- 生命周期：`src/navigation_sim_demo_ros2/navigation_sim_demo_ros2/nav2_lifecycle_runner.py`
+- 参数：`src/navigation_sim_demo_ros2/params/nav2_params.yaml`
+- 终端证据：`lab_manuals/images/runtime/nonlab_nav2.png`
+
+证据主要证明组件启动；目标到达和控制效果需在本地运行中单独检查。
+
 ## 学习目标
 - 理解Navigation2整体架构和设计思想
 - 掌握行为树驱动的导航决策框架

@@ -15,14 +15,16 @@
 ## 运行说明
 
 ```bash
-# 终端1：启动纯 MoveIt + RViz 仿真
+# 终端1：启动纯 MoveIt + RViz 仿真（仅适合观察规划轨迹）
 ros2 launch xarm_ros2_arm_only arm_only_move_group.launch.py
 
-# 需要 Gazebo + ros2_control 时使用：
+# 执行型 demo（beeline_demo / obstacles_demo / attach_object_demo /
+# pick_place_demo）需要控制器在线，请改用：
 # ros2 launch xarm_ros2_arm_only arm_only.launch.py
 
 # 终端2：运行脚本
 cd src/lab_code/ch18_lab/
+
 ros2 run moveit_pick_place_lab beeline_demo
 
 # 对于带用户交互的脚本，按 Enter 键逐步执行

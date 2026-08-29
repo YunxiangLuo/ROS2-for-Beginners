@@ -1,5 +1,43 @@
 # 第10章 SLAM 建图与定位
 
+## 仿真结合实例（当前仓库）：slam_toolbox 在线建图与地图增长检查
+
+### 目标与知识点对应
+
+把本章的在线建图、实时地图更新和里程计运动落到 `slam_sim_demo_ros2`。`slam_toolbox` 负责建图，`slam_map_runner` 负责给底盘发送可重复运动并检查地图是否增长。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+
+# 终端 1：启动 Gazebo 与 slam_toolbox
+ros2 launch slam_sim_demo_ros2 slam_demo.launch.py \
+  use_gazebo:=true use_rviz:=true gz_headless:=false
+```
+
+```bash
+# 终端 2：驱动机器人并检查地图更新
+source install/setup.bash
+ros2 run slam_sim_demo_ros2 slam_map_runner
+ros2 topic echo /map --once
+```
+
+### 观察结果
+
+- RViz 中可添加 `Map`、`LaserScan`、`TF`，观察扫描数据逐步更新地图。
+- 终端程序输出地图更新次数、已知栅格增长、里程计移动距离和扫描帧数；成功时输出 `slam-map-updated`。
+
+### 源码与证据
+
+- Launch：`src/slam_sim_demo_ros2/launch/slam_demo.launch.py`
+- 运动/检查器：`src/slam_sim_demo_ros2/slam_sim_demo_ros2/slam_map_runner.py`
+- 参数：`src/slam_sim_demo_ros2/params/slam_toolbox_params.yaml`
+- 运行日志证据：`lab_manuals/images/runtime/nonlab_slam.png`
+
+该证据是 `slam_toolbox` 启动和传感器注册的终端证据；地图可视化应以本地 RViz 实际画面为准。
+
 ## 10.1 知识要点
 
 ### 10.1.1 SLAM 基本原理

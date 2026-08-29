@@ -18,8 +18,11 @@ av_control_cpp/
 ## 安装与编译 (需 ROS2 + 编译器)
 
 ```bash
+
 cd <工作空间根目录>
+
 colcon build --packages-select av_carla_interfaces av_control_cpp
+
 source install/setup.bash
 ```
 
@@ -47,10 +50,13 @@ ros2 run av_control_cpp vehicle_controller --ros-args -p target_speed:=10.0
 ## 测试方法
 
 本机无 C++ 编译器/ROS2, 通过接口包的静态一致性测试验证(检查源码中
+
 `msg->field` 访问与 `.msg` 定义一致):
 
 ```bash
+
 cd src/av_carla_interfaces
+
 python -m pytest test -q
 ```
 
@@ -63,7 +69,9 @@ $ cd src/av_carla_interfaces && python -m pytest test -q
 ```
 
 其中 `test_cpp_referenced_fields_exist` 逐函数校验了本包三个节点的消息字段访问,
+
 修复前的 `EgoState.target_speed`、`VehicleControl`、`wp.position` 等
+
 编译期错误均已消除(该测试曾失败, 修复后通过)。
 
 > 说明: 本机(Windows)未安装 ROS2/CARLA, 无法截取仿真运行画面,

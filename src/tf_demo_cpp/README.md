@@ -23,9 +23,13 @@ ROS 2 Jazzy（ament_cmake）C++ TF2 坐标变换示例，演示欧拉角/四元�
 ## 构建
 
 ```bash
+
 cd robot_sim_demo
+
 source /opt/ros/jazzy/setup.bash
+
 colcon build --symlink-install --packages-select tf_demo_cpp
+
 source install/setup.bash
 ```
 
@@ -43,6 +47,7 @@ ros2 run tf_demo_cpp tf_listener
 欧拉角转四元数（交互式输入）：
 
 ```bash
+
 ros2 run tf_demo_cpp euler_to_quaternion
 # 输入示例：0 0 1.57
 ```
@@ -57,6 +62,7 @@ ros2 run tf_demo_cpp quaternion_to_euler
 坐标变换运算：
 
 ```bash
+
 ros2 run tf_demo_cpp coordinate_transformation
 ```
 

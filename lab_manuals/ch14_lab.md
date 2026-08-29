@@ -1,5 +1,31 @@
 # 第14章 实验手册: 视觉大模型 + ROS 2
 
+## 当前仓库仿真验证：相机到 VLM mock 服务
+
+### 实验目标
+
+使用 Gazebo 相机作为视觉大模型服务的输入，在无 API Key 时先验证图像订阅、结构化响应和任务话题发布。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+ros2 launch robot_sim_demo gazebo2.launch.py \
+  gui:=false rviz:=false drive:=false
+```
+
+```bash
+ros2 topic echo /camera/image_raw --once
+ros2 topic echo /camera/camera_info --once
+```
+
+使用 `src/lab_code/ch20_lab/` 的 mock 设计接收图像或其摘要，检查服务响应是否为可解析 JSON，再切换真实 provider。
+
+### 观察与边界
+
+相机话题存在即可验收输入链路；mock JSON 不是 VLM 的真实识别结果。源码：`src/robot_sim_demo/`、`src/lab_code/ch20_lab/`。
+
 ## 环境说明
 本实验使用 XBot-U 仿真环境, 需要 OpenAI API Key (或 Qwen/本地 Ollama), 预装 openai 库。
 

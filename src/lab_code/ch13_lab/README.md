@@ -14,7 +14,9 @@
 ### 步骤1：启动 SLAM 建图
 
 ```bash
+
 cd src/lab_code/ch13_lab/
+
 bash slam_bringup.sh
 ```
 
@@ -38,5 +40,6 @@ python3 slam_map_runner.py
 建图完成后，保存地图：
 
 ```bash
+
 ros2 run nav2_map_server map_saver_cli -f ~/map
 ```

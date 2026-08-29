@@ -1,5 +1,39 @@
 # 第14章 视觉大模型 + ROS 2
 
+## 仿真结合实例（当前仓库）：模拟相机到 VLM 服务的输入链路
+
+### 目标与知识点对应
+
+将 Gazebo 相机图像作为视觉大模型服务的输入，验证图像话题订阅、请求/响应服务边界和任务结果发布流程。当前仓库没有真实 VLM provider，不能把接口连通写成模型推理成功。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+ros2 launch robot_sim_demo gazebo2.launch.py \
+  gui:=false rviz:=false drive:=false
+```
+
+```bash
+ros2 topic echo /camera/image_raw --once
+ros2 topic echo /camera/camera_info --once
+```
+
+将本章节点的图像订阅配置为 `/camera/image_raw`；无 API Key 时使用本地 mock 服务，检查其结构化结果是否能通过 ROS 2 服务/话题返回。
+
+### 观察结果
+
+可验证相机帧和内参话题存在；真实模型描述、目标识别和任务规划结果需要配置 OpenAI、Qwen 或 Ollama provider 后再单独验收。
+
+### 源码与边界
+
+- 相机节点：`src/robot_sim_demo/robot_sim_demo/camera_info_publisher.py`
+- 相机桥：`src/robot_sim_demo/config/gazebo2_bridge.yaml`
+- mock/服务设计参考：`src/lab_code/ch20_lab/`
+
+不要将固定 mock JSON 当作 VLM 的实际视觉识别结果。
+
 ## 14.1 知识要点
 
 ### 14.1.1 LLM 任务规划节点

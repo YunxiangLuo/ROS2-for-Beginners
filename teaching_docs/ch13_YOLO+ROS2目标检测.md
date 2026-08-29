@@ -1,5 +1,40 @@
 # 第13章 YOLO + ROS 2 目标检测
 
+## 仿真结合实例（当前仓库）：从 Gazebo 相机接入 YOLO 节点
+
+### 目标与知识点对应
+
+使用 `robot_sim_demo` 提供的模拟相机替代 USB 摄像头，验证 ROS 2 图像话题、`cv_bridge`/推理节点的输入和检测结果话题连接。当前仓库没有可直接运行的 YOLO 模型节点，因此本例只验证图像输入链路。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+ros2 launch robot_sim_demo gazebo2.launch.py \
+  gui:=true rviz:=true drive:=false
+```
+
+```bash
+ros2 topic info /camera/image_raw
+ros2 topic echo /camera/camera_info --once
+ros2 run rqt_image_view rqt_image_view /camera/image_raw
+```
+
+将本章的 YOLO 节点订阅话题设为 `/camera/image_raw`，再用 `ros2 topic echo` 检查其检测结果话题。
+
+### 观察结果
+
+应能看到 Gazebo 相机图像和 `CameraInfo`（320x180）；节点能否输出检测框取决于本地模型、`ultralytics`/ONNX 依赖及推理代码。
+
+### 源码与边界
+
+- 相机桥接：`src/robot_sim_demo/launch/gazebo2.launch.py`
+- 内参发布：`src/robot_sim_demo/robot_sim_demo/camera_info_publisher.py`
+- 桥配置：`src/robot_sim_demo/config/gazebo2_bridge.yaml`
+
+本实例不声称完成 YOLO 训练或检测精度验证。
+
 ## 13.1 知识要点
 
 ### 13.1.1 YOLOv8 模型架构

@@ -5,30 +5,55 @@ ISCAS Museum Gazebo Sim 仿真包：使用 Wheeltec Mini AKM 机器人模型在 
 ## 目录结构
 
 ```text
+
 src/robot_sim_demo/
+
 ├── launch/                    Gazebo 启动文件
+
 │   ├── gazebo2.launch.py      博物馆主启动入口
+
 │   └── campus_pucrs.launch.py Campus PUCRS 启动入口
+
 ├── config/
+
 │   └── gazebo2_bridge.yaml    ROS-Gazebo 话题桥配置
+
 ├── gui/
+
 │   ├── museum.gui.config      博物馆 Gazebo GUI 配置
+
 │   └── campus_pucrs.gui.config Campus PUCRS GUI 配置
+
 ├── models/
+
 │   ├── wheeltec_robot/         Wheeltec Mini AKM 机器人 SDF 模型
+
 │   ├── ISCAS_Museum/           博物馆场景模型（含 DAE 网格和纹理）
+
 │   ├── ISCAS_groundplane/      地面模型
+
 │   └── campus_patrol_robot/    备用巡逻机器人模型
+
 ├── wheeltec_robot_urdf/        Wheeltec URDF 和 STL 网格资源
+
 ├── worlds/
+
 │   ├── museum.sdf             ISCAS Museum 世界文件
+
 │   └── campus_pucrs.world.sdf Campus PUCRS 世界文件
+
 ├── rviz/
+
 │   ├── museum.rviz            博物馆 RViz 配置（默认不启动）
+
 │   └── campus_pucrs.rviz      Campus PUCRS RViz 配置
+
 ├── urdf/
+
 │   └── campus_patrol_robot.urdf
+
 └── robot_sim_demo/
+
     ├── camera_info_publisher.py  相机内参发布节点
     └── patrol_driver.py          巡航驱动节点
 ```
@@ -48,9 +73,13 @@ sudo apt install -y ros-jazzy-ros-gz-sim ros-jazzy-ros-gz-bridge \
 ## 构建
 
 ```bash
+
 cd robot_sim_demo
+
 source /opt/ros/jazzy/setup.bash
+
 colcon build --symlink-install --packages-select robot_sim_demo
+
 source install/setup.bash
 ```
 
@@ -67,6 +96,7 @@ ros2 launch robot_sim_demo gazebo2.launch.py
 ### Campus PUCRS 启动（黄色标志中心）
 
 ```bash
+
 ros2 launch robot_sim_demo campus_pucrs.launch.py
 ```
 
@@ -130,6 +160,7 @@ ros2 launch robot_sim_demo gazebo2.launch.py drive:=false
 
 # 发送速度命令
 ros2 topic pub /cmd_vel geometry_msgs/msg/Twist \
+
   "{linear: {x: 0.15}, angular: {z: 0.0}}"
 
 # 查看里程计
@@ -148,7 +179,9 @@ ros2 topic hz /camera/image_raw
 ## 测试
 
 ```bash
+
 cd src/robot_sim_demo
+
 python3 -m pytest test/ -v
 ```
 

@@ -23,6 +23,7 @@ ros2 launch xarm_ros2_arm_only arm_only_move_group.launch.py
 
 # 终端2：启动摄像头 TF 广播
 cd src/lab_code/ch21_lab/
+
 ros2 run vision_pickup_lab tf2_camera_broadcaster --ros-args -p x:=0.3 -p y:=0.0 -p z:=0.1
 
 # 终端3：启动视觉抓取服务

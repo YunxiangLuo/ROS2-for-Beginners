@@ -845,3 +845,34 @@ class OpenAILLMBackend:
 4. 编写节点，接收自然语言查询（如"桌子左边有什么？"），使用VLM分析图像并返回答案。
 
 5. 设计一个完整系统：VLM感知环境 → LLM规划任务序列 → 机器人执行动作。
+
+---
+
+## 仿真结合实例（当前仓库）：Gazebo 图像接入 VLM mock 服务
+
+### 目标与知识点对应
+
+将 `robot_sim_demo` 的模拟相机接入 ROS 2 VLM 服务接口，先验证图像订阅、结构化 JSON 响应和任务发布，再替换为真实 provider，体现后端解耦设计。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+ros2 launch robot_sim_demo gazebo2.launch.py \
+  gui:=false rviz:=false drive:=false
+ros2 topic echo /camera/image_raw --once
+ros2 topic echo /camera/camera_info --once
+```
+
+使用 `src/lab_code/ch20_lab/` 的服务设计，以离线 mock 返回固定结构化结果；确认链路后再配置 OpenAI、Qwen 或 Ollama provider。
+
+### 观察结果与边界
+
+可验证相机帧进入服务节点并产生可解析 JSON；mock 返回值不是视觉模型的真实识别结果。
+
+### 源码
+
+- 相机：`src/robot_sim_demo/robot_sim_demo/camera_info_publisher.py`
+- 相机桥：`src/robot_sim_demo/config/gazebo2_bridge.yaml`
+- VLM 实验设计：`src/lab_code/ch20_lab/README.md`

@@ -176,6 +176,6 @@ python lat_lon_ctrl.py
 
 当前环境已实际运行 PID 和 Pure Pursuit 控制器测试；CARLA 闭环部分因缺少 CARLA 服务器暂未登记截图。
 
-![ch26 控制器测试输出](images/runtime/ch26_control.png)
+![ch26 控制器测试输出](images/runtime/ch26_control.gif)
 
 原始录制：[ch26_control.cast](images/runtime/ch26_control.cast)。完整证据索引见[实际运行证据](runtime_evidence.md)。

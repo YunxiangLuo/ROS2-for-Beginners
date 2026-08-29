@@ -21,7 +21,9 @@
 ## 安装
 
 ```bash
+
 source /opt/ros/jazzy/setup.bash
+
 rosdep install --from-paths src/lab_code/ch03_lab --ignore-src -r -y
 ```
 

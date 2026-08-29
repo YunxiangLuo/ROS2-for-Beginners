@@ -2,6 +2,7 @@
 """Pose-goal inverse-kinematics planning with MoveItPy."""
 
 from math import pi
+import os
 import time
 
 from course_lab_utils.moveit2 import (
@@ -54,7 +55,7 @@ class MoveItIKDemo(Node):
         self.get_logger().info("IK demo complete")
 
     def _execute(self, description: str):
-        if not plan_and_execute(self.moveit, self.arm):
+        if not plan_and_execute(self.moveit, self.arm, self):
             raise RuntimeError(f"Planning failed for {description}")
         time.sleep(1.0)
 
@@ -69,6 +70,7 @@ def main(args=None):
         node.destroy_node()
         if rclpy.ok():
             rclpy.shutdown()
+    os._exit(0)
 
 
 if __name__ == "__main__":

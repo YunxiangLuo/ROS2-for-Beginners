@@ -1,5 +1,37 @@
 # 第13章 gmapping粒子滤波SLAM
 
+## 仿真结合实例（当前仓库）：用 Gazebo 数据验证粒子滤波 SLAM 接口
+
+### 目标与知识点对应
+
+gmapping 的粒子滤波更新需要激光观测、里程计和 TF。本仓库没有 gmapping 节点，实例用 `robot_sim_demo` 产生同样的数据接口，并用 rosbag 检查数据连续性。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+ros2 launch robot_sim_demo gazebo2.launch.py \
+  gui:=false rviz:=false drive:=true
+```
+
+```bash
+ros2 bag record -o /tmp/gmapping_input /scan /odom /tf /tf_static
+# 运行约 10 秒后 Ctrl+C
+ros2 bag info /tmp/gmapping_input
+```
+
+### 观察结果
+
+检查 bag 中 `/scan` 和 `/odom` 的消息数量、时间范围与 frame_id；这些是粒子预测和观测更新的输入条件。
+
+### 源码与边界
+
+- 数据桥：`src/robot_sim_demo/config/gazebo2_bridge.yaml`
+- 在线建图对照：`src/slam_sim_demo_ros2/slam_sim_demo_ros2/slam_map_runner.py`
+
+本例不运行 gmapping 算法，也不把 `slam_toolbox` 的地图作为 gmapping 结果。
+
 ## 学习目标
 - 理解粒子滤波SLAM的基本原理和Rao-Blackwellized分解
 - 掌握FastSLAM框架的算法流程

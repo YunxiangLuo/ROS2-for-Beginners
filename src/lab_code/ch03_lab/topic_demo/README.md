@@ -23,7 +23,9 @@
 ## 安装
 
 ```bash
+
 source /opt/ros/jazzy/setup.bash
+
 rosdep install --from-paths src/lab_code/ch03_lab --ignore-src -r -y
 ```
 
@@ -38,8 +40,11 @@ source /opt/ros/jazzy/setup.bash && source install/setup.bash
 ## 运行步骤
 
 ```bash
+
 ros2 run topic_demo gps_pub
+
 ros2 run topic_demo gps_sub
+
 ros2 run topic_demo qos_pub
 
 # 正方形驾驶（需先启动 Gazebo 仿真）

@@ -767,3 +767,38 @@ class DetectionToPose(Node):
 4. 编写程序将YOLO检测结果（类别、置信度、边界框）发布为vision_msgs/Detection2DArray消息。
 
 5. 结合颜色检测和YOLO检测，实现一个融合检测节点：先用颜色检测找到感兴趣区域，再用YOLO在该区域进行精确检测。
+
+---
+
+## 仿真结合实例（当前仓库）：用 Gazebo 相机验证颜色/YOLO 输入链路
+
+### 目标与知识点对应
+
+让颜色分割或 YOLO 节点直接订阅 `robot_sim_demo` 的模拟相机，验证 RGB 图像、CameraInfo 和检测结果话题的连接。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+ros2 launch robot_sim_demo gazebo2.launch.py \
+  gui:=true rviz:=false drive:=false
+```
+
+```bash
+ros2 topic echo /camera/image_raw --once
+ros2 topic echo /camera/camera_info --once
+ros2 run rqt_image_view rqt_image_view /camera/image_raw
+```
+
+把本章颜色检测节点的输入设为 `/camera/image_raw`；如果已准备 YOLO 模型，再用 `vision_msgs/Detection2DArray` 检查输出。
+
+### 观察结果与边界
+
+相机画面可作为 HSV 阈值或神经网络的输入；实际检测框、类别和置信度取决于场景、模型文件和节点实现。当前仓库不提供已训练的试剂瓶模型。
+
+### 源码
+
+- 相机：`src/robot_sim_demo/robot_sim_demo/camera_info_publisher.py`
+- 图像桥：`src/robot_sim_demo/config/gazebo2_bridge.yaml`
+- 视觉实验参考：`src/lab_code/ch19_lab/vision_detection_lab/`

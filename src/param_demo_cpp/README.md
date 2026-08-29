@@ -26,9 +26,13 @@ ROS 2 Jazzy（ament_cmake）C++ 参数系统示例，演示参数的声明、读
 ## 构建
 
 ```bash
+
 cd robot_sim_demo
+
 source /opt/ros/jazzy/setup.bash
+
 colcon build --symlink-install --packages-select param_demo_cpp
+
 source install/setup.bash
 ```
 
@@ -41,6 +45,8 @@ ros2 run param_demo_cpp param_demo_cpp_node
 查询参数：
 
 ```bash
+
 ros2 param list /param_demo_cpp
+
 ros2 param get /param_demo_cpp param1
 ```

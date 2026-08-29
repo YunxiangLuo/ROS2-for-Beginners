@@ -39,6 +39,7 @@ python3 src/lab_code/ch27_lab/tf_broadcaster.py
 
 # 终端5: EKF 融合
 ros2 run robot_localization ekf_node \
+
     --ros-args --params-file src/lab_code/ch27_lab/ekf_localization.yaml
 ```
 
@@ -79,7 +80,9 @@ python3 src/lab_code/ch27_lab/localization_eval.py \
 ## 安装与编译
 
 ```bash
+
 pip install numpy matplotlib
+
 sudo apt install ros-jazzy-robot-localization   # EKF (ekf_localization.yaml)
 ```
 

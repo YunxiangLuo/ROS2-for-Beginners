@@ -11,7 +11,9 @@
 ## 运行说明
 
 ```bash
+
 cd src/lab_code/ch12_lab/
+
 bash realsense_launch.sh
 ```
 
@@ -35,8 +37,12 @@ sudo apt install ros-jazzy-realsense2-camera
 或在 ROS2 工作空间中源码编译：
 
 ```bash
+
 cd ~/ros2_course_ws/src
+
 git clone https://github.com/IntelRealSense/realsense-ros.git -b ros2-master
+
 cd ~/ros2_course_ws
+
 colcon build
 ```

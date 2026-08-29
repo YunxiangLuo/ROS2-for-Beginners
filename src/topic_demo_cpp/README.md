@@ -14,6 +14,7 @@ ROS 2 Jazzy 下的 C++ 话题通信示例（ament_cmake）。演示发布者与�
 ## 构建
 
 ```bash
+
 colcon build --symlink-install --packages-select topic_demo_cpp
 ```
 
@@ -28,6 +29,7 @@ source /opt/ros/jazzy/setup.bash && source install/setup.bash
 在终端 1 启动发布者：
 
 ```bash
+
 ros2 run topic_demo_cpp talker
 ```
 

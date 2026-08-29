@@ -1,4 +1,5 @@
 ﻿# av_safety_monitor 鈥?瀹夊叏鐩戞帶涓庢晠闅滄敞鍏?
+
 TTC 纰版挒棰勮/绱ф€ュ埗鍔ㄣ€佺鎾炰簨浠跺鐞嗐€佸绾ф姤璀︿笌鏁呴殰娉ㄥ叆宸ュ叿銆?
 ## 鐩綍缁撴瀯
 
@@ -15,8 +16,11 @@ av_safety_monitor/
 
 ## 瀹夎涓庣紪璇?
 ```bash
+
 cd <宸ヤ綔绌洪棿鏍圭洰褰?
+
 colcon build --packages-select av_carla_interfaces av_safety_monitor
+
 source install/setup.bash
 ```
 
@@ -31,11 +35,14 @@ ros2 run av_safety_monitor fault_injector --ros-args \
 ```
 
 璇濋: 璁㈤槄 `/ego_state`(TwistStamped)銆乣/perception_objects`(PerceptionObjectArray)銆?`/plan`銆乣/carla/ego_vehicle/collision`(CollisionEvent);
+
 鍙戝竷 `/safety_status`(String)銆乣/safety_markers`銆乣/emergency_stop`(Bool)銆?
 ## 娴嬭瘯鏂规硶
 
 ```bash
+
 cd src/av_safety_monitor
+
 python -m pytest test -q
 ```
 

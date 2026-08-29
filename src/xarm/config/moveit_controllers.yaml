@@ -29,3 +29,4 @@ moveit_simple_controller_manager:
     default: true
     joints:
       - gripper_1_joint
+      - gripper_2_joint

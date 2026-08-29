@@ -1,5 +1,34 @@
 # 第2章 实验指导书：Python 节点编程与工具链
 
+## 当前仓库仿真验证：节点命名空间与工具链检查
+
+### 实验目标
+
+在移动机器人仿真运行时创建/检查 ROS 2 节点，练习 `ros2 node` 命令、节点重命名和 RViz 观察，验证 Python 节点与仿真节点处于同一 DDS 域。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+ros2 launch robot_sim_demo gazebo2.launch.py \
+  gui:=true rviz:=true drive:=false
+```
+
+另开终端运行并检查节点：
+
+```bash
+source install/setup.bash
+ros2 run name_demo_cpp name_demo_node \
+  --ros-args -r __ns:=/student -p serial:=7
+ros2 node list
+ros2 node info /student/name_demo
+```
+
+### 观察与验收
+
+终端应显示 `/student/name_demo` 的完整名称；RViz 可显示仿真机器人和 TF。源码：`src/name_demo_cpp/src/name_demo.cpp`，仿真入口：`src/robot_sim_demo/launch/gazebo2.launch.py`。
+
 > **实验课时**：2 课时（90 分钟）  
 > **实验平台**：Ubuntu 22.04 + ROS 2 Humble  
 
@@ -338,6 +367,6 @@ ros2 topic pub /cmd_vel geometry_msgs/msg/Twist \
 
 真实运行的 Python 节点、节点列表和节点信息输出：
 
-![ch02 Python 节点运行输出](images/runtime/ch02_nodes.png)
+![ch02 Python 节点运行输出](images/runtime/ch02_nodes.gif)
 
 原始录制：[ch02_nodes.cast](images/runtime/ch02_nodes.cast)。完整证据索引见[实际运行证据](runtime_evidence.md)。

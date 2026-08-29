@@ -1,14 +1,26 @@
 """Small adapters around the supported ROS 2 Jazzy MoveItPy API."""
 
 from copy import deepcopy
+import logging
 from math import cos, sin
 
 import numpy as np
 import rclpy
+from control_msgs.action import FollowJointTrajectory
 from moveit.core.robot_state import RobotState, robotStateToRobotStateMsg
 from moveit.core.robot_trajectory import RobotTrajectory
+from moveit_msgs.action import ExecuteTrajectory
 from moveit_msgs.msg import MoveItErrorCodes
 from moveit_msgs.srv import GetCartesianPath
+from rclpy.action import ActionClient
+
+LOGGER = logging.getLogger(__name__)
+
+EXECUTION_ACTION_SERVERS = [
+    (ExecuteTrajectory, "/execute_trajectory"),
+    (FollowJointTrajectory, "/xarm_controller/follow_joint_trajectory"),
+    (FollowJointTrajectory, "/gripper_controller/follow_joint_trajectory"),
+]
 
 
 def quaternion_from_euler(roll: float, pitch: float, yaw: float) -> tuple[float, ...]:
@@ -48,9 +60,26 @@ def set_joint_goal(moveit, component, group_name: str, positions) -> RobotState:
     return state
 
 
-def plan_and_execute(moveit, component) -> bool:
+def ensure_execution_servers(node, timeout_sec: float = 10.0) -> bool:
+    for action_type, action_name in EXECUTION_ACTION_SERVERS:
+        client = ActionClient(node, action_type, action_name)
+        available = client.wait_for_server(timeout_sec=timeout_sec)
+        client.destroy()
+        if not available:
+            LOGGER.error(
+                "action server %s is unavailable; start arm_only.launch.py "
+                "with its controller_manager active first",
+                action_name,
+            )
+            return False
+    return True
+
+
+def plan_and_execute(moveit, component, node) -> bool:
     result = component.plan()
     if not result:
+        return False
+    if not ensure_execution_servers(node):
         return False
     moveit.execute(result.trajectory, controllers=[])
     return True
@@ -91,7 +120,7 @@ def compute_cartesian_path(
     link_name: str,
     frame_id: str,
     waypoints,
-    timeout_sec: float = 10.0,
+    timeout_sec: float = 60.0,
 ):
     """Call MoveIt's supported Cartesian path service and return fraction/trajectory."""
     client = node.create_client(GetCartesianPath, "/compute_cartesian_path")
@@ -118,6 +147,7 @@ def compute_cartesian_path(
             return response.fraction, None
 
         trajectory = RobotTrajectory(moveit.get_robot_model())
+        trajectory.joint_model_group_name = group_name
         with monitor.read_only() as scene:
             trajectory.set_robot_trajectory_msg(scene.current_state, response.solution)
         return response.fraction, trajectory

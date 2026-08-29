@@ -5,6 +5,7 @@
 本包是 ROS 2 动作（Action）通信示例的接口定义包，基于 `ament_cmake` 构建。
 
 它定义了动作示例中使用的自定义动作接口 `action/DoDishes.action`，用于在客户端与服务端之间执行长时任务（洗盘子）并周期性反馈进度。
+
 本包不包含任何可执行节点，仅作为接口被 `action_demo_py`（Python 实现）与 `action_demo_cpp`（C++ 实现）依赖。
 
 ## 接口定义
@@ -26,6 +27,7 @@ float32 percent_complete         # 反馈：完成百分比
 > 前提：ROS 2 Jazzy 已安装并完成环境配置。
 
 ```bash
+
 colcon build --symlink-install --packages-select action_demo_interfaces
 ```
 

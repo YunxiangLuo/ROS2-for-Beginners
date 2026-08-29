@@ -1,5 +1,30 @@
 # 第13章 实验手册: YOLO + ROS 2 目标检测
 
+## 当前仓库仿真验证：Gazebo 相机输入与检测节点
+
+### 实验目标
+
+用 `robot_sim_demo` 的模拟相机替代 USB 相机，验证 Image、CameraInfo 和检测结果话题，之后再接入本实验的 YOLO 节点。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+ros2 launch robot_sim_demo gazebo2.launch.py \
+  gui:=true rviz:=false drive:=false
+```
+
+```bash
+ros2 topic info /camera/image_raw
+ros2 topic echo /camera/camera_info --once
+ros2 run rqt_image_view rqt_image_view /camera/image_raw
+```
+
+将检测节点输入配置为 `/camera/image_raw`，输出用 `ros2 topic echo` 检查。源码：`src/robot_sim_demo/robot_sim_demo/camera_info_publisher.py`、`src/lab_code/ch19_lab/vision_detection_lab/`。
+
+当前仓库不自带已训练的 YOLO 试剂瓶模型，因此本节不宣称检测精度或检测框结果。
+
 ## 环境说明
 本实验使用 XBot-U 仿真环境 + USB 相机或 Gazebo 模拟相机, 预装 ultralytics 和 onnxruntime。
 

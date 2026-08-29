@@ -1,5 +1,39 @@
 # 第22章 多传感器融合SLAM
 
+## 仿真结合实例（当前仓库）：同步 LiDAR、相机与里程计数据
+
+### 目标与知识点对应
+
+使用 `robot_sim_demo` 同时输出 `/scan`、`/camera/image_raw`、`/camera/camera_info`、`/odom` 和 `/tf`，检查多传感器融合前的时间戳、frame_id 和话题频率。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+ros2 launch robot_sim_demo gazebo2.launch.py \
+  gui:=false rviz:=false drive:=true
+```
+
+```bash
+ros2 topic hz /scan
+ros2 topic hz /camera/image_raw
+ros2 topic echo /camera/camera_info --once
+ros2 topic echo /odom --once
+```
+
+### 观察结果
+
+比较各消息的时间戳和 frame_id，识别融合节点需要的同步策略及 TF 外参；RViz 可分别显示激光和机器人 TF。
+
+### 源码与边界
+
+- Bridge：`src/robot_sim_demo/config/gazebo2_bridge.yaml`
+- 相机内参：`src/robot_sim_demo/robot_sim_demo/camera_info_publisher.py`
+- 模型：`src/robot_sim_demo/models/wheeltec_robot/model.sdf`
+
+当前仓库没有 FAST-LIO/VINS 等完整融合算法，本例只验证输入和标定信息。
+
 ## 学习目标
 - 理解多传感器融合SLAM的必要性和基本框架
 - 掌握IMU+LiDAR融合原理与方法

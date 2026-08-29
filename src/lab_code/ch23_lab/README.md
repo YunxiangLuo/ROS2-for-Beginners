@@ -25,6 +25,7 @@
 
 # 终端2：一键启动Bridge + Ego Vehicle
 cd src/lab_code/ch23_lab/
+
 bash bridge_launch.sh
 
 # 终端3：验证话题
@@ -35,7 +36,9 @@ rviz2
 
 # 终端5：车辆控制（发布指令）
 ros2 topic pub /carla/ego_vehicle/vehicle_control_cmd \
+
   carla_msgs/msg/CarlaEgoVehicleControl \
+
   "{throttle: 0.3, steer: 0.0, brake: 0.0}" --rate 10
 ```
 
@@ -66,12 +69,15 @@ python3 check_topics.py
 ## 常见问题
 
 **Q: Bridge启动后没有 `/carla/ego_vehicle/*` 话题？**
+
 A: 需要先生成Ego Vehicle并设置 `role_name=ego_vehicle`，Bridge才会创建对应话题。
 
 **Q: spawn_ego.py报连接错误？**
+
 A: 确保CARLA仿真器已启动，且端口（默认2000）未被占用。
 
 **Q: RViz2中看不到点云？**
+
 A: 检查 PointCloud2 显示的话题是否为 `/carla/ego_vehicle/lidar`，并确认Lidar传感器已附加到车辆。
 
 ---
@@ -81,6 +87,7 @@ A: 检查 PointCloud2 显示的话题是否为 `/carla/ego_vehicle/lidar`，并�
 ```bash
 # ROS 2 Jazzy + CARLA + ros-bridge（carla_ros_bridge）
 pip install numpy
+
 sudo apt install ros-jazzy-ros-bridge-carla-msgs-bridge  # 或源码编译 ros-bridge
 ```
 

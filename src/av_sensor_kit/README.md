@@ -22,7 +22,9 @@ av_sensor_kit/
 ```bash
 # ROS2 环境
 cd <工作空间根目录>
+
 colcon build --packages-select av_sensor_kit
+
 source install/setup.bash
 ```
 
@@ -41,7 +43,9 @@ ros2 run av_sensor_kit sensor_manager
 ## 测试方法
 
 ```bash
+
 cd src/av_sensor_kit
+
 python -m pytest test -q
 ```
 

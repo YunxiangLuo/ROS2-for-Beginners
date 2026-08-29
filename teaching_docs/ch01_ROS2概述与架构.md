@@ -267,18 +267,70 @@ ros2 run demo_nodes_py listener
 ## 1.7 练习题
 
 **练习 1.1**：简述 ROS 1 的三个主要局限性和 ROS 2 对应的解决方案。
+
 ros1依赖master，存在中心节点————ros2使用dds通信机制，节点之间可以自动发现彼此
 ros1不太能实时控制并传输，通信策略单一————Qos通信，根据不同数据类型设置可靠性队列深度。。。
 ros1多机器人、多实验环境相互干扰————通过ROS_DOMAIN_ID划分通信领域
 **练习 1.2**：DDS 域 ID（ROS_DOMAIN_ID）的作用是什么？如果两台机器上的域 ID 不同，它们的节点能通信吗？
+
 作用是隔离通信环境。id不同一般不会互相发现和通信
 **练习 1.3**：以下 QoS 配置能否匹配通信？  
+
 - Publisher: RELIABLE, VOLATILE  
 - Subscriber: BEST_EFFORT, VOLATILE
 可以。Publisher 使用 RELIABLE，提供可靠传输能力；Subscriber 使用 BEST_EFFORT，只要求尽力接收，因此发布者能力满足订阅者需求。两者 Durability 都为 VOLATILE，也能够匹配。
 **练习 1.4**：查看当前 ROS_DOMAIN_ID 环境变量值，将其修改为 42 并验证。
+
 ![alt text](images/image-2.png)
 **练习 1.5**：创建一个 ROS 2 工作空间，使用 colcon build 编译，并验证 setup.bash 加载。
+
 ![alt text](images/image.png)
 **练习 1.6**：运行 talker/listener 示例节点，使用 `ros2 node list` 和 `ros2 topic list` 查看运行状态。
+
 ![alt text](images/image-1.png)
+
+---
+
+## 仿真结合实例（当前仓库）：Gazebo Harmonic 仿真中的 ROS 2 体系验证
+
+### 目标与知识点对应
+
+本实例把第1章的三个核心概念——**DDS 分布式通信、去中心化自动发现、ROS_DOMAIN_ID 域隔离、QoS 策略**——放到一个真实的 Gazebo 仿真中验证。当前仓库使用 ROS 2 Jazzy + Gazebo Sim Harmonic，移动机器人入口为 `robot_sim_demo`。通过观察一个仿真世界里的节点、话题和桥接关系，你能直观理解 DDS 中间件如何在节点之间自动建立连接。
+
+### 运行命令
+
+工作区根目录执行，先加载 ROS 2 与工作空间环境：
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+
+# 终端 1：启动 Gazebo + 机器人 + 传感器桥（带 RViz）
+ros2 launch robot_sim_demo gazebo2.launch.py gui:=true rviz:=true drive:=false
+```
+
+等待 Gazebo 3D 场景出现 Wheeltec 机器人、RViz 显示机器人模型与激光雷达点云。随后在**独立终端**（同样先 source 环境）观察：
+
+```bash
+# 查看自动发现到的所有节点（DDS 去中心化发现）
+ros2 node list
+
+# 查看传感器桥发布的话题及其 QoS 与类型
+ros2 topic list
+ros2 topic info /scan
+```
+
+### 需要观察到的现象
+
+- `ros2 node list` 能看到 `gazebo2_bridge`、`gazebo2_robot_state_publisher`、`camera_info_publisher` 等多个节点，且它们**没有中心 master**，全部靠 DDS 自动发现（对应 1.1-1.2 节）。
+- `ros2 topic info /scan` 的 `Message type: sensor_msgs/msg/LaserScan`；桥接发布者采用 Lazy 桥（未匹配到订阅者时不发送），体现 QoS Durability/History 的实际影响。
+- 在另一个带 source 的终端重新指定一个 `ROS_DOMAIN_ID` 再 `ros2 node list`，可以看到它与仿真图**隔离**，对应 1.2.2 节与练习 1.2。
+
+### 源码与相关位置
+
+- 启动入口：`src/robot_sim_demo/launch/gazebo2.launch.py`
+- 桥配置：`src/robot_sim_demo/config/gazebo2_bridge.yaml`
+- 相机内参发布：`src/robot_sim_demo/robot_sim_demo/camera_info_publisher.py`
+- 世界/模型：`src/robot_sim_demo/worlds/museum.sdf`、`src/robot_sim_demo/models/wheeltec_robot/model.sdf`
+
+> 说明：真实运行证据（检测到 `/clock`、`/scan`、`/odom`、`/tf` 桥接）见 `lab_manuals/images/runtime/ch09_gazebo_headless.png` 及配套 `.cast`。

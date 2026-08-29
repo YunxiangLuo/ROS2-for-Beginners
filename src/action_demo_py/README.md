@@ -14,6 +14,7 @@ ROS 2 Jazzy 下的 Python 动作通信示例（ament_python）。演示动作服
 ## 构建
 
 ```bash
+
 colcon build --symlink-install --packages-select action_demo_py
 ```
 
@@ -28,6 +29,7 @@ source /opt/ros/jazzy/setup.bash && source install/setup.bash
 在终端 1 启动动作服务端：
 
 ```bash
+
 ros2 run action_demo_py dishes_server
 ```
 
@@ -40,6 +42,7 @@ ros2 run action_demo_py dishes_client
 也可使用命令行直接发送目标：
 
 ```bash
+
 ros2 action send_goal /dishes action_demo_interfaces/action/DoDishes "{dishwasher_id: 2}"
 ```
 

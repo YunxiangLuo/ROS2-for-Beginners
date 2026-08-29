@@ -1,5 +1,31 @@
 # 第19章 实验：相机驱动、标定与视觉检测
 
+## 当前仓库仿真验证：模拟相机、内参与 TF
+
+### 实验目标
+
+使用 `robot_sim_demo` 的 Gazebo 相机完成 Image、CameraInfo、TF 和 OpenCV 输入验证，再接入本实验的颜色、YOLO 或 AR 节点。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+ros2 launch robot_sim_demo gazebo2.launch.py \
+  gui:=true rviz:=false drive:=false
+```
+
+```bash
+ros2 topic info /camera/image_raw
+ros2 topic echo /camera/camera_info --once
+ros2 run rqt_image_view rqt_image_view /camera/image_raw
+ros2 run tf2_ros tf2_echo base_link camera_link
+```
+
+### 观察与验收
+
+应能获得 320x180 图像和 CameraInfo，并确认相机 frame。源码：`src/robot_sim_demo/robot_sim_demo/camera_info_publisher.py`、`src/robot_sim_demo/config/gazebo2_bridge.yaml`、`src/lab_code/ch19_lab/vision_detection_lab/`。仿真内参不等于真实镜头标定结果。
+
 > **对应理论章节**：第30章《相机驱动与标定》、第31章《颜色检测与YOLOv8》、第32章《AR标签检测与手眼标定》
 > **实验课时**：6课时  
 > **实验代码**：`src/lab_code/ch19_lab/vision_detection_lab/`  

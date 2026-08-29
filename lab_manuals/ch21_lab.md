@@ -1,5 +1,35 @@
 # 第21章 实验：视觉抓取综合项目
 
+## 当前仓库仿真验证：相机目标接口与 xArm 规划分层
+
+### 实验目标
+
+用移动机器人仿真验证相机、内参和 TF，用 xArm6 MoveIt2/RViz 验证目标 Pose 到规划组的转换，形成“检测→定位→规划”的可检查链路。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+ros2 launch robot_sim_demo gazebo2.launch.py \
+  gui:=true rviz:=false drive:=false
+ros2 topic echo /camera/camera_info --once
+ros2 run tf2_ros tf2_echo base_link camera_link
+```
+
+在提供兼容 `xarm_description` 2.0.0 的环境中另开终端：
+
+```bash
+source /path/to/xarm_description_workspace/install/setup.bash
+ros2 launch xarm_ros2_arm_only arm_only.launch.py
+```
+
+将实验视觉节点输出的 `PoseStamped` 转换到 xArm 基座 frame，在 RViz MotionPlanning 中先验证预抓取和避障轨迹。
+
+### 观察与边界
+
+分开检查相机话题、TF、目标位姿、规划结果和夹爪执行状态。源码：`src/lab_code/ch21_lab/vision_pickup_lab/`、`src/robot_sim_demo/`、`src/xarm/`。当前仓库没有真实 ArUco/YOLO 检测和成功抓取证据，不将接口验证写成完整闭环成功。
+
 > **对应理论章节**：第34章《视觉抓取完整流程》、第35章《综合实训：智能机器人产线》
 > **实验课时**：6课时  
 > **实验代码**：`src/lab_code/ch21_lab/vision_pickup_lab/`  

@@ -1,5 +1,40 @@
 # 第11章 ICP与PLICP扫描匹配
 
+## 仿真结合实例（当前仓库）：采集相邻激光帧作为扫描匹配输入
+
+### 目标与知识点对应
+
+ICP/PLICP 需要连续的激光扫描和位姿初值。本仓库没有独立 ICP/PLICP 实现，因此实例聚焦于从 Gazebo 获得稳定的 `/scan`、`/odom`、`/tf` 输入，并验证数据可供外部匹配器消费。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+ros2 launch robot_sim_demo gazebo2.launch.py \
+  gui:=false rviz:=false drive:=true
+```
+
+```bash
+# 另一个终端记录短时间扫描和里程计
+source install/setup.bash
+ros2 bag record -o /tmp/scan_match_input /scan /odom /tf /tf_static
+# 约 10 秒后 Ctrl+C
+ros2 bag info /tmp/scan_match_input
+```
+
+### 观察结果
+
+- Bag 中同时包含扫描帧、里程计和 TF，可用于比较相邻帧的初始位姿与匹配增量。
+- 在 RViz 中显示 `LaserScan`，机器人运动时扫描相对环境发生变化。
+
+### 源码与边界
+
+- 仿真桥：`src/robot_sim_demo/config/gazebo2_bridge.yaml`
+- SLAM 输入配置：`src/slam_sim_demo_ros2/params/slam_toolbox_params.yaml`
+
+仓库没有 ICP/PLICP 求解器；本实例不宣称完成配准或输出算法精度，只完成可复现输入数据采集。
+
 ## 学习目标
 - 理解ICP扫描匹配算法的基本原理与数学推导
 - 掌握PLICP(Point-to-Line ICP)算法及其优势

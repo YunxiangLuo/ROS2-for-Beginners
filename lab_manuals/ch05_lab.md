@@ -1,5 +1,37 @@
 # 第5章 实验指导书：动作通信编程
 
+## 当前仓库仿真验证：Action 反馈与底盘仿真并行检查
+
+### 实验目标
+
+在机器人仿真背景下运行 `DoDishes` Action，观察目标接受、反馈、结果和动作查询，理解长期任务与底盘 Topic 的区别。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+ros2 launch robot_sim_demo gazebo2.launch.py \
+  gui:=false rviz:=false drive:=false
+```
+
+```bash
+# 终端 2
+source install/setup.bash
+ros2 run action_demo_cpp dishes_server
+```
+
+```bash
+# 终端 3
+source install/setup.bash
+ros2 run action_demo_cpp dishes_client
+ros2 action info /dishes
+```
+
+### 观察与验收
+
+客户端应显示 20% 至 100% 的反馈和最终清洗数量；Gazebo 仍可独立提供 `/odom`、`/scan`。源码：`src/action_demo_cpp/`、`src/action_demo_interfaces/`。
+
 > **实验课时**：2 课时（90 分钟） | XBot-U Gazebo 仿真
 
 ---
@@ -1990,6 +2022,6 @@ Action 是一种通信机制，适用于执行时间较长、需要实时反馈�
 
 真实运行的 DoDishes Action Server、Client 反馈进度和完成结果：
 
-![ch05 动作通信运行输出](images/runtime/ch05_action.png)
+![ch05 动作通信运行输出](images/runtime/ch05_action.gif)
 
 原始录制：[ch05_action.cast](images/runtime/ch05_action.cast)。完整证据索引见[实际运行证据](runtime_evidence.md)。

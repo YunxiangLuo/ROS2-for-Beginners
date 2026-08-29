@@ -6,7 +6,9 @@
 ## 简介
 
 本章将视觉检测与机械臂抓取结合：`tf2_camera_broadcaster` 发布相机外参
+
 TF，AR 码检测与抓取服务由 `course_lab_utils` 提供，`vision_pickup_pipeline`
+
 编排「检测→定位→抓取→放置」全流程。
 
 | 程序 | 内容 |
@@ -18,10 +20,13 @@ TF，AR 码检测与抓取服务由 `course_lab_utils` 提供，`vision_pickup_p
 ## 构建
 
 ```bash
+
 cd <robot_sim_demo 工作区>
+
 source /opt/ros/jazzy/setup.bash
 # 需先构建并 source xarm_description 底层与 course_lab_utils
 colcon build --symlink-install --packages-select vision_pickup_lab
+
 source install/setup.bash
 ```
 
@@ -43,7 +48,9 @@ ros2 run vision_pickup_lab vision_pickup_pipeline
 ## 测试
 
 ```bash
+
 colcon test --packages-select vision_pickup_lab
+
 colcon test-result --all
 ```
 

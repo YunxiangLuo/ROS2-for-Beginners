@@ -20,9 +20,13 @@ ROS 2 Jazzy（ament_python）TF 跟随控制器，从 ROS 1 的 `tf_follower` �
 ## 构建
 
 ```bash
+
 cd robot_sim_demo
+
 source /opt/ros/jazzy/setup.bash
+
 colcon build --symlink-install --packages-select tf_follower_ros2
+
 source install/setup.bash
 ```
 
@@ -37,6 +41,7 @@ ros2 launch tf_follower_ros2 tf_follower_demo.launch.py
 仅启动 `tf_follower`（需外部提供目标 TF）：
 
 ```bash
+
 ros2 launch tf_follower_ros2 tf_follower.launch.py
 ```
 

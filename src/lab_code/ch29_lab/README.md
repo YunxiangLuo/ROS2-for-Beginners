@@ -25,6 +25,7 @@ src/lab_code/ch29_lab/
 **运行：**
 
 ```bash
+
 python fsm_decision.py
 ```
 
@@ -55,8 +56,11 @@ CARLA Traffic Manager 配置演示，支持三种驾驶风格：
 **运行：**
 
 ```bash
+
 python traffic_manager_demo.py --vehicles 20 --mode normal
+
 python traffic_manager_demo.py --vehicles 30 --mode aggressive
+
 python traffic_manager_demo.py --vehicles 50 --mode mixed
 ```
 
@@ -87,8 +91,11 @@ pip install numpy
 ## 运行方法
 
 ```bash
+
 python traffic_light_detector.py    # 交通灯检测与停车响应
+
 python fsm_decision.py              # FSM 行为决策(CRUISE/FOLLOW/STOP/AVOID/COMPLETE)
+
 python traffic_manager_demo.py      # 交通管理演示
 ```
 

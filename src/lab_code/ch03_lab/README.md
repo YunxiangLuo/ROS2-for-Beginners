@@ -7,7 +7,9 @@
 需要 ROS 2 Jazzy、Python pytest，以及 `rosidl_default_generators`：
 
 ```bash
+
 source /opt/ros/jazzy/setup.bash
+
 rosdep install --from-paths src/lab_code/ch03_lab --ignore-src -r -y
 ```
 
@@ -22,9 +24,13 @@ source install/setup.bash
 ## 运行
 
 ```bash
+
 ros2 run topic_demo gps_pub
+
 ros2 run topic_demo gps_sub
+
 ros2 run topic_demo qos_pub
+
 ros2 run sensor_pub sensor_pub_node
 ```
 

@@ -1,6 +1,7 @@
 """Cartesian and point-to-point triangle planning example."""
 
 from copy import deepcopy
+import os
 import time
 
 from geometry_msgs.msg import PoseStamped
@@ -10,6 +11,7 @@ from rclpy.node import Node
 
 from .moveit2 import (
     compute_cartesian_path,
+    ensure_execution_servers,
     get_current_pose,
     plan_and_execute,
     set_named_goal,
@@ -62,6 +64,11 @@ class MoveItBeelineDemo(Node):
             )
             if trajectory is None or fraction < 0.999:
                 raise RuntimeError(f"Cartesian planning incomplete: {fraction:.1%}")
+            if not ensure_execution_servers(self):
+                raise RuntimeError(
+                    "execution action servers are unavailable; start "
+                    "arm_only.launch.py with its controller_manager active first"
+                )
             self.moveit.execute(trajectory, controllers=[])
         else:
             for index, pose in enumerate(waypoints):
@@ -74,7 +81,7 @@ class MoveItBeelineDemo(Node):
         self._execute("Home")
 
     def _execute(self, description: str):
-        if not plan_and_execute(self.moveit, self.arm):
+        if not plan_and_execute(self.moveit, self.arm, self):
             raise RuntimeError(f"Planning failed for {description}")
         time.sleep(1.0)
 
@@ -89,3 +96,4 @@ def main(args=None):
         node.destroy_node()
         if rclpy.ok():
             rclpy.shutdown()
+    os._exit(0)

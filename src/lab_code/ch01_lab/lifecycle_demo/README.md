@@ -5,6 +5,7 @@
 ## 安装
 
 ```bash
+
 source /opt/ros/jazzy/setup.bash
 ```
 
@@ -18,7 +19,9 @@ source install/setup.bash
 ## 运行
 
 ```bash
+
 ros2 run lifecycle_demo hello_node
+
 ros2 launch lifecycle_demo lifecycle_demo.launch.py autostart:=true
 ```
 

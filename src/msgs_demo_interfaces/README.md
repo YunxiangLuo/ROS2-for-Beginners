@@ -5,6 +5,7 @@
 本包是从 ROS 1 `msgs_demo` 迁移而来的 ROS 2 接口定义包，基于 `ament_cmake` 构建。
 
 它集中定义了一批用于机器人仿真的通用消息、服务与动作接口，涵盖运动学、传感、导航等常见数据结构，
+
 便于在多个示例与实验包之间复用。本包不包含任何可执行节点。
 
 接口依赖外部消息包：`geometry_msgs`、`nav_msgs`、`sensor_msgs`、`std_msgs`。
@@ -58,6 +59,7 @@
 > 前提：ROS 2 Jazzy 已安装并完成环境配置。
 
 ```bash
+
 colcon build --symlink-install --packages-select msgs_demo_interfaces
 ```
 

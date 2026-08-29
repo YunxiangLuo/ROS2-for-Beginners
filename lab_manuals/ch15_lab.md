@@ -1,5 +1,32 @@
 # 第15章 实验指导书：综合实训
 
+## 当前仓库仿真验证：感知端与 xArm 操作端分层联调
+
+### 实验目标
+
+用移动机器人仿真提供图像/内参，用 xArm 仿真提供 MoveIt2 规划环境，练习综合系统中的消息、TF 和任务接口分层。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+ros2 launch robot_sim_demo gazebo2.launch.py \
+  gui:=true rviz:=true drive:=false
+ros2 topic echo /camera/camera_info --once
+```
+
+在已安装兼容 `xarm_description` 2.0.0 的环境中另开终端：
+
+```bash
+source /path/to/xarm_description_workspace/install/setup.bash
+ros2 launch xarm_ros2_arm_only arm_only.launch.py
+```
+
+### 观察与验收
+
+感知端检查 `/camera/image_raw`、`/camera/camera_info` 和 TF；操作端在 RViz 检查 `xarm` 规划组和轨迹。源码：`src/robot_sim_demo/`、`src/xarm/`、`src/lab_code/ch15_lab/`。当前不宣称完成真实化学试剂识别或自动抓取。
+
 > **实验课时**：4 课时（180 分钟）  
 > **实验平台**：XBot-U Gazebo 仿真 + OpenAI/Qwen API  
 

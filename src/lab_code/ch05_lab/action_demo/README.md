@@ -9,7 +9,9 @@
 ## 安装
 
 ```bash
+
 source /opt/ros/jazzy/setup.bash
+
 rosdep install --from-paths src/lab_code/ch05_lab src/action_demo_interfaces --ignore-src -r -y
 ```
 

@@ -208,11 +208,13 @@ if plan_result:
         f'规划成功: 轨迹点{len(trajectory.points)}, '
         f'耗时{planning_time:.2f}s'
     )
-    # 执行轨迹
-    self.arm.execute(trajectory)
+    # 执行轨迹（MoveItPy 中执行接口挂在 MoveItPy 对象上）
+    self.moveit.execute(plan_result)
 else:
     self.get_logger().error('规划失败')
 ```
+
+> **执行前置条件**：`execute` 依赖 `/xarm_controller/follow_joint_trajectory`、`/gripper_controller/follow_joint_trajectory` 执行服务器，需先按第18章实验环境启动 `arm_only.launch.py`（含 `controller_manager`，即方式2）。课程统一封装 `course_lab_utils.moveit2` 中的 `ensure_execution_servers` 会在执行前对服务器做有界等待，服务器不可用时明确报错退出，而不是无界挂起。
 
 ### 27.2.5 获取当前状态
 
@@ -651,3 +653,38 @@ class PlanAnalyzer(Node):
 4. 使用MoveItPy的逆运动学求解器，计算末端位姿(x=0.3, y=0.1, z=0.2, roll=pi, pitch=0, yaw=0)对应的关节角度。
 
 5. 编写正运动学程序，读取当前各关节角度，计算并输出末端执行器当前位姿。
+
+---
+
+## 仿真结合实例（当前仓库）：MoveItPy 关节目标与 xArm RViz 规划
+
+### 目标与知识点对应
+
+把本章 `PlanningComponent` 的关节空间目标接入 xArm6 的 MoveIt2 配置，先在 RViz 观察规划，再由 Python 程序读取规划结果和关节状态。
+
+### 运行步骤
+
+需要外部兼容的 `xarm_description` 2.0.0：
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+source /path/to/xarm_description_workspace/install/setup.bash
+ros2 launch xarm_ros2_arm_only arm_only_move_group.launch.py use_rviz:=true
+```
+
+另开终端运行本章或实验中的 MoveItPy 节点，并在 RViz 中观察 `gripper_centor_link` 和规划轨迹：
+
+```bash
+source install/setup.bash
+ros2 run moveit_fk_ik_lab fk_demo
+ros2 topic echo /joint_states --once
+```
+
+### 源码与边界
+
+- MoveItPy 参考：`src/lab_code/ch17_lab/moveit_fk_ik_lab/`
+- xArm 配置：`src/xarm/config/`
+- MoveIt Launch：`src/xarm/launch/arm_only_move_group.launch.py`
+
+入口是否能执行取决于本地 `moveit_py` 和 xArm 描述依赖；不把未运行的规划写成成功结果。

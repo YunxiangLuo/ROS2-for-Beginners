@@ -140,7 +140,7 @@ class MoveItAttachDemo(Node):
         return False
 
     def _execute(self, description: str):
-        if not plan_and_execute(self.moveit, self.arm):
+        if not plan_and_execute(self.moveit, self.arm, self):
             raise RuntimeError(f"Planning failed for {description}")
         time.sleep(1.0)
 

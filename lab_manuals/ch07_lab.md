@@ -1,5 +1,33 @@
 # 第7章 实验指导书：TF2 坐标变换系统
 
+## 当前仓库仿真验证：查询 Wheeltec 传感器 TF
+
+### 实验目标
+
+在 Gazebo 发布的真实 TF 图上练习 `tf2_echo`、`view_frames` 和 RViz TF 显示，确认传感器 frame 与底盘 frame 的关系。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+ros2 launch robot_sim_demo gazebo2.launch.py \
+  gui:=true rviz:=true drive:=false
+```
+
+另开终端：
+
+```bash
+source install/setup.bash
+ros2 topic info /tf
+ros2 run tf2_ros tf2_echo base_link laser_link
+ros2 run tf2_tools view_frames
+```
+
+### 观察与验收
+
+RViz 中应能看到机器人 TF；`tf2_echo` 输出平移和旋转。frame 名称以 `ros2 topic echo /tf` 实际输出为准。源码：`src/robot_sim_demo/models/wheeltec_robot/model.sdf`、`src/robot_sim_demo/config/gazebo2_bridge.yaml`。
+
 > **实验课时**：2 课时（90 分钟） | XBot-U Gazebo 仿真
 
 ---
@@ -186,6 +214,6 @@ ros2 run tf_demo tf_lookup
 
 真实运行的 TF broadcaster、listener 和 `tf2_echo` 输出：
 
-![ch07 TF2 运行输出](images/runtime/ch07_tf.png)
+![ch07 TF2 运行输出](images/runtime/ch07_tf.gif)
 
 原始录制：[ch07_tf.cast](images/runtime/ch07_tf.cast)。完整证据索引见[实际运行证据](runtime_evidence.md)。

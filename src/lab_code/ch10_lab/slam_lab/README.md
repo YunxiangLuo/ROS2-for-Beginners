@@ -35,8 +35,11 @@
 ## 构建命令
 
 ```bash
+
 cd <workspace>
+
 colcon build --symlink-install --packages-select slam_lab
+
 source /opt/ros/jazzy/setup.bash && source install/setup.bash
 ```
 

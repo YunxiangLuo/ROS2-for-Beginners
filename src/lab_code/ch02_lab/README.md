@@ -7,7 +7,9 @@
 需要 ROS 2 Jazzy、`rclpy`、`nav_msgs` 和 Python pytest：
 
 ```bash
+
 source /opt/ros/jazzy/setup.bash
+
 rosdep install --from-paths src/lab_code/ch02_lab --ignore-src -r -y
 ```
 
@@ -21,8 +23,11 @@ source install/setup.bash
 ## 运行
 
 ```bash
+
 ros2 run hello_pkg hello_node
+
 ros2 run hello_pkg logger_node
+
 ros2 run hello_pkg odom_monitor
 ```
 

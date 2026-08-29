@@ -711,3 +711,40 @@ class ImageProcessingUtils:
 4. 编写节点，对输入的图像进行畸变校正，并发布校正后的图像话题。
 
 5. 实现一个图像传输节点，使用image_transport发布压缩图像，并在订阅端显示。
+
+---
+
+## 仿真结合实例（当前仓库）：Gazebo 相机的 Image 与 CameraInfo 校验
+
+### 目标与知识点对应
+
+用 `robot_sim_demo` 的 Gazebo 相机替代 USB 相机，检查 `sensor_msgs/Image`、`CameraInfo`、内参矩阵和图像传输话题，完成相机标定节点接入前的接口验证。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+ros2 launch robot_sim_demo gazebo2.launch.py \
+  gui:=true rviz:=false drive:=false
+```
+
+另开终端：
+
+```bash
+ros2 topic info /camera/image_raw
+ros2 topic echo /camera/camera_info --once
+ros2 run rqt_image_view rqt_image_view /camera/image_raw
+```
+
+将本章的 `cv_bridge` 节点订阅 `/camera/image_raw`，使用消息中的 `width`、`height` 和 `encoding` 创建 OpenCV 图像，并将 `CameraInfo.k` 与像素投影代码中的 `fx/fy/cx/cy` 对照。
+
+### 观察结果与边界
+
+应能看到 Gazebo 相机图像以及 320x180 的 CameraInfo；仿真内参是模型设定值，不等同于真实镜头的标定结果。
+
+### 源码
+
+- 相机启动/桥：`src/robot_sim_demo/launch/gazebo2.launch.py`
+- 内参发布：`src/robot_sim_demo/robot_sim_demo/camera_info_publisher.py`
+- 桥配置：`src/robot_sim_demo/config/gazebo2_bridge.yaml`

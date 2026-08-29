@@ -23,7 +23,9 @@
 sudo apt install ros-jazzy-joint-state-publisher-gui
 
 cd <workspace>
+
 colcon build --symlink-install --packages-select urdf_demo
+
 source /opt/ros/jazzy/setup.bash && source install/setup.bash
 ```
 

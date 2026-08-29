@@ -1,5 +1,33 @@
 # 第12章 实验手册: MoveIt 2 机械臂编程
 
+## 当前仓库仿真验证：xArm6 关节规划与状态读取
+
+### 实验目标
+
+把单关节规划、PlanningComponent 和 `/joint_states` 检查接入仓库的 xArm6 Gazebo/MoveIt2/RViz 环境。
+
+### 运行步骤
+
+需先准备兼容的外部 `xarm_description` 2.0.0：
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+source /path/to/xarm_description_workspace/install/setup.bash
+ros2 launch xarm_ros2_arm_only arm_only.launch.py
+```
+
+在 RViz MotionPlanning 中选择 `xarm` 组设置关节目标，另开终端检查：
+
+```bash
+ros2 control list_controllers
+ros2 topic echo /joint_states --once
+```
+
+### 观察与边界
+
+RViz 应显示目标状态和规划轨迹，Gazebo 显示机械臂模型。若外部描述包或控制器缺失，记录为环境前置条件失败，不应伪造运动成功。源码：`src/xarm/launch/`、`src/xarm/config/`。
+
 ## 环境说明
 本实验使用 XBot-U 手臂 + Gazebo 仿真, 预装 moveit_py 和 ros-humble-moveit。
 

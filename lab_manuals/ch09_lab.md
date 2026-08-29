@@ -1,5 +1,34 @@
 # 第9章 实验指导书：Gazebo 仿真
 
+## 当前仓库仿真验证：ISCAS Museum、Bridge 与多传感器
+
+### 实验目标
+
+使用当前 Gazebo Sim Harmonic 入口验证世界加载、机器人 spawn、ROS-Gazebo Bridge、LiDAR、相机和底盘控制。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+ros2 launch robot_sim_demo gazebo2.launch.py \
+  gui:=true rviz:=true drive:=false
+```
+
+另开终端：
+
+```bash
+source install/setup.bash
+ros2 topic echo /clock --once
+ros2 topic info /scan
+ros2 topic echo /camera/camera_info --once
+ros2 topic echo /odom --once
+```
+
+### 观察与验收
+
+Gazebo 应加载 Museum 场景并生成 Wheeltec；RViz 可显示 RobotModel、TF 和 LaserScan。终端证据：`images/runtime/ch09_gazebo_headless.png`。源码：`src/robot_sim_demo/`。
+
 > **实验课时**：2 课时（90 分钟） | XBot-U Gazebo 仿真
 
 ---
@@ -220,10 +249,16 @@ ros2 run sim_demo sensor_reader
 
 Gazebo headless 会话真实输出了 `/clock`、`/scan`、`/odom` 和实体创建结果：
 
-![ch09 Gazebo headless 运行输出](images/runtime/ch09_gazebo_headless.png)
+![ch09 Gazebo headless 运行输出](images/runtime/ch09_gazebo_headless.gif)
 
 Campus PUCRS 场景由 Gazebo GUI Screenshot 插件生成：
 
 ![Campus PUCRS Gazebo 场景](images/runtime/campus_pucrs_gazebo_gui.png)
 
-原始终端录制：[ch09_gazebo_headless.cast](images/runtime/ch09_gazebo_headless.cast) · [Campus headless](images/runtime/campus_pucrs_headless.png)。完整证据索引见[实际运行证据](runtime_evidence.md)。
+原始终端录制：[ch09_gazebo_headless.cast](images/runtime/ch09_gazebo_headless.cast)。
+
+Campus PUCRS headless 运行输出：
+
+![Campus PUCRS headless 运行输出](images/runtime/campus_pucrs_headless.gif)
+
+完整证据索引见[实际运行证据](runtime_evidence.md)。

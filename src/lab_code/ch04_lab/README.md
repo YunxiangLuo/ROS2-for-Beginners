@@ -7,7 +7,9 @@
 需要 ROS 2 Jazzy、`rclpy`、`example_interfaces` 和 Python pytest：
 
 ```bash
+
 source /opt/ros/jazzy/setup.bash
+
 rosdep install --from-paths src/lab_code/ch04_lab --ignore-src -r -y
 ```
 
@@ -23,6 +25,7 @@ source install/setup.bash
 终端 1 启动服务端：
 
 ```bash
+
 ros2 run service_demo server
 ```
 
@@ -36,9 +39,13 @@ ros2 run service_demo client 12 -4
 ## 验证
 
 ```bash
+
 ros2 service list
+
 ros2 service call /add_two_ints example_interfaces/srv/AddTwoInts "{a: 3, b: 4}"
+
 colcon test --packages-select service_demo
+
 colcon test-result --verbose
 ```
 

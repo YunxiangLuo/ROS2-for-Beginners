@@ -1,5 +1,37 @@
 # 第12章 Hector SLAM
 
+## 仿真结合实例（当前仓库）：为 Hector SLAM 准备二维激光输入
+
+### 目标与知识点对应
+
+Hector SLAM 依赖高频激光和 TF。本仓库未包含 Hector SLAM 节点，实例使用 `robot_sim_demo` 验证其所需的 `/scan`、`/tf` 和仿真时钟接口，为外部 Hector 节点接入做准备。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+ros2 launch robot_sim_demo gazebo2.launch.py \
+  gui:=true rviz:=true drive:=true
+```
+
+```bash
+ros2 topic hz /scan
+ros2 topic echo /scan --once
+ros2 run tf2_ros tf2_echo base_link laser_link
+```
+
+### 观察结果
+
+RViz 中可同时显示 LaserScan 和 TF；外部 Hector 节点应将激光 frame 与机器人基座 frame 配置一致，并使用 `use_sim_time`。
+
+### 源码与边界
+
+- 仿真模型/桥：`src/robot_sim_demo/models/wheeltec_robot/model.sdf`、`config/gazebo2_bridge.yaml`
+- 可替代的在线建图示例：`src/slam_sim_demo_ros2/`
+
+当前仓库没有 Hector SLAM 实现，不能把 `slam_toolbox` 输出标为 Hector 结果。
+
 ## 学习目标
 - 理解Hector-SLAM的基本原理和算法架构
 - 掌握基于优化的激光SLAM方法

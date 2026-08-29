@@ -9,6 +9,7 @@ SLAM 仿真演示包：使用 slam_toolbox 在 ISCAS Museum 仿真场景中实�
 - `nav2_map_server`
 
 ```bash
+
 sudo apt install -y ros-jazzy-slam-toolbox ros-jazzy-nav2-map-server
 ```
 
@@ -31,6 +32,7 @@ ros2 launch robot_sim_demo gazebo2.launch.py gui:=false rviz:=false drive:=false
 
 # 终端 2：启动 slam_toolbox 在线建图
 ros2 launch slam_sim_demo_ros2 slam_demo.launch.py \
+
   use_gazebo:=false use_rviz:=false use_sim_time:=true
 
 # 终端 3：驱动机器人建图
@@ -47,7 +49,9 @@ ros2 launch slam_sim_demo_ros2 slam_depth_demo.launch.py \
 ### 一键启动
 
 ```bash
+
 ros2 launch slam_sim_demo_ros2 slam_demo.launch.py \
+
   use_gazebo:=true use_rviz:=false
 ```
 

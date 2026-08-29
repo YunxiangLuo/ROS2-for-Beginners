@@ -7,12 +7,19 @@ Gazebo 世界有意不包含 `<model>`、`<include>` 或传感器元素。父项
 ## 软件包结构
 
 ```text
+
 xarm_ros2_arm_only/
+
   config/    ros2_control、MoveIt、RViz 和 Gazebo GUI 配置
+
   launch/    完整仿真和 move_group 启动文件
+
   resource/  ament 软件包索引标记
+
   tests/     源码级隔离和配置检查
+
   urdf/      xArm Gazebo 封装 Xacro
+
   worlds/    空白纯机械臂 Gazebo 世界
 ```
 
@@ -35,10 +42,15 @@ xarm_description/urdf/arm.urdf.xacro
 在 source ROS 和 xArm 底层环境后，检查所需软件包：
 
 ```bash
+
 ros2 pkg prefix xarm_description
+
 ros2 pkg prefix gz_ros2_control
+
 ros2 pkg prefix moveit_ros_move_group
+
 ros2 pkg prefix moveit_configs_utils
+
 ros2 pkg prefix trac_ik_kinematics_plugin
 ```
 
@@ -65,6 +77,7 @@ source install/setup.bash
 同时启动 Gazebo、ros2_control、MoveIt 和 RViz：
 
 ```bash
+
 ros2 launch xarm_ros2_arm_only arm_only.launch.py
 ```
 
@@ -92,16 +105,23 @@ ros2 launch xarm_ros2_arm_only arm_only.launch.py base_height:=0.20
 启动前验证源码资源：
 
 ```bash
+
 python3 -m pytest tests -q
 
 xacro urdf/arm_only_xarm.urdf.xacro \
+
   hardware_type:=gz \
+
   use_ros2_control:=true \
+
   controllers_file:=$PWD/config/arm_only_controllers.yaml \
+
   include_world_joint:=true \
+
   base_height:=0.0 > /tmp/arm_only_xarm.urdf
 
 check_urdf /tmp/arm_only_xarm.urdf
+
 gz sdf -k worlds/arm_only.sdf
 ```
 
@@ -116,6 +136,7 @@ ros2 service list | grep -E 'compute_ik|plan_kinematic_path'
 在第二个已 source 环境的终端中运行随软件包提供的端到端检查。它会验证三个活动控制器、`/joint_states` 和一次 OMPL 规划：
 
 ```bash
+
 ros2 run xarm_ros2_arm_only arm_only_runtime_smoke
 ```
 
@@ -128,8 +149,11 @@ ros2 run xarm_ros2_arm_only arm_only_runtime_smoke --execute
 预期的控制器如下：
 
 ```text
+
 joint_state_broadcaster
+
 xarm_controller
+
 gripper_controller
 ```
 

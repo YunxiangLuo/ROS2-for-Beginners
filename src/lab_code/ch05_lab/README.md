@@ -7,7 +7,9 @@
 需要 ROS 2 Jazzy、Python pytest，并确保工作区已有 `action_demo_interfaces`：
 
 ```bash
+
 source /opt/ros/jazzy/setup.bash
+
 rosdep install --from-paths src/lab_code/ch05_lab src/action_demo_interfaces --ignore-src -r -y
 ```
 
@@ -24,6 +26,7 @@ source install/setup.bash
 终端 1 启动服务端：
 
 ```bash
+
 ros2 run action_demo server
 ```
 
@@ -36,6 +39,7 @@ ros2 run action_demo client
 也可以直接查看接口：
 
 ```bash
+
 ros2 interface show action_demo_interfaces/action/DoDishes
 ```
 

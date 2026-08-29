@@ -14,6 +14,7 @@ src/lab_code/ch30_lab/
 ## 依赖
 
 ```bash
+
 pip install numpy matplotlib pandas scipy
 ```
 
@@ -65,6 +66,7 @@ python3 eval_metrics.py --log-dir results/ch30_eval --output report.md
 ## 安装与编译
 
 ```bash
+
 pip install numpy matplotlib
 ```
 

@@ -8,7 +8,9 @@
 ## 简介
 
 本包通过 `sim_bringup.launch.py` 委托启动 `robot_sim_demo` 的 Gazebo Harmonic
+
 入口，统一在 ISCAS Museum 场景中加载 Wheeltec 移动机器人。本包不再维护独立的
+
 Gazebo Sim Harmonic 转发入口；移动机器人仿真以 `robot_sim_demo/gazebo2.launch.py` 为准。
 
 ## Launch 文件
@@ -28,9 +30,13 @@ Gazebo Sim Harmonic 转发入口；移动机器人仿真以 `robot_sim_demo/gaze
 ## 构建
 
 ```bash
+
 cd <robot_sim_demo 工作区>
+
 source /opt/ros/jazzy/setup.bash
+
 colcon build --symlink-install --packages-select sim_demo
+
 source install/setup.bash
 ```
 
@@ -45,8 +51,11 @@ ros2 launch sim_demo sim_bringup.launch.py gui:=false drive:=false
 启动后检查话题：
 
 ```bash
+
 ros2 topic echo /clock --once
+
 ros2 topic echo /scan --once
+
 ros2 topic echo /odom --once
 ```
 

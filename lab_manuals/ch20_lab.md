@@ -1,5 +1,31 @@
 # 第20章 实验：视觉大模型与 ROS2 应用
 
+## 当前仓库仿真验证：Gazebo 图像与离线 mock 后端
+
+### 实验目标
+
+把 `robot_sim_demo` 的相机作为 VLM 服务输入，在不依赖 API Key 的情况下验证订阅、服务调用、结构化结果和任务发布链路。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+ros2 launch robot_sim_demo gazebo2.launch.py \
+  gui:=false rviz:=false drive:=false
+```
+
+```bash
+ros2 topic echo /camera/image_raw --once
+ros2 topic echo /camera/camera_info --once
+```
+
+运行本实验的离线 mock 节点，检查其服务/话题输出；真实 provider 需要另行配置密钥或 Ollama。
+
+### 观察与边界
+
+可验收图像进入节点且 JSON 可解析；固定 mock 内容不代表 VLM 完成了真实场景理解。源码：`src/lab_code/ch20_lab/`、`src/robot_sim_demo/`。
+
 > **对应理论章节**：第33章《视觉大模型集成》
 > **实验课时**：2课时  
 > **实验代码**：`src/lab_code/ch20_lab/`（本章仅提供设计说明占位，无参考实现包，练习需自行实现）  

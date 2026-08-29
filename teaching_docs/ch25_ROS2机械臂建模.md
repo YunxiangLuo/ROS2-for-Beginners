@@ -875,3 +875,38 @@ urdf_to_graphviz six_dof_arm.urdf
 4. 编写launch文件，在Rviz中可视化机械臂模型，并使用joint_state_publisher_gui手动控制各关节运动。
 
 5. 导入一个3D模型（STL或DAE）作为机械臂连杆的可视化模型，并创建简化的碰撞检测模型。
+
+---
+
+## 仿真结合实例（当前仓库）：xArm Xacro、SRDF 与 RViz RobotModel
+
+### 目标与知识点对应
+
+把本章的 URDF/Xacro、SRDF 规划组和 RViz RobotModel 放入 xArm6 仿真，观察机器人描述如何同时被 `robot_state_publisher`、MoveIt2 和 Gazebo 使用。
+
+### 运行步骤
+
+需要先提供外部兼容的 `xarm_description` 2.0.0：
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+source /path/to/xarm_description_workspace/install/setup.bash
+xacro src/xarm/urdf/arm_only_xarm.urdf.xacro \
+  hardware_type:=mock_components use_ros2_control:=false \
+  include_world_joint:=true base_height:=0.0 > /tmp/arm_only.urdf
+xmllint --noout /tmp/arm_only.urdf
+ros2 launch xarm_ros2_arm_only arm_only_move_group.launch.py use_rviz:=true
+```
+
+### 观察结果
+
+RViz 中应显示 xArm 连杆、关节和 `xarm` 规划组；改变 Xacro 参数后重新展开，可比较底座高度等几何参数的影响。
+
+### 源码与边界
+
+- Xacro：`src/xarm/urdf/arm_only_xarm.urdf.xacro`
+- SRDF：`src/xarm/config/xarm.srdf`
+- RViz：`src/xarm/config/arm_only_moveit.rviz`
+
+底层描述包和网格不随本仓库提供；本实例验证描述文件和配置关系，不替代真实机械臂标定。

@@ -1,5 +1,32 @@
 # 第18章 实验：MoveIt2 规划场景、避障与抓取放置
 
+## 当前仓库仿真验证：xArm 规划场景与碰撞物体
+
+### 实验目标
+
+使用 xArm6 MoveIt2/RViz 添加碰撞物体，验证笛卡尔路径、避障规划以及 attach/detach 场景更新。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+source /path/to/xarm_description_workspace/install/setup.bash
+ros2 launch xarm_ros2_arm_only arm_only.launch.py
+```
+
+在 RViz MotionPlanning 中选择 `xarm`，添加盒体障碍物并运行：
+
+```bash
+source install/setup.bash
+ros2 topic echo /planning_scene --once
+ros2 topic echo /display_planned_path --once
+```
+
+### 观察与边界
+
+观察障碍物加入前后的规划轨迹以及 attach/detach 后的场景状态。源码：`src/lab_code/ch18_lab/moveit_pick_place_lab/`、`src/xarm/config/`。仓库没有保证成功的完整抓取物体和执行证据，结果以本地 MoveIt 返回值为准。
+
 > **对应理论章节**：第28章《笛卡尔路径与避障》、第29章《抓取与放置实验》
 > **实验课时**：4课时  
 > **实验代码**：`src/lab_code/ch18_lab/moveit_pick_place_lab/`  
@@ -29,6 +56,8 @@ ros2 launch xarm_ros2_arm_only arm_only.launch.py
 ```
 
 默认使用上述 `xarm_ros2_arm_only` 启动命令。若按第17章17.1节自行生成配置包，请使用该包的实际名称及其生成的 launch 文件。
+
+**方式限定**：方式1 不启动 `controller_manager`，仅适用于规划演示与 RViz 轨迹观察。本章的执行型程序（`beeline_demo`、`obstacles_demo`、`attach_object_demo`、`pick_place_demo`）需要真实执行轨迹，请使用方式2。若在方式1下运行执行型程序，程序会等待执行服务器并在超时后报错退出（提示启动 `arm_only.launch.py`）。
 
 ## 参考代码说明
 `src/lab_code/ch18_lab/moveit_pick_place_lab/`（ament_python 包）提供以下程序：

@@ -6,6 +6,7 @@
 ## 简介
 
 本章练习 MoveIt 抓取-放置全流程。各演示的规范实现由 `course_lab_utils`
+
 提供，本包以 console scripts 转发：
 
 | 程序 | 内容 |
@@ -19,10 +20,13 @@
 ## 构建
 
 ```bash
+
 cd <robot_sim_demo 工作区>
+
 source /opt/ros/jazzy/setup.bash
 # 需先构建并 source xarm_description 底层与 course_lab_utils
 colcon build --symlink-install --packages-select moveit_pick_place_lab
+
 source install/setup.bash
 ```
 
@@ -37,10 +41,15 @@ ros2 launch xarm_ros2_arm_only arm_only.launch.py
 再运行演示（另开终端）：
 
 ```bash
+
 ros2 run moveit_pick_place_lab target_publisher   # 先发布目标
+
 ros2 run moveit_pick_place_lab pick_place_demo
+
 ros2 run moveit_pick_place_lab obstacles_demo
+
 ros2 run moveit_pick_place_lab beeline_demo
+
 ros2 run moveit_pick_place_lab attach_object_demo
 ```
 
@@ -54,5 +63,7 @@ colcon test-result --all
 ## 运行结果
 
 `pick_place_demo` 依次完成接近→抓取→提升→移动→放置→归位，终端输出各
+
 阶段规划结果；Gazebo/RViz 中可见目标物体被拾起与放下。截图保存至
+
 `docs/images/moveit_pick_place.png`。

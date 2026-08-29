@@ -19,9 +19,13 @@ ROS 2 Jazzy（ament_python）Python TF2 坐标变换示例，演示如何广播�
 ## 构建
 
 ```bash
+
 cd robot_sim_demo
+
 source /opt/ros/jazzy/setup.bash
+
 colcon build --symlink-install --packages-select tf_demo_py
+
 source install/setup.bash
 ```
 
@@ -36,6 +40,7 @@ ros2 run tf_demo_py py_tf_broadcaster
 终端 2 启动监听器：
 
 ```bash
+
 ros2 run tf_demo_py py_tf_listener
 ```
 
@@ -48,6 +53,7 @@ ros2 run tf2_ros tf2_echo base_link link1
 运行坐标变换数学工具：
 
 ```bash
+
 ros2 run tf_demo_py coordinate_transformation
 ```
 

@@ -14,66 +14,127 @@
 ## 目录结构
 
 ```text
+
 ├── src/
+
 │   ├── robot_sim_demo/              Gazebo 仿真核心包
+
 │   │   ├── launch/gazebo2.launch.py 主启动入口（museum.sdf）
+
 │   │   ├── launch/campus_pucrs.launch.py Campus PUCRS 启动入口
+
 │   │   ├── models/                  机器人、博物馆、地面模型
+
 │   │   ├── worlds/museum.sdf       仿真世界
+
 │   │   ├── config/                  ROS-Gazebo 桥配置
+
 │   │   ├── gui/                     Gazebo GUI 配置
+
 │   │   └── wheeltec_robot_urdf/     Wheeltec URDF/STL 资源
+
 │   ├── xarm/                        xArm6 + Gazebo Harmonic + MoveIt 2 仿真
+
 │   ├── navigation_sim_demo_ros2/    Nav2 导航仿真
+
 │   ├── slam_sim_demo_ros2/          SLAM 建图仿真
+
 │   ├── tf_follower_ros2/            TF 跟随控制器
+
 │   ├── topic_demo_py/               话题通信 (Python)
+
 │   ├── topic_demo_cpp/              话题通信 (C++)
+
 │   ├── topic_demo_interfaces/       话题消息接口
+
 │   ├── service_demo_py/             服务通信 (Python)
+
 │   ├── service_demo_cpp/            服务通信 (C++)
+
 │   ├── service_demo_interfaces/     服务接口
+
 │   ├── action_demo_py/              动作通信 (Python)
+
 │   ├── action_demo_cpp/             动作通信 (C++)
+
 │   ├── action_demo_interfaces/      动作接口
+
 │   ├── param_demo_py/               参数系统 (Python)
+
 │   ├── param_demo_cpp/              参数系统 (C++)
+
 │   ├── tf_demo_py/                  TF 坐标变换 (Python)
+
 │   ├── tf_demo_cpp/                 TF 坐标变换 (C++)
+
 │   ├── name_demo_cpp/               命名空间与参数 (C++)
+
 │   ├── msgs_demo_interfaces/       综合消息接口
+
 │   ├── urdf_demo_ros2/            URDF/Xacro 建模演示
+
 │   ├── av_carla_interfaces/         CARLA 自动驾驶共享接口（msg/srv/action）
+
 │   ├── av_sensor_kit/               CARLA 传感器套件（配置/健康管理）
+
 │   ├── av_perception_py/            感知（YOLO/DBSCAN/融合）
+
 │   ├── av_planning_py/              规划（A*/航点/Navigate 动作）
+
 │   ├── av_control_cpp/              车辆控制（PID/Pure Pursuit）
+
 │   ├── av_safety_monitor/           安全监控（TTC/AEB/故障注入）
+
 │   ├── course_lab_interfaces/      课程实验共享接口
+
 │   ├── course_lab_utils/           课程实验共享实现
+
 │   └── lab_code/                    教学实验包（Ch01-Ch31）
+
 │       ├── ch01_lab/lifecycle_demo/  生命周期节点
+
 │       ├── ch02_lab/hello_pkg/      节点与日志
+
 │       ├── ch03_lab/topic_demo/      话题通信
+
 │       ├── ch03_lab/sensor_pub/     自定义消息
+
 │       ├── ch03_lab/sensor_interfaces/ 传感器接口
+
 │       ├── ch04_lab/service_demo/   服务通信
+
 │       ├── ch05_lab/action_demo/    动作通信
+
 │       ├── ch06_lab/param_demo/     参数系统
+
 │       ├── ch07_lab/tf_demo/        TF 坐标变换
+
 │       ├── ch08_lab/urdf_demo/      URDF 建模
+
 │       ├── ch09_lab/sim_demo/       Gazebo 仿真
+
 │       ├── ch10_lab/slam_lab/       SLAM 建图
+
 │       ├── ch11_lab/navigation_lab/  Nav2 导航
+
 │       ├── ch12_lab/realsense_lab/  RealSense 相机
+
 │       ├── ch13_lab/slam_bringup_lab/ SLAM 一键建图
+
 │       ├── ch14_lab/nav_bringup_lab/  Nav2 一键导航
+
 │       ├── ch15_lab/arm_joint_pub_lab/ xArm 关节发布
+
 │       ├── ch17_lab/moveit_fk_ik_lab/  MoveIt FK/IK
+
 │       ├── ch18_lab/moveit_pick_place_lab/ MoveIt 抓取放置
+
 │       ├── ch19_lab/vision_detection_lab/ 视觉检测
+
 │       ├── ch21_lab/vision_pickup_lab/   视觉引导抓取
+
 │       └── ch22_lab/ ... ch31_lab/       CARLA 自动驾驶实验（脚本）
+
 └── README.md                        本文件
 ```
 
@@ -101,9 +162,13 @@ sudo apt update && sudo apt install -y \
 `xarm_ros2_arm_only` 的运行依赖自定义 XBot Arm `xarm_description` `2.0.0`。该描述包不随本工作区提供，必须先在独立底层工作区中构建，并在构建或启动 xArm 前 source：
 
 ```bash
+
 source /opt/ros/jazzy/setup.bash
+
 cd /path/to/xarm_description_workspace
+
 colcon build --symlink-install --packages-select xarm_description
+
 source install/setup.bash
 ```
 
@@ -119,9 +184,13 @@ cd ROS2
 ### 4. 编译全部包
 
 ```bash
+
 source /opt/ros/jazzy/setup.bash
+
 source /path/to/xarm_description_workspace/install/setup.bash
+
 colcon build --symlink-install
+
 source install/setup.bash
 ```
 
@@ -251,6 +320,7 @@ lab_code 详细说明见 [lab_code/README.md](src/lab_code/README.md)。
 ### 1. 启动仿真
 
 ```bash
+
 ros2 launch robot_sim_demo gazebo2.launch.py
 ```
 
@@ -296,32 +366,49 @@ ros2 run navigation_sim_demo_ros2 nav_goal_runner --ros-args -p use_sim_time:=tr
 仓库级测试命令会覆盖核心包、实验包和 CARLA Python 包；`course_lab_utils` 的部分测试需 `moveit_py`：
 
 ```bash
+
 python3 -m pytest -q
 # 当前无 ROS 2 的静态测试环境：189 passed, 43 subtests passed
 
 # CARLA 自动驾驶 Python 包
 for pkg in av_carla_interfaces av_sensor_kit av_perception_py av_planning_py av_safety_monitor; do
+
   echo "=== $pkg ==="
+
   (cd src/$pkg && python3 -m pytest test/ -q)
+
 done
 
 # 核心与示例包
 for pkg in action_demo_py topic_demo_py service_demo_py param_demo_py tf_demo_py \
+
   tf_follower_ros2 navigation_sim_demo_ros2 slam_sim_demo_ros2 robot_sim_demo \
+
   urdf_demo_ros2 xarm; do
+
   echo "=== $pkg ==="
+
   (cd src/$pkg && python3 -m pytest test/ -q)
+
 done
 
 # lab_code 各章（详见 src/lab_code/README.md）
 for pkg in ch01_lab ch02_lab/hello_pkg ch03_lab/sensor_pub ch03_lab/topic_demo \
+
   ch04_lab/service_demo ch05_lab/action_demo ch06_lab/param_demo ch07_lab/tf_demo \
+
   ch08_lab/urdf_demo ch09_lab/sim_demo ch10_lab/slam_lab ch11_lab/navigation_lab \
+
   ch12_lab/realsense_lab ch13_lab/slam_bringup_lab ch14_lab/nav_bringup_lab \
+
   ch15_lab/arm_joint_pub_lab ch17_lab/moveit_fk_ik_lab ch18_lab/moveit_pick_place_lab \
+
   ch19_lab/vision_detection_lab ch21_lab/vision_pickup_lab; do
+
   echo "=== $pkg ==="
+
   (cd src/lab_code/$pkg && python3 -m pytest test/ -q)
+
 done
 ```
 

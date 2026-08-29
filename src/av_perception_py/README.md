@@ -21,11 +21,15 @@ av_perception_py/
 ## 安装与编译
 
 ```bash
+
 pip install numpy opencv-python            # 基础依赖
+
 pip install ultralytics                    # 可选: YOLO 检测
 
 cd <工作空间根目录>
+
 colcon build --packages-select av_carla_interfaces av_perception_py
+
 source install/setup.bash
 ```
 
@@ -38,13 +42,17 @@ ros2 run av_perception_py fusion_node
 ```
 
 话题: 订阅 `/carla/ego_vehicle/front_rgb/image`、`/carla/ego_vehicle/lidar_top/pointcloud`、
+
 `/detections`、`/clusters`; 发布 `/detections`(Detection2DArray)、
+
 `/lidar_obstacle_markers`、`/perception_objects`(PerceptionObjectArray)。
 
 ## 测试方法
 
 ```bash
+
 cd src/av_perception_py
+
 python -m pytest test -q
 ```
 
@@ -57,6 +65,7 @@ $ cd src/av_perception_py && python -m pytest test -q
 ```
 
 覆盖: 点云字段 offset/point_step 解析、体素降采样、DBSCAN 边界点吸收、
+
 双簇分离、相机投影(中心/偏轴/出界/相机后方)。
 
 > 说明: 本机(Windows)未安装 ROS2/CARLA, 无法截取仿真运行画面,
@@ -70,6 +79,7 @@ $ cd src/av_perception_py && python -m pytest test -q
    图像内造成误匹配 → 增加 z<=0 早退;
 3. `pointcloud2_to_numpy` 忽略字段 `offset` 且不使用 `point_step`, 含 padding
    的真实点云会解析错位 → 改为按 offset 构造 structured dtype, 优先使用
+
    `msg.point_step` 作为步长;
 4. `_dbscan_clustering` 将邻域不足的点提前标记 visited, 边界点被永久丢弃
    (少聚/漏检) → 重写为标准标签式 DBSCAN;

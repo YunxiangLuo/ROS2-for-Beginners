@@ -17,6 +17,7 @@
 启动 xArm 的 MoveIt + RViz 仿真（在另一个终端）：
 
 ```bash
+
 ros2 launch xarm_ros2_arm_only arm_only_move_group.launch.py
 ```
 

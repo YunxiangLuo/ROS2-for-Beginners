@@ -5,6 +5,7 @@
 本包是第 3 章实验（ch03_lab）的传感器接口定义包，基于 `ament_cmake` 构建。
 
 它定义了实验中使用的自定义消息接口 `msg/SensorData.msg`，用于描述温湿度与气压等传感器采集数据。
+
 本包不包含任何可执行节点，仅作为接口被 `sensor_pub`（传感器数据发布节点）依赖。
 
 ## 接口定义
@@ -25,7 +26,9 @@ string device_id         # 传感器ID
 ## 安装
 
 ```bash
+
 source /opt/ros/jazzy/setup.bash
+
 rosdep install --from-paths src/lab_code/ch03_lab --ignore-src -r -y
 ```
 
@@ -42,9 +45,13 @@ colcon build --symlink-install --packages-select sensor_interfaces
 构建并 source 环境后，执行以下命令查看接口定义：
 
 ```bash
+
 source /opt/ros/jazzy/setup.bash && source install/setup.bash
+
 ros2 interface show sensor_interfaces/msg/SensorData
+
 colcon test --packages-select sensor_interfaces
+
 colcon test-result --verbose
 ```
 

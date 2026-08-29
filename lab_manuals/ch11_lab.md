@@ -1,5 +1,39 @@
 # 第11章 实验手册: Nav2 自主导航
 
+## 当前仓库仿真验证：Nav2 生命周期与导航目标
+
+### 实验目标
+
+在当前 Wheeltec Gazebo 场景中启动 Nav2，检查定位组、规划组和控制组的生命周期，并发送一个 `NavigateToPose` 目标。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+
+# 终端 1：Gazebo + Nav2 + RViz
+ros2 launch navigation_sim_demo_ros2 nav2_demo.launch.py \
+  use_gazebo:=true use_rviz:=true gz_headless:=false
+```
+
+```bash
+# 终端 2：生命周期检查
+source install/setup.bash
+ros2 run navigation_sim_demo_ros2 nav2_lifecycle_runner
+```
+
+```bash
+# 终端 3：发送目标并监测运动
+source install/setup.bash
+ros2 run navigation_sim_demo_ros2 nav_goal_runner \
+  --ros-args -p goal_x:=1.0 -p goal_y:=0.0
+```
+
+### 观察与验收
+
+启动日志应出现 `map_server`、`amcl`、`planner_server`、`controller_server` 和 `bt_navigator`；RViz 可查看地图、路径和代价地图。组件启动证据：`images/runtime/nonlab_nav2.png`；目标是否到达以本地 `/odom` 和程序输出为准。
+
 ## 环境说明
 
 本实验使用 XBot-U 机器人 + Gazebo Sim (Fortress) 仿真, 预建地图位于 `/home/yun/maps/`:

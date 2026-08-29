@@ -1,5 +1,35 @@
 # 第10章 实验指导书：SLAM 建图与定位
 
+## 当前仓库仿真验证：slam_toolbox 在线建图
+
+### 实验目标
+
+使用当前 ROS 2 Jazzy + Gazebo Harmonic 入口，验证激光、里程计、TF 输入经过 `slam_toolbox` 后产生地图更新，并用检查节点给机器人发送可重复运动。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+
+# 终端 1：Gazebo + slam_toolbox + RViz
+ros2 launch slam_sim_demo_ros2 slam_demo.launch.py \
+  use_gazebo:=true use_rviz:=true gz_headless:=false
+```
+
+```bash
+# 终端 2：运动并检查地图增长
+source install/setup.bash
+ros2 run slam_sim_demo_ros2 slam_map_runner
+ros2 topic echo /map --once
+```
+
+### 观察与验收
+
+RViz 中添加 Map、LaserScan、TF；终端检查 `map_updates`、`known_cell_growth`、`odom_distance` 和 `scan_updates`，成功时输出 `slam-map-updated`。
+
+源码：`src/slam_sim_demo_ros2/`。启动日志证据：`images/runtime/nonlab_slam.png`。本节验证的是 `slam_toolbox`，不把它的结果标为 Hector、gmapping 或 Cartographer 结果。
+
 > **实验平台**：Ubuntu 22.04 + ROS 2 Humble + Gazebo 仿真
 >
 > **预计时间**：2 课时（90 分钟）

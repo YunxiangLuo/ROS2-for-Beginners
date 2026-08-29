@@ -23,6 +23,7 @@ ros2 launch carla_ros_bridge carla_ros_bridge.launch.py host:=localhost port:=20
 
 # 终端3: 启动传感器配置
 cd src/lab_code/ch24_lab/
+
 python3 sensor_config.py
 
 # 终端4: 可视化传感器数据

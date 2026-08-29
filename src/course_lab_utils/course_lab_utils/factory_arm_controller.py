@@ -49,7 +49,7 @@ class ArmController(Node):
         if self.simulation_mode:
             return True
         set_pose_goal(self.arm, pose, self.END_EFFECTOR_LINK)
-        if not plan_and_execute(self.moveit, self.arm):
+        if not plan_and_execute(self.moveit, self.arm, self):
             raise RuntimeError(f"Planning failed: {description}")
         return True
 
@@ -68,7 +68,7 @@ class ArmController(Node):
             self.GRIPPER_GROUP,
             positions,
         )
-        if not plan_and_execute(self.moveit, self.gripper):
+        if not plan_and_execute(self.moveit, self.gripper, self):
             raise RuntimeError("Gripper planning failed")
         return True
 

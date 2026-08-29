@@ -1,5 +1,33 @@
 # 第16章 实验：机械臂 URDF 建模与状态发布
 
+## 当前仓库仿真验证：自定义 URDF 与课程 Wheeltec TF 对照
+
+### 实验目标
+
+先用本实验的三自由度 Xacro 在 RViz 中验证 link/joint 和关节状态，再用 `robot_sim_demo` 对照真实 Gazebo 机器人状态发布和传感器 TF。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+
+# 终端 1：按本实验参考代码启动自定义模型
+ros2 run robot_state_publisher robot_state_publisher --ros-args \
+  -p robot_description:="$(xacro src/lab_code/ch16_lab/arm_urdf/urdf/three_dof_arm.xacro)"
+```
+
+```bash
+# 终端 2：另行启动 Gazebo Wheeltec 对照 TF
+ros2 launch robot_sim_demo gazebo2.launch.py \
+  gui:=true rviz:=true drive:=false
+ros2 run tf2_ros tf2_echo base_link laser_link
+```
+
+### 观察与验收
+
+自定义模型的关节角变化应反映到 RViz RobotModel；Wheeeltec 侧可看到独立的传感器 TF。源码：`src/lab_code/ch16_lab/`、`src/robot_sim_demo/models/wheeltec_robot/model.sdf`。两套模型不能混用 frame 或关节名。
+
 > **对应理论章节**：第25章《ROS2机械臂建模（URDF/Xacro）》
 > **实验课时**：2课时  
 > **实验代码**：`src/lab_code/ch16_lab/`（`arm_urdf/` 三自由度臂 URDF/Xacro + `arm_state_publisher/` 状态发布器）  

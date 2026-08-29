@@ -24,6 +24,7 @@ ros2 launch xarm_ros2_arm_only arm_only_move_group.launch.py
 
 # 终端2：运行实验脚本
 cd src/lab_code/ch17_lab/
+
 ros2 run moveit_fk_ik_lab fk_demo
 ```
 

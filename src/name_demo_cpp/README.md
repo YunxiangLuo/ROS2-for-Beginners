@@ -24,9 +24,13 @@ ROS 2 Jazzy（ament_cmake）C++ 命名空间与参数示例，演示节点全名
 ## 构建
 
 ```bash
+
 cd robot_sim_demo
+
 source /opt/ros/jazzy/setup.bash
+
 colcon build --symlink-install --packages-select name_demo_cpp
+
 source install/setup.bash
 ```
 
@@ -41,6 +45,7 @@ ros2 launch name_demo_cpp demo.launch.py
 直接运行节点（默认命名空间与参数）：
 
 ```bash
+
 ros2 run name_demo_cpp name_demo_node
 ```
 

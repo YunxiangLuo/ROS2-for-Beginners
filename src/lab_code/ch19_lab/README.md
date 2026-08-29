@@ -19,6 +19,7 @@ ros2 run vision_detection_lab usb_cam_node
 
 # 终端2：运行视觉脚本
 cd src/lab_code/ch19_lab/
+
 ros2 run vision_detection_lab cv_bridge_demo
 ```
 

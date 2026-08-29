@@ -1,5 +1,47 @@
 # 第12章 MoveIt 2 机械臂编程
 
+## 仿真结合实例（当前仓库）：xArm6 的 MoveIt2 规划场景
+
+### 目标与知识点对应
+
+使用仓库的 `xarm_ros2_arm_only` 启动 Gazebo、ros2_control、MoveIt2 和 RViz，观察规划组、关节状态和运动规划流程，对应本章的规划场景与执行器概念。
+
+### 运行步骤
+
+`xArm` 依赖外部兼容的 `xarm_description` 2.0.0。先确认该依赖已被 source，然后在工作区根目录执行：
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+source /path/to/xarm_description_workspace/install/setup.bash
+ros2 launch xarm_ros2_arm_only arm_only.launch.py
+```
+
+若只检查 MoveIt 配置：
+
+```bash
+ros2 launch xarm_ros2_arm_only arm_only_move_group.launch.py use_rviz:=true
+```
+
+在 RViz 的 MotionPlanning 面板中选择 `xarm` 规划组，拖动目标状态并执行 `Plan`；另开终端检查：
+
+```bash
+ros2 control list_controllers
+ros2 topic echo /joint_states --once
+```
+
+### 观察结果
+
+RViz 显示 xArm 模型、规划组和轨迹；Gazebo 中的模型状态应由控制器反馈。若底层描述包缺失，启动会在解析 Xacro 前失败，应先补齐依赖。
+
+### 源码与边界
+
+- 启动：`src/xarm/launch/arm_only.launch.py`、`arm_only_move_group.launch.py`
+- MoveIt 配置：`src/xarm/config/`
+- Xacro 封装：`src/xarm/urdf/arm_only_xarm.urdf.xacro`
+
+当前仓库不包含真实硬件驱动；本实例只针对仿真规划，不代表真实机械臂可用。
+
 ## 12.1 知识要点
 
 ### 12.1.1 MoveIt 2 架构概览

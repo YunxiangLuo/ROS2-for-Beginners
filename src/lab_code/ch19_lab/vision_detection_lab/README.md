@@ -6,7 +6,9 @@
 ## 简介
 
 本章练习 ROS 2 视觉基础：USB 相机接入、cv_bridge 图像转换、颜色检测与
+
 AR 码检测。颜色/AR 检测的规范实现由 `course_lab_utils` 提供，本包转发；
+
 `usb_cam_node` 与 `cv_bridge_demo` 为独立教学实现。
 
 | 程序 | 内容 |
@@ -19,9 +21,13 @@ AR 码检测。颜色/AR 检测的规范实现由 `course_lab_utils` 提供，�
 ## 构建
 
 ```bash
+
 cd <robot_sim_demo 工作区>
+
 source /opt/ros/jazzy/setup.bash
+
 colcon build --symlink-install --packages-select vision_detection_lab
+
 source install/setup.bash
 ```
 
@@ -43,7 +49,9 @@ ros2 run vision_detection_lab ar_tag_detection_node
 验证：
 
 ```bash
+
 ros2 topic echo /camera/image_raw --field header --once
+
 rqt_image_view
 ```
 
@@ -57,4 +65,5 @@ colcon test-result --all
 ## 运行结果
 
 `rqt_image_view` 中可见原图与检测结果叠加（颜色掩膜/AR 码框）。
+
 截图保存至 `docs/images/vision_detection.png`。

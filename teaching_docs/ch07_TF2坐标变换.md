@@ -1,5 +1,44 @@
 # 第7章：TF2 坐标变换系统
 
+## 仿真结合实例（当前仓库）：查询 Wheeltec 传感器坐标系
+
+### 目标与知识点对应
+
+本实例把 `robot_sim_demo` 发布的机器人状态和传感器 TF 接入 TF2 工具链，验证 `base_link`、`laser_link`、`camera_link` 之间的坐标树，以及 `lookup_transform`/`tf2_echo` 的查询方式。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+
+# 终端 1：启动仿真和 RViz，不自动巡航
+ros2 launch robot_sim_demo gazebo2.launch.py gui:=true rviz:=true drive:=false
+```
+
+另开终端执行：
+
+```bash
+source install/setup.bash
+ros2 topic info /tf
+ros2 run tf2_ros tf2_echo base_link laser_link
+ros2 run tf2_tools view_frames
+```
+
+### 观察结果
+
+- RViz 的 TF 显示中可看到机器人底盘到激光雷达、相机的层级关系。
+- `tf2_echo` 输出平移和旋转，持续查询最新变换；`view_frames` 可生成当前 TF 树文件。
+- 将机器人移动后再次查询，可区分固定的 `base_link → laser_link` 安装变换和随运动变化的底盘相关变换。
+
+### 源码与边界
+
+- TF/状态发布配置：`src/robot_sim_demo/config/gazebo2_bridge.yaml`
+- 机器人模型：`src/robot_sim_demo/models/wheeltec_robot/model.sdf`
+- RViz 配置：`src/robot_sim_demo/rviz/museum.rviz`
+
+具体 frame 名称以当前模型和 `ros2 topic echo /tf` 的输出为准；本实例不把实验示例中的 `laser_frame` 名称强行套用到 Wheeltec 模型。
+
 > **课程**：ROS2 Python 编程  
 > **章节**：第7章  
 > **课时**：2 课时（90 分钟）  

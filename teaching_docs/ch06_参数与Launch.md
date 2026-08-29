@@ -1,5 +1,50 @@
 # 第6章：参数系统与 Launch 文件
 
+## 仿真结合实例（当前仓库）：用 Launch 参数切换 Gazebo、RViz 和巡航驱动
+
+### 目标与知识点对应
+
+`robot_sim_demo` 的 Launch 文件把 `gui`、`rviz`、`drive`、世界文件和生成位姿暴露为 Launch 参数。通过同一个入口切换运行模式，可以直接观察 `LaunchConfiguration`、条件启动和参数传递的效果。
+
+### 运行步骤
+
+在工作区根目录执行：
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+
+# 查看当前入口支持的参数
+ros2 launch robot_sim_demo gazebo2.launch.py --show-args
+```
+
+分别测试两种配置：
+
+```bash
+# 终端 1：无 GUI、无 RViz、无自动巡航，适合检查话题
+ros2 launch robot_sim_demo gazebo2.launch.py gui:=false rviz:=false drive:=false
+```
+
+```bash
+# 终端 2：Gazebo + RViz，启用巡航驱动
+ros2 launch robot_sim_demo gazebo2.launch.py gui:=true rviz:=true drive:=true \
+  drive_linear_speed:=0.12 drive_angular_speed:=0.45
+```
+
+### 观察结果
+
+- `drive:=false` 时不会启动 `patrol_driver`，机器人保持静止；`drive:=true` 时 `/cmd_vel` 出现巡航指令。
+- `rviz:=true` 会条件启动 `museum_rviz`，可同时查看 RobotModel、TF 和 LaserScan。
+- 修改 `spawn_x`、`spawn_y` 或速度参数后重新启动，比较参数对仿真行为的影响。
+
+### 源码与相关配置
+
+- Launch：`src/robot_sim_demo/launch/gazebo2.launch.py`
+- 参数节点：`src/robot_sim_demo/robot_sim_demo/patrol_driver.py`
+- RViz 配置：`src/robot_sim_demo/rviz/museum.rviz`
+
+该实例使用的是 Gazebo Launch 参数，不等同于 ROS 节点运行时参数；二者分别由 Launch 系统和节点参数 API 管理。
+
 > **课程**：ROS2 Python 编程  
 > **章节**：第6章  
 > **课时**：2 课时（90 分钟）  

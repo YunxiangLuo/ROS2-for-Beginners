@@ -23,8 +23,11 @@ av_carla_interfaces/
 ## 安装与编译
 
 ```bash
+
 cd <工作空间根目录>
+
 colcon build --packages-select av_carla_interfaces
+
 source install/setup.bash
 ```
 
@@ -38,7 +41,9 @@ ros2 interface show av_carla_interfaces/action/Navigate
 ## 测试方法
 
 ```bash
+
 cd src/av_carla_interfaces
+
 python -m pytest test -q
 ```
 

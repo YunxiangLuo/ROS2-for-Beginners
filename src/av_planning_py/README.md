@@ -19,8 +19,11 @@ av_planning_py/
 ## 安装与编译
 
 ```bash
+
 cd <工作空间根目录>
+
 colcon build --packages-select av_carla_interfaces av_planning_py
+
 source install/setup.bash
 ```
 
@@ -38,7 +41,9 @@ ros2 action send_goal /navigate av_carla_interfaces/action/Navigate "{target_loc
 ## 测试方法
 
 ```bash
+
 cd src/av_planning_py
+
 python -m pytest test -q
 ```
 
@@ -51,6 +56,7 @@ $ cd src/av_planning_py && python -m pytest test -q
 ```
 
 覆盖: 空地图寻路、路径连续性、绕墙、全封锁不可达、起终点在障碍/图外、
+
 4 邻域模式、障碍膨胀区禁入、栅格/世界坐标往返、膨胀半径小于分辨率防护。
 
 > 说明: 本机(Windows)未安装 ROS2/CARLA, 无法截取仿真运行画面,

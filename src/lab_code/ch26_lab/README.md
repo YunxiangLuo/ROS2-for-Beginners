@@ -20,6 +20,7 @@
 ```bash
 # 单元测试
 python pid_controller.py --test
+
 python pure_pursuit.py --test
 
 # CARLA仿真测试
@@ -45,9 +46,13 @@ pip install numpy
 ## 运行方法
 
 ```bash
+
 python pid_controller.py --test     # PID 阶跃响应自检
+
 python pure_pursuit.py --test       # Pure Pursuit 直线跟踪自检
+
 python lat_lon_ctrl.py              # 纵横向联合闭环仿真(30s)
+
 python vehicle_ctrl.py              # CARLA 车辆控制封装演示(需 CARLA)
 ```
 

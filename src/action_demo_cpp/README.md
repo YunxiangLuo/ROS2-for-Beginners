@@ -14,6 +14,7 @@ ROS 2 Jazzy 下的 C++ 动作通信示例（ament_cmake）。演示动作服务�
 ## 构建
 
 ```bash
+
 colcon build --symlink-install --packages-select action_demo_cpp
 ```
 
@@ -28,6 +29,7 @@ source /opt/ros/jazzy/setup.bash && source install/setup.bash
 在终端 1 启动动作服务端：
 
 ```bash
+
 ros2 run action_demo_cpp dishes_server
 ```
 

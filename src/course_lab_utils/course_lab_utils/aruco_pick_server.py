@@ -129,7 +129,7 @@ class ArucoPickServer(Node):
         table_id = "table"
         self._add_box(table_id, self._pose(0.0, 0.0, -0.005), [1.0, 1.2, 0.01])
         set_named_goal(self.arm, "Home")
-        if not plan_and_execute(self.moveit, self.arm):
+        if not plan_and_execute(self.moveit, self.arm, self):
             response.success = False
             response.message = "Failed to plan Home"
             return response
@@ -169,7 +169,7 @@ class ArucoPickServer(Node):
             place_height += 0.07
 
         set_named_goal(self.arm, "Home")
-        plan_and_execute(self.moveit, self.arm)
+        plan_and_execute(self.moveit, self.arm, self)
         self._remove_object(table_id)
         for target_id in processed_ids:
             self._remove_object(target_id)

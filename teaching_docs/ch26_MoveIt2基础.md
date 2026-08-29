@@ -637,3 +637,39 @@ Gazebo Harmonic、`gz_ros2_control`、控制器生成和机器人 spawn。配置
 4. 编写程序在规划场景中添加障碍物（盒体、球体、圆柱体），测试碰撞检测功能。
 
 5. 解释MoveIt2的完整运动规划流程，从用户请求到轨迹执行的各个步骤。
+
+---
+
+## 仿真结合实例（当前仓库）：xArm6 的 OMPL 规划与碰撞检查
+
+### 目标与知识点对应
+
+使用课程提供的 MoveIt2 配置加载 URDF、SRDF、运动学和 OMPL 参数，在 RViz 中完成一次 xArm 关节空间规划，并在 Gazebo 模式下检查控制器连接。
+
+### 运行步骤
+
+先 source 外部兼容的 `xarm_description` 2.0.0，再从工作区根目录执行：
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+source /path/to/xarm_description_workspace/install/setup.bash
+ros2 launch xarm_ros2_arm_only arm_only_move_group.launch.py use_rviz:=true
+```
+
+在 RViz 的 MotionPlanning 面板选择 `xarm` 规划组，改变目标关节状态并点击 Plan。需要验证 Gazebo 控制链时执行：
+
+```bash
+ros2 launch xarm_ros2_arm_only arm_only.launch.py
+ros2 control list_controllers
+```
+
+### 观察结果与边界
+
+RViz 显示规划轨迹和碰撞模型；规划器、关节限位和规划组可在配置文件中核对。若缺少 xArm 描述或控制器，规划执行会失败；配置检查不等于真实硬件验证。
+
+### 源码
+
+- MoveIt 启动：`src/xarm/launch/arm_only_move_group.launch.py`
+- OMPL：`src/xarm/config/arm_only_ompl_planning.yaml`
+- 控制器：`src/xarm/config/arm_only_controllers.yaml`

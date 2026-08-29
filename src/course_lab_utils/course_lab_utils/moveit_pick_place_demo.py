@@ -21,7 +21,12 @@ from rclpy.node import Node
 from shape_msgs.msg import SolidPrimitive
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 
-from .moveit2 import plan_and_execute, quaternion_from_euler, set_named_goal
+from .moveit2 import (
+    ensure_execution_servers,
+    plan_and_execute,
+    quaternion_from_euler,
+    set_named_goal,
+)
 
 
 class MoveItPickPlaceDemo(Node):
@@ -50,8 +55,14 @@ class MoveItPickPlaceDemo(Node):
         self._add_box(target_id, target_pose, [0.05, 0.05, 0.23])
         time.sleep(1.0)
 
+        if not ensure_execution_servers(self):
+            raise RuntimeError(
+                "execution action servers are unavailable; start "
+                "arm_only.launch.py with its controller_manager active first"
+            )
+
         set_named_goal(self.arm, "Home")
-        if not plan_and_execute(self.moveit, self.arm):
+        if not plan_and_execute(self.moveit, self.arm, self):
             raise RuntimeError("Failed to plan Home before pickup")
 
         pickup_goal = Pickup.Goal()
@@ -85,7 +96,7 @@ class MoveItPickPlaceDemo(Node):
             raise RuntimeError("MoveIt Place action failed")
 
         set_named_goal(self.arm, "Home")
-        if not plan_and_execute(self.moveit, self.arm):
+        if not plan_and_execute(self.moveit, self.arm, self):
             raise RuntimeError("Failed to return Home after placement")
         self._remove_object(target_id)
         self._remove_object(table_id)
@@ -95,11 +106,15 @@ class MoveItPickPlaceDemo(Node):
             return MoveItErrorCodes.FAILURE
         goal_future = client.send_goal_async(goal)
         rclpy.spin_until_future_complete(self, goal_future, timeout_sec=10.0)
+        if not goal_future.done():
+            return MoveItErrorCodes.TIMED_OUT
         goal_handle = goal_future.result()
         if goal_handle is None or not goal_handle.accepted:
             return MoveItErrorCodes.FAILURE
         result_future = goal_handle.get_result_async()
         rclpy.spin_until_future_complete(self, result_future, timeout_sec=timeout_sec)
+        if not result_future.done():
+            return MoveItErrorCodes.TIMED_OUT
         wrapped_result = result_future.result()
         if wrapped_result is None:
             return MoveItErrorCodes.TIMED_OUT
@@ -195,3 +210,7 @@ def main(args=None):
         node.destroy_node()
         if rclpy.ok():
             rclpy.shutdown()
+
+
+if __name__ == "__main__":
+    main()

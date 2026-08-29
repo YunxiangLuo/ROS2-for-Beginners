@@ -1,5 +1,43 @@
 # 第10章 SLAM基本概念与贝叶斯框架
 
+## 仿真结合实例（当前仓库）：用 LiDAR、里程计和 TF 观察 SLAM 输入
+
+### 目标与知识点对应
+
+SLAM 的状态估计依赖观测 `z`、控制输入 `u` 和位姿状态 `x`。本实例不把仿真输出直接称为 SLAM 结果，而是使用 `robot_sim_demo` 提供的真实 ROS 2 输入，检查贝叶斯滤波公式所需的数据流、时间戳和坐标关系。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+
+# 终端 1：启动仿真并让机器人运动
+ros2 launch robot_sim_demo gazebo2.launch.py \
+  gui:=false rviz:=false drive:=true
+```
+
+```bash
+# 终端 2：采样观测 z、控制/运动结果和 TF
+source install/setup.bash
+ros2 topic echo /scan --once
+ros2 topic echo /odom --once
+ros2 topic echo /tf --once
+ros2 topic info /scan
+```
+
+### 观察结果
+
+- `/scan` 是激光观测，`/odom` 是里程计运动信息，`/tf` 提供坐标变换；三者共同构成 SLAM 节点的输入基础。
+- 比较消息的 `header.stamp` 和 `frame_id`，理解时间同步与坐标变换对状态估计的影响。
+
+### 源码与边界
+
+- 仿真和桥接：`src/robot_sim_demo/launch/gazebo2.launch.py`、`src/robot_sim_demo/config/gazebo2_bridge.yaml`
+- SLAM 运行入口：`src/slam_sim_demo_ros2/launch/slam_demo.launch.py`
+
+本节只验证 SLAM 输入链路；实际贝叶斯滤波或 GraphSLAM 算法需由外部 SLAM 软件实现。
+
 ## 学习目标
 - 理解SLAM问题的数学定义与核心挑战
 - 掌握贝叶斯滤波框架在SLAM中的应用

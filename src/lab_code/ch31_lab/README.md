@@ -19,6 +19,7 @@
 ### 1. 安装依赖
 
 ```bash
+
 pip install carla numpy pyyaml
 ```
 
@@ -31,7 +32,9 @@ pip install carla numpy pyyaml
 ### 3. 一键启动演示
 
 ```bash
+
 cd src/lab_code/ch31_lab/
+
 bash town_demo.sh
 ```
 
@@ -44,10 +47,15 @@ bash run_all_tests.sh
 ## 项目结构
 
 ```text
+
 src/lab_code/ch31_lab/
+
 ├── README.md           # 本文件
+
 ├── main_pipeline.py    # 主自动驾驶管线节点
+
 ├── town_demo.sh        # 一键启动脚本
+
 └── run_all_tests.sh    # 测试脚本
 ```
 

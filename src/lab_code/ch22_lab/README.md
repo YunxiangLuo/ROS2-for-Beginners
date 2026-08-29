@@ -15,7 +15,9 @@
 ### 步骤1：启动CARLA服务器
 
 ```bash
+
 cd ~/carla
+
 ./CarlaUE4.sh -quality-level=Low
 ```
 

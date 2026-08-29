@@ -5,13 +5,21 @@
 ## 目录结构
 
 ```text
+
 src/lab_code/ch16_lab/
+
 ├── arm_urdf/
+
 │   ├── launch/display.launch.py
+
 │   └── urdf/
+
 │       ├── three_dof_arm.urdf
+
 │       └── three_dof_arm.xacro
+
 └── arm_state_publisher/
+
     └── state_publisher.py
 ```
 
@@ -35,10 +43,13 @@ xacro src/lab_code/ch16_lab/arm_urdf/urdf/three_dof_arm.xacro > /tmp/three_dof_a
 在一个终端启动 `robot_state_publisher`，在另一终端启动 `joint_state_publisher`，然后用 RViz2 查看 TF 与模型：
 
 ```bash
+
 ros2 run robot_state_publisher robot_state_publisher \
+
   --ros-args -p robot_description:="$(xacro src/lab_code/ch16_lab/arm_urdf/urdf/three_dof_arm.xacro)"
 
 ros2 run joint_state_publisher joint_state_publisher \
+
   --ros-args -p robot_description:="$(xacro src/lab_code/ch16_lab/arm_urdf/urdf/three_dof_arm.xacro)"
 
 rviz2

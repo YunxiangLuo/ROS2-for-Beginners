@@ -1,5 +1,39 @@
 # 第1章 实验指导书：ROS 2 环境搭建与课程仿真入门
 
+## 当前仓库仿真验证：ROS 2 图、仿真时钟与传感器桥
+
+### 实验目标
+
+用当前仓库的 `robot_sim_demo` 验证 ROS 2 环境是否正确加载，以及 Gazebo、ROS-Gazebo Bridge、机器人状态发布器和传感器话题能否被自动发现。
+
+### 运行步骤
+
+在工作区根目录打开终端：
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+ros2 launch robot_sim_demo gazebo2.launch.py \
+  gui:=false rviz:=false drive:=false
+```
+
+另开终端执行：
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+ros2 node list
+ros2 topic echo /clock --once
+ros2 topic info /scan
+ros2 topic echo /odom --once
+```
+
+### 观察与验收
+
+应能看到 Gazebo 桥接节点、`/clock` 仿真时钟、`/scan` 激光和 `/odom` 里程计。该验证证明环境和基础数据链路可用；RViz/Gazebo 图形界面需在 WSLg 可用时再打开。
+
+源码：`src/robot_sim_demo/launch/gazebo2.launch.py`、`src/robot_sim_demo/config/gazebo2_bridge.yaml`。
+
 > **实验课时**：2 课时（90 分钟）  
 > **实验平台**：Ubuntu 22.04 + ROS 2 Humble / Ubuntu 24.04 + ROS 2 Jazzy  
 
@@ -507,6 +541,6 @@ if __name__ == '__main__':
 
 ROS 2 生命周期节点、状态查询和 `/cmd_vel` 输出的真实限时运行记录：
 
-![ch01 生命周期节点运行输出](images/runtime/ch01_lifecycle.png)
+![ch01 生命周期节点运行输出](images/runtime/ch01_lifecycle.gif)
 
 原始录制：[ch01_lifecycle.cast](images/runtime/ch01_lifecycle.cast)。完整证据索引见[实际运行证据](runtime_evidence.md)。

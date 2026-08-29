@@ -1,5 +1,37 @@
 # 第4章 实验指导书：服务通信编程
 
+## 当前仓库仿真验证：服务请求与移动机器人数据流并行运行
+
+### 实验目标
+
+让服务 Server/Client 与 Gazebo 仿真同时运行，区分一次性请求-响应和持续传感器 Topic，并验证服务节点可被 DDS 发现。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+ros2 launch robot_sim_demo gazebo2.launch.py \
+  gui:=false rviz:=false drive:=false
+```
+
+另开两个终端：
+
+```bash
+source install/setup.bash
+ros2 run service_demo_cpp server
+```
+
+```bash
+source install/setup.bash
+ros2 service list | grep greetings
+ros2 run service_demo_cpp client
+```
+
+### 观察与验收
+
+客户端应收到服务器响应，同时仿真继续发布 `/scan` 和 `/odom`。源码：`src/service_demo_cpp/`、`src/service_demo_py/`；本实例不把服务调用误认为 Gazebo 控制接口。
+
 > **实验课时**：2 课时（90 分钟） | XBot-U Gazebo 仿真
 
 ---
@@ -416,6 +448,6 @@ ros2 run speed_control speed_client 0.0 1.0 2.0
 
 真实运行的 AddTwoInts Server、Client 和服务调用结果：
 
-![ch04 服务通信运行输出](images/runtime/ch04_service.png)
+![ch04 服务通信运行输出](images/runtime/ch04_service.gif)
 
 原始录制：[ch04_service.cast](images/runtime/ch04_service.cast)。完整证据索引见[实际运行证据](runtime_evidence.md)。

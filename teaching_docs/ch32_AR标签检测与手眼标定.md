@@ -771,3 +771,34 @@ class TFVisualizer(Node):
 4. 加载手眼标定结果，编写节点发布静态TF变换，验证camera_link到base_link的变换是否正确。
 
 5. 编写完整的坐标变换节点：检测ArUco标记 → 查询TF变换 → 输出目标在base_link坐标系下的位姿。
+
+---
+
+## 仿真结合实例（当前仓库）：相机坐标系到机械臂基座的标定接口
+
+### 目标与知识点对应
+
+先用 `robot_sim_demo` 验证相机图像和 `camera_link` TF，再在 xArm MoveIt/RViz 中验证目标位姿转换后的基座坐标接口，理解手眼标定结果如何进入抓取规划。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+ros2 launch robot_sim_demo gazebo2.launch.py \
+  gui:=false rviz:=false drive:=false
+ros2 run tf2_ros tf2_echo base_link camera_link
+ros2 topic echo /camera/image_raw --once
+```
+
+在提供兼容 `xarm_description` 2.0.0 的环境中，再启动 xArm 的 MoveIt/RViz，将检测节点输出的 `PoseStamped` 转换到 `base_link` 后送给 `xarm` 规划组。
+
+### 观察结果与边界
+
+TF 查询应返回相机相对机器人基座的变换；ArUco 检测和手眼求解是否成功取决于外部视觉节点与标定样本。当前仓库没有预置检测器或手眼标定结果。
+
+### 源码
+
+- 相机/TF：`src/robot_sim_demo/models/wheeltec_robot/model.sdf`、`src/robot_sim_demo/config/gazebo2_bridge.yaml`
+- xArm MoveIt：`src/xarm/launch/arm_only_move_group.launch.py`
+- 视觉实验参考：`src/lab_code/ch19_lab/vision_detection_lab/`

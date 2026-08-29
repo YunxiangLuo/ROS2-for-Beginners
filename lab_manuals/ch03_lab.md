@@ -1,5 +1,35 @@
 # 第3章 实验指导书：话题通信编程与实践
 
+## 当前仓库仿真验证：订阅 Gazebo 的 `/scan` 与 `/odom`
+
+### 实验目标
+
+把本实验的 Publisher/Subscriber 知识应用到真实仿真话题，检查消息类型、发布者数量、QoS 和持续数据流。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+ros2 launch robot_sim_demo gazebo2.launch.py \
+  gui:=false rviz:=false drive:=true
+```
+
+另开终端：
+
+```bash
+source install/setup.bash
+ros2 topic info /scan
+ros2 topic echo /scan --once
+ros2 topic echo /odom --once
+ros2 topic pub --once /cmd_vel geometry_msgs/msg/Twist \
+  "{linear: {x: 0.1}, angular: {z: 0.0}}"
+```
+
+### 观察与验收
+
+`/scan` 应为 `sensor_msgs/msg/LaserScan`，`/odom` 应为 `nav_msgs/msg/Odometry`；可将实验订阅节点的输入改为 `/scan`。源码：`src/robot_sim_demo/config/gazebo2_bridge.yaml`。
+
 > **实验课时**：2 课时（90 分钟）  
 > **实验平台**：Ubuntu 22.04 + ROS 2 Humble  
 
@@ -511,6 +541,6 @@ ros2 run topic_demo square_driver  # 需添加 entry_points
 
 真实运行的话题发布、订阅、自定义消息接口和消息输出：
 
-![ch03 话题通信运行输出](images/runtime/ch03_topics.png)
+![ch03 话题通信运行输出](images/runtime/ch03_topics.gif)
 
 原始录制：[ch03_topics.cast](images/runtime/ch03_topics.cast)。完整证据索引见[实际运行证据](runtime_evidence.md)。
