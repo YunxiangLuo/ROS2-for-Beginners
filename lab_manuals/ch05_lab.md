@@ -132,7 +132,9 @@ source /opt/ros/humble/setup.bash
 source ~/my_ros2_ws/install/setup.bash
 ros2 run action_demo client
 ```
+
 ![alt text](images/image-25.png)
+
 ## 练习 3.2：自定义 Tracking 动作（约 30 分钟）
 
 定义 `Tracking.action`（Goal: 目标坐标 Point；Result: 成功标志 bool；Feedback: 当前位置 float64 + 距离 float64），模拟 XBot-U 的路径跟踪。
@@ -521,7 +523,9 @@ source ~/ros2_course_ws/install/setup.bash
 ros2 run tracking_server client 2.0 1.0
 ```
 **参考代码**：`lab_code/ch05_lab/tracking_interfaces/` + `lab_code/ch05_lab/tracking_server/`
+
 ![alt text](images/image-26.png)
+
 ---
 ## 改成用gazebo仿真
 保留Tracking.action和Client，改Server
@@ -1073,8 +1077,15 @@ ros2 run dishes_action_lab client 3
 2. Feedback 话题的 QoS 应如何配置？
 
 ---
-自动取消 ![alt text](images/image-27.png)
-拒绝新目标 ![alt text](images/image-28.png)
+
+自动取消
+
+![alt text](images/image-27.png)
+
+拒绝新目标
+
+![alt text](images/image-28.png)
+
 ## 练习 4：Action 导航任务 — 发送目标坐标驱动 XBot-U（约 15 分钟）
 
 ### 目标
@@ -1962,7 +1973,9 @@ source ~/ros2_ws/install/setup.bash
 
 ros2 run pose_nav_action nav_server
 ```
+
 ![alt text](images/image-29.png)
+
 
 # 发送完整位姿目标
 
@@ -1974,13 +1987,17 @@ source ~/ros2_ws/install/setup.bash
 
 ros2 run pose_nav_action nav_client 2.0 1.0 1.57
 ```
+
 ![alt text](images/image-30.png)
+
 
 # 自动取消测试
 ```bash
 ros2 run pose_nav_action nav_client 3.0 0.0 0.0 3.0
 ```
+
 ![alt text](images/image-31.png)
+
 
 # 忙碌拒绝测试
 
@@ -1998,7 +2015,9 @@ source ~/ros2_ws/install/setup.bash
 
 ros2 run pose_nav_action nav_client 1.0 0.0 0.0
 ```
+
 ![alt text](images/image-32.png)
+
 
 # Action 检查
 
@@ -2008,7 +2027,9 @@ Server 运行时执行：
 ros2 action list -t
 ros2 action info /move_base_lab
 ```
+
 ![alt text](images/image-47.png)
+
 ### 思考题
 1. Action 导航与 Nav2 的区别是什么？什么场景用 Action 更合适？
 Action 是一种通信机制，适用于执行时间较长、需要实时反馈、支持取消并返回最终结果的任务；Nav2 是导航框架，内部使用 Action（如 NavigateToPose）实现导航功能。Action 更适合导航、机械臂运动、自动充电等长时间任务。
@@ -2023,5 +2044,6 @@ Action 是一种通信机制，适用于执行时间较长、需要实时反馈�
 真实运行的 DoDishes Action Server、Client 反馈进度和完成结果：
 
 ![ch05 动作通信运行输出](images/runtime/ch05_action.gif)
+
 
 原始录制：[ch05_action.cast](images/runtime/ch05_action.cast)。完整证据索引见[实际运行证据](runtime_evidence.md)。

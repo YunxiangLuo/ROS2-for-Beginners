@@ -314,14 +314,18 @@ ros2 param get /param_demo sensor_list
 ros2 param describe /param_demo max_speed
 ros2 param describe /param_demo sensor_list
 ```
+
 ![alt text](images/image-48.png)
+
 ## 动态修改参数
 
 ### 修改机器人名称
 ```bash
 ros2 param set /param_demo robot_name xbot_u
 ```
+
 ![alt text](images/image-49.png)
+
 ###  修改最大速度
 
 ```bash
@@ -330,7 +334,9 @@ ros2 param set /param_demo max_speed 4.5
 ```bash
 ros2 param get /param_demo max_speed
 ```
+
 ![alt text](images/image-50.png)
+
 ### 修改传感器数组
 ```bash
 ros2 param set /param_demo sensor_list "['lidar', 'camera', 'imu']"
@@ -350,12 +356,16 @@ ros2 param set /param_demo enable_debug true
 ```bash
 ros2 param set /param_demo enable_debug false
 ```
+
 ![alt text](images/image-51.png)
+
 ### 导出当前参数
 ```bash
 ros2 param dump /param_demo
 ```
+
 ![alt text](images/image-52.png)
+
 ## 练习 3.2：参数回调验证（约 30 分钟）
 
 实现 `add_on_set_parameters_callback`：验证 max_speed 范围 [0.0, 10.0] 和 mode 值 {"auto","manual","hybrid"}。
@@ -410,7 +420,9 @@ ros2 param set /param_demo max_speed 8.0
 ```bash
 ros2 param get /param_demo max_speed
 ```
+
 ![alt text](images/image-53.png)
+
 ### 测试小于下限的值
 
 ```bash
@@ -419,21 +431,27 @@ ros2 param set /param_demo max_speed -1.0
 ```bash
 ros2 param get /param_demo max_speed
 ```
+
 ![alt text](images/image-54.png)
+
 
 ### 测试大于上限的值
 
 ```bash
 ros2 param set /param_demo max_speed 15.0
 ```
+
 ![alt text](images/image-55.png)
+
 ### 测试边界值
 ```bash
 ros2 param set /param_demo max_speed 0.0
 ros2 param set /param_demo max_speed 10.0
 ros2 param set /param_demo max_speed 10.1
 ```
+
 ![alt text](images/image-56.png)
+
 ## 17. 测试 mode
 
 ### 测试三个合法模式
@@ -452,7 +470,9 @@ ros2 param get /param_demo mode
 ```bash
 ros2 param set /param_demo mode AUTO
 ```
+
 ![alt text](images/image-57.png)
+
 ---
 # YAML 参数文件实验
 
@@ -487,7 +507,9 @@ source ~/ros2_ws/install/setup.bash
 ros2 run param_demo param_node --ros-args \
   --params-file ~/ros2_ws/src/param_demo/config/params.yaml
 ```
+
 ![alt text](images/image-58.png)
+
 启动后的输出应包含：
 ## 向运行中的节点加载 YAML
 
@@ -505,7 +527,9 @@ ros2 param get /param_demo sensor_list
 ros2 param get /param_demo mode
 ros2 param get /param_demo enable_debug
 ```
+
 ![alt text](images/image-59.png)
+
 ## 练习 3.3：Launch 文件实战（约 30 分钟）
 
 1. 编写 Python Launch 文件，同时启动 talker + listener
@@ -721,14 +745,18 @@ source /opt/ros/humble/setup.bash
 source ~/ros2_ws/install/setup.bash
 ros2 node list
 ```
+
 ![alt text](images/image-60.png)
+
 应看到：
 
 ```bash
 ros2 topic list
 ros2 topic echo /chatter
 ```
+
 ![alt text](images/image-61.png)
+
 ## 测试 use_rviz 条件启动
 
 ### 不启动 RViz
@@ -738,7 +766,9 @@ ros2 topic echo /chatter
 ```bash
 ros2 launch param_demo demo.launch.py use_rviz:=false
 ```
+
 ![alt text](images/image-62.png)
+
 终端 2 ：
 
 ```bash
@@ -758,7 +788,9 @@ ros2 node list
 ```bash
 ros2 launch param_demo demo.launch.py --show-args
 ```
+
 ![alt text](images/image-63.png)
+
 ## 测试 Launch 加载 YAML
 
 先停止前一个 Launch，然后在终端 1 中执行：
@@ -768,7 +800,9 @@ source /opt/ros/humble/setup.bash
 source ~/ros2_ws/install/setup.bash
 ros2 launch param_demo param_with_yaml.launch.py
 ```
+
 ![alt text](images/image-64.png)
+
 ##  测试组合 Launch
 
 ### 检查依赖包
@@ -1005,7 +1039,9 @@ source /opt/ros/humble/setup.bash
 source ~/ros2_ws/install/setup.bash
 ros2 run param_demo speed_ctrl
 ```
+
 ![alt text](images/image-65.png)
+
 也可以使用 YAML Launch 启动：
 
 ```bash
@@ -1040,20 +1076,26 @@ ros2 param get /speed_controller enable_control
 ```bash
 ros2 topic info /cmd_vel
 ```
+
 ![alt text](images/image-66.png)
+
 ## 动态修改速度
 ### 加速直行
 
 ```bash
 ros2 param set /speed_controller linear_speed 0.5
 ```
+
 ![alt text](images/image-67.png)
+
 ### 一边前进一边左转
 
 ```bash
 ros2 param set /speed_controller angular_speed 1.0
 ```
+
 ![alt text](images/image-68.png)
+
 ### 一边前进一边右转
 
 ```bash
@@ -1071,7 +1113,9 @@ ros2 param set /speed_controller angular_speed 0.0
 ```bash
 ros2 param set /speed_controller linear_speed -0.3
 ```
+
 ![alt text](images/image-69.png)
+
 #负线速度表示后退。
 
 ### 完全停止
@@ -1162,24 +1206,31 @@ ros2 param set /speed_controller angular_speed 0.0
 ```bash
 ros2 topic echo /cmd_vel
 ```
+
 ![alt text](images/image-70.png)
+
 检查发布频率：
 
 ```bash
 ros2 topic hz /cmd_vel
 ```
+
 ![alt text](images/image-71.png)
+
 查看详细通信关系：
 
 ```bash
 ros2 topic info /cmd_vel --verbose
 ```
+
 ![alt text](images/image-72.png)
+
 
 ## 实际运行证据
 
 真实运行的参数列表、合法参数更新和非法边界值拒绝输出：
 
 ![ch06 参数系统运行输出](images/runtime/ch06_parameters.gif)
+
 
 原始录制：[ch06_parameters.cast](images/runtime/ch06_parameters.cast)。完整证据索引见[实际运行证据](runtime_evidence.md)。

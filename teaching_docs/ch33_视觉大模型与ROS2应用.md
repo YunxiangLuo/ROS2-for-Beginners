@@ -878,6 +878,7 @@ ros2 topic echo /camera/camera_info --once
 
 ![ch20 视觉语言模型运行输出](../lab_manuals/images/runtime/ch20_vision.gif)
 
+
 > 参考来源：
 > - OpenAI 官方 API 文档 —— Vision 指南：https://platform.openai.com/docs/guides/vision
 > - Meta 官方 Segment Anything 代码库：https://github.com/facebookresearch/segment-anything

@@ -305,12 +305,15 @@ ros1多机器人、多实验环境相互干扰————通过ROS_DOMAIN_ID划
 **练习 1.4**：查看当前 ROS_DOMAIN_ID 环境变量值，将其修改为 42 并验证。
 
 ![alt text](images/image-2.png)
+
 **练习 1.5**：创建一个 ROS 2 工作空间，使用 colcon build 编译，并验证 setup.bash 加载。
 
 ![alt text](images/image.png)
+
 **练习 1.6**：运行 talker/listener 示例节点，使用 `ros2 node list` 和 `ros2 topic list` 查看运行状态。
 
 ![alt text](images/image-1.png)
+
 
 ---
 
@@ -354,6 +357,7 @@ ros2 topic info /scan
 > 说明：真实运行证据（检测到 `/clock`、`/scan`、`/odom`、`/tf` 桥接）见 `lab_manuals/images/runtime/ch09_gazebo_headless.png` 及配套 `.cast`。
 
 ![ch01 生命周期节点运行输出](../lab_manuals/images/runtime/ch01_lifecycle.gif)
+
 
 ---
 

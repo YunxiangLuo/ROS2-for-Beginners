@@ -182,12 +182,26 @@ ros2 topic hz /gps_position       # 查看发布频率（期望 ~1Hz）
 ```
 
 **步骤5：检查运行结果与图示一致**
-- 截图1：publisher 发布日志![alt text](images/image-33.png)
-- 截图2：subscriber 接收日志![alt text](images/image-34.png)
-- 截图3：`ros2 topic hz /gps_position` 输出（频率）![alt text](images/image-36.png)
+
+- 截图1：publisher 发布日志
+
+  ![alt text](images/image-33.png)
+
+- 截图2：subscriber 接收日志
+
+  ![alt text](images/image-34.png)
+
+- 截图3：`ros2 topic hz /gps_position` 输出（频率）
+
+  ![alt text](images/image-36.png)
+
 - 截图4：rqt_graph 通信拓扑  运行：source /opt/ros/humble/setup.bash
 source ~/my_ros2_ws/install/setup.bash
-rqt_graph![alt text](images/image-37.png)
+
+rqt_graph
+
+![alt text](images/image-37.png)
+
 ### 参考代码
 > 完整参考代码位于 `lab_code/ch03_lab/topic_demo/`
 
@@ -310,9 +324,19 @@ ros2 topic echo /sensor_data          # 终端2
 ```
 
 **步骤7：检查运行结果与图示一致**
-- 截图1：`ros2 interface show sensor_interfaces/msg/SensorData` 输出消息定义![alt text](images/image-39.png)
-- 截图2：发布者和 echo 终端输出![alt text](images/image-38.png)
-- 截图3：rqt_graph 中的自定义消息话题![alt text](images/image-40.png)
+
+- 截图1：`ros2 interface show sensor_interfaces/msg/SensorData` 输出消息定义
+
+  ![alt text](images/image-39.png)
+
+- 截图2：发布者和 echo 终端输出
+
+  ![alt text](images/image-38.png)
+
+- 截图3：rqt_graph 中的自定义消息话题
+
+  ![alt text](images/image-40.png)
+
 
 ### 参考代码
 > 完整参考代码位于 `lab_code/ch03_lab/sensor_interfaces/` 和 `lab_code/ch03_lab/sensor_pub/`
@@ -421,9 +445,19 @@ ros2 topic echo /qos_best_effort --qos-reliability best_effort
 ```
 
 **步骤3：检查运行结果与图示一致**
-- 截图1：实验 A（成功）：/qos_reliable 正常输出![alt text](images/image-41.png)
-- 截图2：实验 D（失败）：ros2 topic echo 无输出![alt text](images/image-42.png)
-- 截图3：实验 C（成功）：/qos_best_effort 正常输出![alt text](images/image-43.png)
+
+- 截图1：实验 A（成功）：/qos_reliable 正常输出
+
+  ![alt text](images/image-41.png)
+
+- 截图2：实验 D（失败）：ros2 topic echo 无输出
+
+  ![alt text](images/image-42.png)
+
+- 截图3：实验 C（成功）：/qos_best_effort 正常输出
+
+  ![alt text](images/image-43.png)
+
 
 ### 参考代码
 > 完整参考代码位于 `lab_code/ch03_lab/topic_demo/topic_demo/qos_publisher.py`
@@ -526,9 +560,19 @@ ros2 run topic_demo square_driver  # 需添加 entry_points
 ```
 
 **✓ 验证**：
-- 截图1：Gazebo 中 XBot-U 按正方形轨迹运动![alt text](images/image-46.png)
-- 截图2：RViz 中 /odom 轨迹显示正方形图案![alt text](images/image-44.png)
-- 截图3：终端日志输出四边一角的执行进度![alt text](images/image-45.png)
+
+- 截图1：Gazebo 中 XBot-U 按正方形轨迹运动
+
+  ![alt text](images/image-46.png)
+
+- 截图2：RViz 中 /odom 轨迹显示正方形图案
+
+  ![alt text](images/image-44.png)
+
+- 截图3：终端日志输出四边一角的执行进度
+
+  ![alt text](images/image-45.png)
+
 
 ### 参考代码
 > 完整参考代码位于 `lab_code/ch03_lab/topic_demo/topic_demo/square_driver.py`
@@ -542,5 +586,6 @@ ros2 run topic_demo square_driver  # 需添加 entry_points
 真实运行的话题发布、订阅、自定义消息接口和消息输出：
 
 ![ch03 话题通信运行输出](images/runtime/ch03_topics.gif)
+
 
 原始录制：[ch03_topics.cast](images/runtime/ch03_topics.cast)。完整证据索引见[实际运行证据](runtime_evidence.md)。

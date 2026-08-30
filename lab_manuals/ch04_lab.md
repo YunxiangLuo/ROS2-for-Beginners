@@ -71,7 +71,9 @@ source install/setup.bash
 ros2 run service_demo server    # 终端1
 ros2 run service_demo client 5 10  # 终端2
 ```
+
 ![alt text](images/image-20.png)
+
 
 **参考代码**：`lab_code/ch04_lab/service_demo/`
 
@@ -173,7 +175,8 @@ ros2 service call /weather_query \
   weather_interfaces/srv/WeatherQuery "{city: 'Beijing'}"
   ```
 
- ![alt text](images/image-21.png)
+![alt text](images/image-21.png)
+
 
 **参考代码**：`lab_code/ch04_lab/weather_interfaces/` + `lab_code/ch04_lab/weather_srv/`
 
@@ -264,7 +267,9 @@ ros2 run service_demo server
 source ~/my_ros2_ws/install/setup.bash
 ros2 run service_demo client 5 10
 ```
+
 ![alt text](images/image-22.png)
+
 ### 思考题
 1. 服务通信适合什么场景？不适合什么场景？服务通信适合低频、短时间、需要明确响应结果的请求操作，例如参数设置、状态查询、启动停止控制。不适合高频数据传输和长时间任务，后者应使用 Topic 或 Action。
 2. 如何保证多个 Client 同时调用服务时的安全性？可以通过 Callback Group 控制并发方式、mutex 保证共享数据访问安全、Executor 管理线程调度，以及服务端状态检查避免重复调用
@@ -449,5 +454,6 @@ ros2 run speed_control speed_client 0.0 1.0 2.0
 真实运行的 AddTwoInts Server、Client 和服务调用结果：
 
 ![ch04 服务通信运行输出](images/runtime/ch04_service.gif)
+
 
 原始录制：[ch04_service.cast](images/runtime/ch04_service.cast)。完整证据索引见[实际运行证据](runtime_evidence.md)。

@@ -34,6 +34,7 @@ RViz 中依次出现地图、粒子云、全局路径与局部路径，机器人
 
 ![ch14 Nav2 一键导航运行输出](images/runtime/nonlab_nav2.gif)
 
+
 原始录制：[nonlab_nav2.cast](images/runtime/nonlab_nav2.cast)。
 
 > **对应理论章节**：第23章《SLAM与导航综合实训》（Nav2 一键导航部分）

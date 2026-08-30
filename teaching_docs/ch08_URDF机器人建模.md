@@ -257,6 +257,7 @@ Xacro 模型位于 `src/urdf_demo_ros2/urdf/mybot.xacro`，Launch 文件为 `src
 
 ![ch08 URDF 与 RViz 运行输出](../lab_manuals/images/runtime/ch08_urdf.gif)
 
+
 ---
 
 > 参考来源：

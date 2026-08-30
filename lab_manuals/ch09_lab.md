@@ -251,14 +251,17 @@ Gazebo headless 会话真实输出了 `/clock`、`/scan`、`/odom` 和实体创�
 
 ![ch09 Gazebo headless 运行输出](images/runtime/ch09_gazebo_headless.gif)
 
+
 Campus PUCRS 场景由 Gazebo GUI Screenshot 插件生成：
 
 ![Campus PUCRS Gazebo 场景](images/runtime/campus_pucrs_gazebo_gui.png)
+
 
 原始终端录制：[ch09_gazebo_headless.cast](images/runtime/ch09_gazebo_headless.cast)。
 
 Campus PUCRS headless 运行输出：
 
 ![Campus PUCRS headless 运行输出](images/runtime/campus_pucrs_headless.gif)
+
 
 完整证据索引见[实际运行证据](runtime_evidence.md)。

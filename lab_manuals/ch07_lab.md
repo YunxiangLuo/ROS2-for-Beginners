@@ -216,4 +216,5 @@ ros2 run tf_demo tf_lookup
 
 ![ch07 TF2 运行输出](images/runtime/ch07_tf.gif)
 
+
 原始录制：[ch07_tf.cast](images/runtime/ch07_tf.cast)。完整证据索引见[实际运行证据](runtime_evidence.md)。

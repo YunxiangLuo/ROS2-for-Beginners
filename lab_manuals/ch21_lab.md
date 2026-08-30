@@ -36,6 +36,7 @@ ros2 launch xarm_ros2_arm_only arm_only.launch.py
 
 ![ch21 相机目标接口与 xArm 规划分层](images/runtime/ch21_vision_pickup.gif)
 
+
 原始录制：[ch21_vision_pickup.cast](images/runtime/ch21_vision_pickup.cast)。相机 TF 查询结果仍需按本地环境单独检查。
 
 > **对应理论章节**：第34章《视觉抓取完整流程》、第35章《综合实训：智能机器人产线》

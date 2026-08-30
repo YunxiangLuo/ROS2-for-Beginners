@@ -130,9 +130,19 @@ ros2 run hello_pkg hello_node
 ```
 
 **步骤4：检查运行结果与图示一致**
-- 截图1：colcon build 输出显示编译成功![alt text](images/image-21.png)
-- 截图2：ros2 run 输出显示周期日志![alt text](images/image-20.png)
-- 截图3：`ros2 node list` 显示 /hello_node![alt text](images/image-22.png)
+
+- 截图1：colcon build 输出显示编译成功
+
+  ![alt text](images/image-21.png)
+
+- 截图2：ros2 run 输出显示周期日志
+
+  ![alt text](images/image-20.png)
+
+- 截图3：`ros2 node list` 显示 /hello_node
+
+  ![alt text](images/image-22.png)
+
 
 ### 参考代码
 > 完整参考代码位于 `lab_code/ch02_lab/hello_pkg/`
@@ -224,9 +234,19 @@ ros2 run hello_pkg logger_demo --ros-args \
 ```
 
 **步骤4：检查运行结果与图示一致**
-- 截图1：默认日志输出（DEBUG ~ ERROR）![alt text](images/image-23.png)
-- 截图2：`--log-level ERROR` 仅显示错误日志![alt text](images/image-27.png)
-- 截图3：`rqt_console` 输出（`ros2 run rqt_console rqt_console`）![alt text](images/image-28.png)
+
+- 截图1：默认日志输出（DEBUG ~ ERROR）
+
+  ![alt text](images/image-23.png)
+
+- 截图2：`--log-level ERROR` 仅显示错误日志
+
+  ![alt text](images/image-27.png)
+
+- 截图3：`rqt_console` 输出（`ros2 run rqt_console rqt_console`）
+
+  ![alt text](images/image-28.png)
+
 
 ### 参考代码
 > 完整参考代码位于 `lab_code/ch02_lab/hello_pkg/hello_pkg/logger_demo.py`
@@ -280,9 +300,19 @@ rviz2
 - 理解 RViz2 的 Displays 面板和 Views 面板
 
 **步骤4：检查运行结果与图示一致**
-- 截图1：rqt_graph 中的节点-话题拓扑图![alt text](images/image-29.png)
-- 截图2：ros2 node info /talker 输出![alt text](images/image-30.png)
-- 截图3：RViz2 启动界面![alt text](images/image-31.png)
+
+- 截图1：rqt_graph 中的节点-话题拓扑图
+
+  ![alt text](images/image-29.png)
+
+- 截图2：ros2 node info /talker 输出
+
+  ![alt text](images/image-30.png)
+
+- 截图3：RViz2 启动界面
+
+  ![alt text](images/image-31.png)
+
 
 ### 思考题
 
@@ -357,7 +387,10 @@ ros2 topic pub /cmd_vel geometry_msgs/msg/Twist \
   "{linear: {x: 0.2}, angular: {z: 0.5}}" -r 10
 ```
 
-**✓ 验证**：odom_monitor 终端实时输出机器人位置和航向变化。![alt text](images/image-32.png)
+**✓ 验证**：odom_monitor 终端实时输出机器人位置和航向变化。
+
+![alt text](images/image-32.png)
+
 
 ### 思考题
 1. `/odom` 中的 `pose.pose.orientation` 使用四元数表示姿态，如何转换为欧拉角？使用 TF2转换为欧拉角 (Roll、Pitch、Yaw)，其中Yaw是航向角
@@ -368,5 +401,6 @@ ros2 topic pub /cmd_vel geometry_msgs/msg/Twist \
 真实运行的 Python 节点、节点列表和节点信息输出：
 
 ![ch02 Python 节点运行输出](images/runtime/ch02_nodes.gif)
+
 
 原始录制：[ch02_nodes.cast](images/runtime/ch02_nodes.cast)。完整证据索引见[实际运行证据](runtime_evidence.md)。

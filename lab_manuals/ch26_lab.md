@@ -178,4 +178,5 @@ python lat_lon_ctrl.py
 
 ![ch26 控制器测试输出](images/runtime/ch26_control.gif)
 
+
 原始录制：[ch26_control.cast](images/runtime/ch26_control.cast)。完整证据索引见[实际运行证据](runtime_evidence.md)。

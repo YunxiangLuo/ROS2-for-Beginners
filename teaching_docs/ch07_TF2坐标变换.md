@@ -273,6 +273,7 @@ TF 与状态发布配置位于 `src/robot_sim_demo/config/gazebo2_bridge.yaml`�
 
 ![ch07 TF2 运行输出](../lab_manuals/images/runtime/ch07_tf.gif)
 
+
 ---
 
 > 参考来源：

@@ -33,6 +33,7 @@ ros2 topic echo /display_planned_path --once
 
 ![ch18 MoveIt 路径跟随运行输出](images/runtime/ch18_beeline_demo.gif)
 
+
 原始录制：[ch18_beeline_demo.cast](images/runtime/ch18_beeline_demo.cast)。
 
 > **对应理论章节**：第28章《笛卡尔路径与避障》、第29章《抓取与放置实验》

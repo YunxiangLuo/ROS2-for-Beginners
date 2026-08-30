@@ -712,6 +712,7 @@ MoveItPy 参考代码位于 `src/lab_code/ch17_lab/moveit_fk_ik_lab/`，xArm 配
 
 ![ch17 MoveIt 运动学规划运行输出](../lab_manuals/images/runtime/ch17_ik_demo.gif)
 
+
 > 参考来源：
 > - MoveIt 2 官方文档 —— MoveItPy Tutorial Suite 与 Troubleshooting：https://moveit.picknik.ai/
 > - MoveIt 官方示例仓库 —— moveit_py 包：https://github.com/ros-planning/moveit2

@@ -693,6 +693,7 @@ Launch 文件位于 `src/navigation_sim_demo_ros2/launch/nav2_demo.launch.py`，
 
 ![ch11 Nav2 组件启动](../lab_manuals/images/runtime/nonlab_nav2.gif)
 
+
 > 参考来源：
 > - Nav2 官方文档 —— Concepts 与 Navigation System：https://docs.nav2.org/
 > - docs.ros.org —— navigation2 各包 API 文档：https://docs.ros.org/en/jazzy/p/nav2-bt-navigator/

@@ -1182,7 +1182,9 @@ SLAM 源码位于 `src/slam_sim_demo_ros2/`，Nav2 源码位于 `src/navigation_
 
 ![ch10 SLAM 组件启动](../lab_manuals/images/runtime/nonlab_slam.gif)
 
+
 ![ch11 Nav2 组件启动](../lab_manuals/images/runtime/nonlab_nav2.gif)
+
 
 两套 Launch 都可能启动 Gazebo，切换时必须先停止上一套进程，避免两个仿真器争用同一 ROS/Gazebo 图。
 

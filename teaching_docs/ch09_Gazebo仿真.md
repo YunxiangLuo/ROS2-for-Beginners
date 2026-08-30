@@ -281,7 +281,9 @@ Launch 文件位于 `src/robot_sim_demo/launch/gazebo2.launch.py`，桥接配置
 
 ![ch09 Gazebo headless 运行输出](../lab_manuals/images/runtime/ch09_gazebo_headless.gif)
 
+
 ![Campus PUCRS headless 运行输出](../lab_manuals/images/runtime/campus_pucrs_headless.gif)
+
 
 ---
 

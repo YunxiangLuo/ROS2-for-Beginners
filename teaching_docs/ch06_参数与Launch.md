@@ -281,6 +281,7 @@ Launch 文件位于 `src/robot_sim_demo/launch/gazebo2.launch.py`；参数节点
 
 ![ch06 参数系统运行输出](../lab_manuals/images/runtime/ch06_parameters.gif)
 
+
 ---
 
 > 参考来源：

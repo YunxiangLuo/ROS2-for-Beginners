@@ -32,6 +32,7 @@ RViz 中 `/map` 随机器人运动逐渐扩展，扫描点云与墙体对齐；`
 
 ![ch13 SLAM 一键建图运行输出](images/runtime/nonlab_slam.gif)
 
+
 原始录制：[nonlab_slam.cast](images/runtime/nonlab_slam.cast)。
 
 > **对应理论章节**：第23章《SLAM与导航综合实训》（SLAM 一键建图部分）

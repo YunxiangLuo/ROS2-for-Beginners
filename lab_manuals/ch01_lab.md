@@ -97,7 +97,9 @@ ros2 topic echo /chatter   # 期望：data: 'Hello World: X'
 ```
 
 **✓ 验证**：talker 发布消息，listener 接收消息，`ros2 topic echo` 能看到实时数据。
+
 ![成功](images/image.png)
+
 ---
 
 ## 练习 1.2：工作空间创建与编译（约 15 分钟）
@@ -128,7 +130,9 @@ source install/setup.bash
 # 5. 验证
 ros2 pkg list | grep my_first
 ```
+
 ![成功](images/image-1.png)
+
 **✓ 验证**：`ros2 pkg list` 显示 my_first_pkg。
 
 ---
@@ -155,7 +159,9 @@ export ROS_DOMAIN_ID=1
 ros2 run demo_nodes_py listener
 # 期望：无任何输出（无法跨域通信）
 ```
+
 ![alt text](images/image-3.png)
+
 **✓ 验证**：同域通信正常，跨域通信隔离。
 
 ---
@@ -210,11 +216,17 @@ ros2 launch robot_sim_demo_ros2 sim_bringup.launch.py
 
 **✓ 验证**：
 - 截图1：`colcon build` 编译成功（Summary: 20 packages finished）
+
 ![成功](images/image-6.png)
+
 - 截图2：`ros2 pkg list | grep demo` 显示课程包列表
+
 ![成功](images/image-5.png)
+
 - 截图3：RViz 中 XBot-U 机器人模型正常显示
+
 ![成功](images/image-7.png)
+
 ### 常见问题
 
 | 问题 | 原因 | 解决方法 |
@@ -277,11 +289,17 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard
 
 **✓ 验证**：
 - 截图1：Gazebo 窗口（Museum 场景 + XBot-U 机器人）
+
 ![alt text](images/image-9.png)
+
 - 截图2：RViz 窗口（RobotModel + LaserScan 正常显示）
+
 ![alt text](images/image-10.png)
+
 - 截图3：键盘遥控后机器人位置改变
+
 ![alt text](images/image-11.png)
+
 
 **补充：验证激光雷达与深度相机话题**
 
@@ -513,11 +531,25 @@ if __name__ == '__main__':
 
 **✓ 验证**：
 - 截图1：VS Code 扩展列表（ROS + Python 已安装）
+
 ![alt text](images/image-13.png)
+
 - 截图2：hello_node.py 代码编辑界面（含代码补全提示）
-![alt text](images/image-14.png)![alt text](images/image-15.png)![alt text](images/image-16.png)
+
+![alt text](images/image-14.png)
+
+![alt text](images/image-15.png)
+
+![alt text](images/image-16.png)
+
 - 截图3：F5 调试运行中，断点处暂停，左侧显示变量面板
-![alt text](images/image-17.png)![alt text](images/image-18.png)![alt text](images/image-19.png)
+
+![alt text](images/image-17.png)
+
+![alt text](images/image-18.png)
+
+![alt text](images/image-19.png)
+
 ---
 
 ## 本章实验总结
@@ -542,5 +574,6 @@ if __name__ == '__main__':
 ROS 2 生命周期节点、状态查询和 `/cmd_vel` 输出的真实限时运行记录：
 
 ![ch01 生命周期节点运行输出](images/runtime/ch01_lifecycle.gif)
+
 
 原始录制：[ch01_lifecycle.cast](images/runtime/ch01_lifecycle.cast)。完整证据索引见[实际运行证据](runtime_evidence.md)。
