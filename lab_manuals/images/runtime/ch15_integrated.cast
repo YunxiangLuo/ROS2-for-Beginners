@@ -1,0 +1,12 @@
+{"version": 2, "width": 252, "height": 32, "timestamp": 1787985882.0}
+[1.606209, "o", "$ ros2 launch robot_sim_demo gazebo2.launch.py gui:=false rviz:=false drive:=false gz_partition:=runtime_capture_ch15 enable_depth_camera:=true\r\n"]
+[10.519488, "o", "$ ros2 topic info /camera/image_raw\r\n"]
+[11.081138, "o", "Type: sensor_msgs/msg/Image\r\n"]
+[11.082798, "o", "Publisher count: 1\r\n"]
+[11.08413, "o", "Subscription count: 0\r\n"]
+[11.145567, "o", "$ ros2 control list_controllers\r\n"]
+[12.333433, "o", "\u001b[93mwheel_velocity_controller\u001b[0m velocity_controllers/JointGroupVelocityController  \u001b[93munconfigured\u001b[0m\r\n\u001b[92mjoint_state_broadcaster  \u001b[0m joint_state_broadcaster/JointStateBroadcaster      \u001b[92mactive      \u001b[0m\r\n"]
+[12.638355, "o", "\r\n# simulation process output\r\n"]
+[12.640753, "o", "[parameter_bridge-5] [INFO] [1788021150.194824548] [gazebo2_clock_bridge]: Creating GZ->ROS Bridge: [/clock (gz.msgs.Clock) -> /clock (rosgraph_msgs/msg/Clock)] (Lazy 0)\r\n[parameter_bridge-8] [INFO] [1788021150.194787410] [gazebo2_camera_bridge]: Creating GZ->ROS Bridge: [/rgbd_camera/image (gz.msgs.Image) -> /rgbd_camera/image (sensor_msgs/msg/Image)] (Lazy 0)\r\n[parameter_bridge-8] [INFO] [1788021150.201071233] [gazebo2_camera_bridge]: Creating GZ->ROS Bridge: [/rgbd_camera/camera_info (gz.msgs.CameraInfo) -> /rgbd_camera/camera_info (sensor_msgs/msg/CameraInfo)] (Lazy 0)\r\n[create-9] [INFO] [1788021152.423850263] [ros_gz_sim]: Entity creation successful."]
+[12.641137, "o", "\r\n"]
+[12.641456, "o", "\r\n# arm_only process output\r\n"]

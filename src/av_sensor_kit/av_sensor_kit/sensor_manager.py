@@ -1,4 +1,4 @@
-﻿import rclpy
+import rclpy
 from rclpy.node import Node
 from rclpy.callback_groups import ReentrantCallbackGroup
 
@@ -26,7 +26,7 @@ class SensorManager(Node):
         self.cbg = ReentrantCallbackGroup()
 
         self.sensor_statuses: Dict[str, SensorStatus] = {}
-        self.subscriptions = []
+        self._subs = []
 
         self.srv = self.create_service(
             Trigger, '~/reconfigure_sensors', self.reconfigure_callback,
@@ -69,7 +69,7 @@ class SensorManager(Node):
             lambda msg, name=sensor_name: self._sensor_callback(msg, name),
             10, callback_group=self.cbg,
         )
-        self.subscriptions.append(sub)
+        self._subs.append(sub)
 
     def _sensor_callback(self, msg, name: str):
         if name in self.sensor_statuses:

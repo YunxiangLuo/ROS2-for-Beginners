@@ -1,0 +1,9 @@
+{"version": 2, "width": 252, "height": 32, "timestamp": 1787985882.0}
+[1.483434, "o", "$ ros2 launch xarm_ros2_arm_only arm_only.launch.py gz_headless:=true use_rviz:=false\r\n"]
+[1.48724, "o", "waiting for xarm controller and move_group planning server ...\r\n"]
+[11.10182, "o", "$ ros2 control list_controllers\r\n"]
+[12.232457, "o", "\u001b[96mgripper_controller     \u001b[0m joint_trajectory_controller/JointTrajectoryController  \u001b[96minactive\u001b[0m\r\n\u001b[92mxarm_controller        \u001b[0m joint_trajectory_controller/JointTrajectoryController  \u001b[92mactive  \u001b[0m\r\n\u001b[92mjoint_state_broadcaster\u001b[0m joint_state_broadcaster/JointStateBroadcaster          \u001b[92mactive  \u001b[0m\r\n"]
+[12.531478, "o", "$ ros2 topic echo /joint_states --once --field header.frame_id --no-lost-messages\r\n"]
+[13.74012, "o", "base_link\r\n---\r\n"]
+[14.04051, "o", "\r\n# arm_only process output\r\n"]
+[14.048855, "o", "[move_group-5] \u001b[92mYou can start planning now!\u001b[0m\r\n[spawner-7] [INFO] [1788021077.051513409] [spawner_xarm_controller]: Configured and activated xarm_controller\r\n"]

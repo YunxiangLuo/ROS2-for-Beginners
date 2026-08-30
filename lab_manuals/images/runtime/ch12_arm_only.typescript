@@ -1,0 +1,16 @@
+Script started on 2026-08-30 00:31:08+08:00 [COMMAND="bash '/mnt/c/Users/tiger/Desktop/robot/Technologies-of-ROS2-Programming-master/scripts/runtime_capture_session.sh'" <not executed on terminal>]
+$ ros2 launch xarm_ros2_arm_only arm_only.launch.py gz_headless:=true use_rviz:=false
+waiting for xarm controller and move_group planning server ...
+$ ros2 control list_controllers
+[96mgripper_controller     [0m joint_trajectory_controller/JointTrajectoryController  [96minactive[0m
+[92mxarm_controller        [0m joint_trajectory_controller/JointTrajectoryController  [92mactive  [0m
+[92mjoint_state_broadcaster[0m joint_state_broadcaster/JointStateBroadcaster          [92mactive  [0m
+$ ros2 topic echo /joint_states --once --field header.frame_id --no-lost-messages
+base_link
+---
+
+# arm_only process output
+[move_group-5] [92mYou can start planning now![0m
+[spawner-7] [INFO] [1788021077.051513409] [spawner_xarm_controller]: Configured and activated xarm_controller
+
+Script done on 2026-08-30 00:31:24+08:00 [COMMAND_EXIT_CODE="0"]

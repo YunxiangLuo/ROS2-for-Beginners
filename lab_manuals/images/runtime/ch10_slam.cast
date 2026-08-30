@@ -1,0 +1,8 @@
+{"version": 2, "width": 252, "height": 32, "timestamp": 1787985882.0}
+[2.513231, "o", "$ ros2 launch slam_sim_demo_ros2 slam_demo.launch.py use_gazebo:=true use_rviz:=true gz_headless:=false\r\n"]
+[13.85479, "o", "$ ros2 topic echo /map --once --field info.resolution --no-lost-messages\r\n"]
+[15.144541, "o", "0.05000000074505806\r\n---\r\n"]
+[15.453972, "o", "$ ros2 topic echo /map --once --field header.frame_id --no-lost-messages\r\n"]
+[16.721721, "o", "map\r\n---\r\n"]
+[17.045845, "o", "\r\n# slam process output\r\n"]
+[17.051648, "o", "[parameter_bridge-5] [INFO] [1788019520.746882029] [gazebo2_clock_bridge]: Creating GZ->ROS Bridge: [/clock (gz.msgs.Clock) -> /clock (rosgraph_msgs/msg/Clock)] (Lazy 0)\r\n"]

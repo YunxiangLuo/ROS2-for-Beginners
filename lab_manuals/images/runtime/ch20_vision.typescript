@@ -1,0 +1,50 @@
+Script started on 2026-08-29 23:09:43+08:00 [COMMAND="bash '/mnt/c/Users/tiger/Desktop/robot/Technologies-of-ROS2-Programming-master/scripts/runtime_capture_session.sh'" <not executed on terminal>]
+$ ros2 launch robot_sim_demo gazebo2.launch.py gui:=false rviz:=false drive:=false gz_partition:=runtime_capture_ch20 enable_depth_camera:=true
+$ ros2 topic info /camera/image_raw
+Type: sensor_msgs/msg/Image
+Publisher count: 1
+Subscription count: 0
+$ ros2 topic echo /camera/camera_info --once --field header.frame_id --no-lost-messages
+xbot/pitch_platform/rgbd_camera
+---
+
+# simulation process output
+[parameter_bridge-8] [INFO] [1788016185.458748149] [gazebo2_camera_bridge]: Creating GZ->ROS Bridge: [/rgbd_camera/image (gz.msgs.Image) -> /rgbd_camera/image (sensor_msgs/msg/Image)] (Lazy 0)
+[parameter_bridge-8] [INFO] [1788016185.461379403] [gazebo2_camera_bridge]: Creating GZ->ROS Bridge: [/rgbd_camera/camera_info (gz.msgs.CameraInfo) -> /rgbd_camera/camera_info (sensor_msgs/msg/CameraInfo)] (Lazy 0)
+[parameter_bridge-5] [INFO] [1788016185.481475789] [gazebo2_clock_bridge]: Creating GZ->ROS Bridge: [/clock (gz.msgs.Clock) -> /clock (rosgraph_msgs/msg/Clock)] (Lazy 0)
+[create-9] [INFO] [1788016187.675144273] [ros_gz_sim]: Entity creation successful.
+$ python3 scripts/save_camera_frame.py /camera/image_raw /tmp/camera_frame.jpg
+save_camera_frame: saved /tmp/camera_frame.jpg
+$ ros2 run vision_llm_demo vision_llm_server provider:=mock
+$ ros2 run vision_llm_demo vision_llm_client count:=2
+[0m[INFO] [1788016200.015341417] [vision_llm_client]: [1/2] MOCK-VISION: 前方车道畅通，无障碍物，建议保持当前车速巡航。[0m
+[0m[INFO] [1788016202.839502570] [vision_llm_client]: [2/2] MOCK-VISION: 检测到前方 8 m 处静止车辆，建议减速并保持安全车距。[0m
+$ ros2 service call /vision_llm std_srvs/srv/Trigger "{}"
+requester: making request: std_srvs.srv.Trigger_Request()
+
+response:
+std_srvs.srv.Trigger_Response(success=True, message='MOCK-VISION: 右侧人行道出现行人，注意减速避让。')
+
+
+# vision_server process output
+[INFO] [1788016198.057737788] [vision_llm_server]: vision_llm service ready (provider=mock)
+[INFO] [1788016199.997047978] [vision_llm_server]: caption: MOCK-VISION: 前方车道畅通，无障碍物，建议保持当前车速巡航。
+[INFO] [1788016202.838248113] [vision_llm_server]: caption: MOCK-VISION: 检测到前方 8 m 处静止车辆，建议减速并保持安全车距。
+[INFO] [1788016203.730254075] [vision_llm_server]: caption: MOCK-VISION: 右侧人行道出现行人，注意减速避让。
+$ ros2 run vision_llm_demo vision_llm_server --ros-args -r __node:=vision_llm_openai -r vision_llm:=vision_llm_real -p provider:=openai -p image_path:=/tmp/camera_frame.jpg
+$ ros2 service call /vision_llm_real std_srvs/srv/Trigger "{}"
+requester: making request: std_srvs.srv.Trigger_Request()
+
+response:
+std_srvs.srv.Trigger_Response(success=True, message='**场景描述：**\n画面显示的是一个室内或有顶棚的区域（如车库、维修站或公交总站），主要主体是一辆白色的巴士，车身侧面印有“KEIKA BUS”字样。画面左侧有一根立柱。值得注意的是，**整个监控画面或图像是上下颠倒的**。\n\n**驾驶建议：**\n**立即检查并校正摄像头或显示设备。** 由于画面是倒置的，这会严重干扰驾驶员对距离、高度和周围环境的判断，极易引发事故。在设备修复前，请勿依赖该画面进行倒车或泊车操作，应直接通过后视镜或下车观察来确认安全。')
+
+
+# vision_openai process output
+[INFO] [1788016204.853549348] [vision_llm_openai]: vision_llm service ready (provider=openai)
+[INFO] [1788016243.308225688] [vision_llm_openai]: caption: **场景描述：**
+画面显示的是一个室内或有顶棚的区域（如车库、维修站或公交总站），主要主体是一辆白色的巴士，车身侧面印有“KEIKA BUS”字样。画面左侧有一根立柱。值得注意的是，**整个监控画面或图像是上下颠倒的**。
+
+**驾驶建议：**
+**立即检查并校正摄像头或显示设备。** 由于画面是倒置的，这会严重干扰驾驶员对距离、高度和周围环境的判断，极易引发事故。在设备修复前，请勿依赖该画面进行倒车或泊车操作，应直接通过后视镜或下车观察来确认安全。
+
+Script done on 2026-08-29 23:10:46+08:00 [COMMAND_EXIT_CODE="0"]

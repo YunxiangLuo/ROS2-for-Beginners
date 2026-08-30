@@ -1,0 +1,19 @@
+Script started on 2026-08-30 06:16:03+08:00 [COMMAND="bash '/mnt/c/Users/tiger/Desktop/robot/Technologies-of-ROS2-Programming-master/scripts/runtime_capture_session.sh'" <not executed on terminal>]
+$ ros2 launch robot_sim_demo gazebo2.launch.py gui:=false rviz:=false drive:=false gz_partition:=runtime_capture_ch15 enable_depth_camera:=true
+$ ros2 topic info /camera/image_raw
+Type: sensor_msgs/msg/Image
+Publisher count: 1
+Subscription count: 0
+$ ros2 control list_controllers
+[92mwheel_velocity_controller[0m velocity_controllers/JointGroupVelocityController  [92mactive[0m
+[92mjoint_state_broadcaster  [0m joint_state_broadcaster/JointStateBroadcaster      [92mactive[0m
+
+# simulation process output
+[parameter_bridge-5] [INFO] [1788041765.004524679] [gazebo2_clock_bridge]: Creating GZ->ROS Bridge: [/clock (gz.msgs.Clock) -> /clock (rosgraph_msgs/msg/Clock)] (Lazy 0)
+[parameter_bridge-8] [INFO] [1788041765.005715878] [gazebo2_camera_bridge]: Creating GZ->ROS Bridge: [/rgbd_camera/image (gz.msgs.Image) -> /rgbd_camera/image (sensor_msgs/msg/Image)] (Lazy 0)
+[parameter_bridge-8] [INFO] [1788041765.006900543] [gazebo2_camera_bridge]: Creating GZ->ROS Bridge: [/rgbd_camera/camera_info (gz.msgs.CameraInfo) -> /rgbd_camera/camera_info (sensor_msgs/msg/CameraInfo)] (Lazy 0)
+[create-9] [INFO] [1788041767.217497817] [ros_gz_sim]: Entity creation successful.
+
+# arm_only process output
+
+Script done on 2026-08-30 06:16:18+08:00 [COMMAND_EXIT_CODE="0"]

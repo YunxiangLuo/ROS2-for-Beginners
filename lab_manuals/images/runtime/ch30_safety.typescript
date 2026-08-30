@@ -1,0 +1,28 @@
+Script started on 2026-08-29 23:12:38+08:00 [COMMAND="bash '/mnt/c/Users/tiger/Desktop/robot/Technologies-of-ROS2-Programming-master/scripts/runtime_capture_session.sh'" <not executed on terminal>]
+$ ros2 run av_safety_monitor safety_monitor --ros-args -p ttc_threshold_warning:=4.0 -p ttc_threshold_critical:=2.5 -p ttc_threshold_emergency:=1.5
+$ ros2 run av_safety_monitor fault_injector --ros-args -p fault_type:=drop -p target_topic:=/debug_status -p fault_probability:=0.1
+$ ros2 topic pub /debug_status std_msgs/msg/String ... -r 2
+$ ros2 topic echo /debug_status_injected --once
+data: heartbeat
+---
+$ ros2 topic echo /safety_status --once
+data: '[WARNING] Normal'
+---
+$ ros2 service call /inject_fault std_srvs/srv/SetBool "{data: false}"
+requester: making request: std_srvs.srv.SetBool_Request(data=False)
+
+response:
+std_srvs.srv.SetBool_Response(success=True, message='Fault injection disabled')
+
+$ ros2 node list
+/fault_injector
+/safety_monitor
+
+# safety_monitor process output
+[INFO] [1788016360.585406251] [safety_monitor]: SafetyMonitor initialized
+
+# fault_injector process output
+[INFO] [1788016360.492702785] [fault_injector]: FaultInjector initialized: type=drop, topic=/debug_status, prob=0.1
+[INFO] [1788016367.758345400] [fault_injector]: Fault injection disabled
+
+Script done on 2026-08-29 23:12:52+08:00 [COMMAND_EXIT_CODE="0"]

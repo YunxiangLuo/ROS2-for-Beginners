@@ -1,0 +1,13 @@
+Script started on 2026-08-30 00:05:15+08:00 [COMMAND="bash '/mnt/c/Users/tiger/Desktop/robot/Technologies-of-ROS2-Programming-master/scripts/runtime_capture_session.sh'" <not executed on terminal>]
+$ ros2 launch slam_sim_demo_ros2 slam_demo.launch.py use_gazebo:=true use_rviz:=true gz_headless:=false
+$ ros2 topic echo /map --once --field info.resolution --no-lost-messages
+0.05000000074505806
+---
+$ ros2 topic echo /map --once --field header.frame_id --no-lost-messages
+map
+---
+
+# slam process output
+[parameter_bridge-5] [INFO] [1788019520.746882029] [gazebo2_clock_bridge]: Creating GZ->ROS Bridge: [/clock (gz.msgs.Clock) -> /clock (rosgraph_msgs/msg/Clock)] (Lazy 0)
+
+Script done on 2026-08-30 00:05:36+08:00 [COMMAND_EXIT_CODE="0"]

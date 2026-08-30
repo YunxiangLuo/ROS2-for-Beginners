@@ -1,0 +1,113 @@
+Script started on 2026-08-30 00:25:59+08:00 [COMMAND="bash '/mnt/c/Users/tiger/Desktop/robot/Technologies-of-ROS2-Programming-master/scripts/runtime_capture_session.sh'" <not executed on terminal>]
+$ ros2 launch navigation_sim_demo_ros2 nav2_demo.launch.py use_gazebo:=true use_rviz:=true gz_headless:=false
+$ ros2 lifecycle get /bt_navigator
+active [3]
+$ ros2 action list -t
+/backup [nav2_msgs/action/BackUp]
+/compute_path_through_poses [nav2_msgs/action/ComputePathThroughPoses]
+/compute_path_to_pose [nav2_msgs/action/ComputePathToPose]
+/drive_on_heading [nav2_msgs/action/DriveOnHeading]
+/follow_gps_waypoints [nav2_msgs/action/FollowGPSWaypoints]
+/follow_path [nav2_msgs/action/FollowPath]
+/follow_waypoints [nav2_msgs/action/FollowWaypoints]
+/navigate_to_pose [nav2_msgs/action/NavigateToPose]
+/smooth_path [nav2_msgs/action/SmoothPath]
+/spin [nav2_msgs/action/Spin]
+/wait [nav2_msgs/action/Wait]
+$ ros2 action send_goal /navigate_to_pose nav2_msgs/action/NavigateToPose ... --feedback
+Waiting for an action server to become available...
+Sending goal:
+     pose:
+  header:
+    stamp:
+      sec: 0
+      nanosec: 0
+    frame_id: map
+  pose:
+    position:
+      x: 1.0
+      y: 0.0
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      w: 1.0
+behavior_tree: ''
+
+Goal accepted with ID: 44bd113adb42452bbfa91719ac24bca5
+
+Canceling goal...
+Executor is already spinning
+
+# nav2 process output
+[INFO] [controller_server-10]: process started with pid [4364]
+[INFO] [bt_navigator-14]: process started with pid [4373]
+[parameter_bridge-5] [INFO] [1788020761.567868279] [gazebo2_clock_bridge]: Creating GZ->ROS Bridge: [/clock (gz.msgs.Clock) -> /clock (rosgraph_msgs/msg/Clock)] (Lazy 0)
+[controller_server-10] [INFO] [1788020761.582918038] [controller_server]: 
+[controller_server-10] 	controller_server lifecycle node launched. 
+[controller_server-10] 	Waiting on external lifecycle transitions to activate
+[controller_server-10] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[controller_server-10] [INFO] [1788020761.590029761] [controller_server]: Creating controller server
+[controller_server-10] [INFO] [1788020761.621820004] [local_costmap.local_costmap]: 
+[controller_server-10] 	local_costmap lifecycle node launched. 
+[controller_server-10] 	Waiting on external lifecycle transitions to activate
+[controller_server-10] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[controller_server-10] [INFO] [1788020761.623144953] [local_costmap.local_costmap]: Creating Costmap
+[bt_navigator-14] [INFO] [1788020761.633058438] [bt_navigator]: 
+[bt_navigator-14] 	bt_navigator lifecycle node launched. 
+[bt_navigator-14] 	Waiting on external lifecycle transitions to activate
+[bt_navigator-14] 	See https://design.ros2.org/articles/node_lifecycle.html for more information.
+[bt_navigator-14] [INFO] [1788020761.637779728] [bt_navigator]: Creating
+[controller_server-10] [INFO] [1788020763.638314120] [controller_server]: Configuring controller interface
+[controller_server-10] [INFO] [1788020763.638350765] [controller_server]: getting progress checker plugins..
+[controller_server-10] [INFO] [1788020763.638722412] [controller_server]: getting goal checker plugins..
+[controller_server-10] [INFO] [1788020763.639150995] [controller_server]: Controller frequency set to 10.0000Hz
+[controller_server-10] [INFO] [1788020763.639206221] [local_costmap.local_costmap]: Configuring
+[controller_server-10] [INFO] [1788020763.649210757] [local_costmap.local_costmap]: Using plugin "obstacle_layer"
+[controller_server-10] [INFO] [1788020763.656887479] [local_costmap.local_costmap]: Subscribed to Topics: scan
+[controller_server-10] [INFO] [1788020763.663542971] [local_costmap.local_costmap]: Initialized plugin "obstacle_layer"
+[controller_server-10] [INFO] [1788020763.663611256] [local_costmap.local_costmap]: Using plugin "inflation_layer"
+[controller_server-10] [INFO] [1788020763.664518922] [local_costmap.local_costmap]: Initialized plugin "inflation_layer"
+[controller_server-10] [INFO] [1788020763.688661896] [controller_server]: Created progress_checker : progress_checker of type nav2_controller::SimpleProgressChecker
+[controller_server-10] [INFO] [1788020763.690034464] [controller_server]: Controller Server has progress_checker  progress checkers available.
+[controller_server-10] [INFO] [1788020763.690686923] [controller_server]: Created goal checker : general_goal_checker of type nav2_controller::SimpleGoalChecker
+[controller_server-10] [INFO] [1788020763.691245250] [controller_server]: Controller Server has general_goal_checker  goal checkers available.
+[controller_server-10] [INFO] [1788020763.696153997] [controller_server]: Created controller : FollowPath of type dwb_core::DWBLocalPlanner
+[controller_server-10] [INFO] [1788020763.698960667] [controller_server]: Setting transform_tolerance to 0.200000
+[controller_server-10] [INFO] [1788020763.709550564] [controller_server]: Using critic "RotateToGoal" (dwb_critics::RotateToGoalCritic)
+[controller_server-10] [INFO] [1788020763.710859167] [controller_server]: Critic plugin initialized
+[controller_server-10] [INFO] [1788020763.710959822] [controller_server]: Using critic "Oscillation" (dwb_critics::OscillationCritic)
+[controller_server-10] [INFO] [1788020763.711176503] [controller_server]: Critic plugin initialized
+[controller_server-10] [INFO] [1788020763.711228202] [controller_server]: Using critic "BaseObstacle" (dwb_critics::BaseObstacleCritic)
+[controller_server-10] [INFO] [1788020763.711313499] [controller_server]: Critic plugin initialized
+[controller_server-10] [INFO] [1788020763.711387551] [controller_server]: Using critic "GoalAlign" (dwb_critics::GoalAlignCritic)
+[controller_server-10] [INFO] [1788020763.711810460] [controller_server]: Critic plugin initialized
+[controller_server-10] [INFO] [1788020763.711937966] [controller_server]: Using critic "PathAlign" (dwb_critics::PathAlignCritic)
+[controller_server-10] [INFO] [1788020763.712127783] [controller_server]: Critic plugin initialized
+[controller_server-10] [INFO] [1788020763.712200634] [controller_server]: Using critic "PathDist" (dwb_critics::PathDistCritic)
+[controller_server-10] [INFO] [1788020763.713106802] [controller_server]: Critic plugin initialized
+[controller_server-10] [INFO] [1788020763.713413890] [controller_server]: Using critic "GoalDist" (dwb_critics::GoalDistCritic)
+[controller_server-10] [INFO] [1788020763.714017721] [controller_server]: Critic plugin initialized
+[controller_server-10] [INFO] [1788020763.714052089] [controller_server]: Controller Server has FollowPath  controllers available.
+[bt_navigator-14] [INFO] [1788020763.910256308] [bt_navigator]: Configuring
+[bt_navigator-14] [INFO] [1788020763.919077527] [bt_navigator]: Creating navigator id navigate_to_pose of type nav2_bt_navigator::NavigateToPoseNavigator
+[bt_navigator-14] [WARN] [1788020763.924425027] [bt_navigator]: Error_code parameters were not set. Using default values of: follow_path_error_code compute_path_error_code
+[bt_navigator-14] Make sure these match your BT and there are not other sources of error codes youreported to your application
+[controller_server-10] [INFO] [1788020764.044084847] [controller_server]: Activating
+[controller_server-10] [INFO] [1788020764.044170739] [local_costmap.local_costmap]: Activating
+[controller_server-10] [INFO] [1788020764.044185297] [local_costmap.local_costmap]: Checking transform
+[controller_server-10] [INFO] [1788020764.044249906] [local_costmap.local_costmap]: Timed out waiting for transform from base_link to odom to become available, tf error: Invalid frame ID "odom" passed to canTransform argument target_frame - frame does not exist
+[controller_server-10] [INFO] [1788020764.544425980] [local_costmap.local_costmap]: Timed out waiting for transform from base_link to odom to become available, tf error: Invalid frame ID "odom" passed to canTransform argument target_frame - frame does not exist
+[controller_server-10] [INFO] [1788020765.044425671] [local_costmap.local_costmap]: Timed out waiting for transform from base_link to odom to become available, tf error: Invalid frame ID "odom" passed to canTransform argument target_frame - frame does not exist
+[controller_server-10] [INFO] [1788020765.544329405] [local_costmap.local_costmap]: Timed out waiting for transform from base_link to odom to become available, tf error: Invalid frame ID "odom" passed to canTransform argument target_frame - frame does not exist
+[controller_server-10] [INFO] [1788020766.044427605] [local_costmap.local_costmap]: Timed out waiting for transform from base_link to odom to become available, tf error: Invalid frame ID "odom" passed to canTransform argument target_frame - frame does not exist
+[controller_server-10] [INFO] [1788020766.544337032] [local_costmap.local_costmap]: Timed out waiting for transform from base_link to odom to become available, tf error: Invalid frame ID "odom" passed to canTransform argument target_frame - frame does not exist
+[controller_server-10] [INFO] [1788020767.046168575] [local_costmap.local_costmap]: start
+[controller_server-10] [INFO] [1788020767.247404060] [controller_server]: Creating bond (controller_server) to lifecycle manager.
+[bt_navigator-14] [INFO] [1788020768.318236116] [bt_navigator]: Activating
+[bt_navigator-14] [INFO] [1788020768.370817207] [bt_navigator]: Creating bond (bt_navigator) to lifecycle manager.
+[nav2_lifecycle_runner-18] nav2-stack-active
+[controller_server-10] [INFO] [1788020778.072157689] [local_costmap.local_costmap]: Message Filter dropping message: frame 'laser' at time 8.058 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
+
+Script done on 2026-08-30 00:27:53+08:00 [COMMAND_EXIT_CODE="0"]

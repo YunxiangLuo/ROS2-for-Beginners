@@ -213,8 +213,12 @@ class SafetyMonitor(Node):
         self._publish_markers(alert_level)
 
         if alert_level != self._current_alert:
-            log_fn = self.get_logger().warn if alert_level >= AlertLevel.CRITICAL else self.get_logger().info
-            log_fn(f'Safety status changed to {LEVEL_NAMES[alert_level]}: {status_msg.data}')
+            if alert_level >= AlertLevel.CRITICAL:
+                self.get_logger().warn(
+                    f'Safety status changed to {LEVEL_NAMES[alert_level]}: {status_msg.data}')
+            else:
+                self.get_logger().info(
+                    f'Safety status changed to {LEVEL_NAMES[alert_level]}: {status_msg.data}')
             self._current_alert = alert_level
 
 
