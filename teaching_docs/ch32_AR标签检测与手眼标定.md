@@ -1,21 +1,13 @@
 # 第32章 AR标签检测与手眼标定
 
 ## 学习目标
-- 掌握AprilTag和ArUco标签的检测方法
-- 理解标签位姿估计原理
-- 掌握手眼标定的两种方式（eye-in-hand/eye-to-hand）
-- 学会使用easy_handeye进行手眼标定
-- 理解坐标变换在视觉系统中的作用
+本章学习目标包括：掌握AprilTag和ArUco标签的检测方法；理解标签位姿估计原理；掌握手眼标定的两种方式（eye-in-hand/eye-to-hand）；学会使用easy_handeye进行手眼标定；理解坐标变换在视觉系统中的作用。
 
 ## 32.1 AR标签检测
 
 ### 32.1.1 什么是AR标签
 
-AR（Augmented Reality）标签是用于视觉定位的标记图案，通过图像处理可以快速检测并计算出标签在三维空间中的位姿。常见的AR标签类型：
-
-- **ArUco**：OpenCV集成的开源标签系统
-- **AprilTag**：比ArUco精度更高、误检率更低
-- **QR Code**：通用二维码，但位姿估计精度较低
+AR（Augmented Reality）标签是用于视觉定位的标记图案，通过图像处理可以快速检测并计算出标签在三维空间中的位姿。常见的AR标签类型有：**ArUco**是OpenCV集成的开源标签系统；**AprilTag**比ArUco精度更高、误检率更低；**QR Code**是通用二维码，但位姿估计精度较低。
 
 ArUco标签的配置参数：
 
@@ -333,10 +325,7 @@ object → camera_link → base_link → (MoveIt2) → end_effector
 标定板(固定于末端) → 相机视角 → 机械臂运动多个位姿
 ```
 
-变换关系：
-- A：机械臂末端在基座下的位姿（已知，正运动学）
-- B：标定板在相机下的位姿（已知，视觉检测）
-- X：相机在基座下的位姿（待求解）
+变换关系为：A表示机械臂末端在基座下的位姿（已知，正运动学），B表示标定板在相机下的位姿（已知，视觉检测），X表示相机在基座下的位姿（待求解）。
 
 求解方程：AX = XB
 
@@ -365,9 +354,7 @@ B = T_camera_board_current * T_camera_board_next⁻¹
 X = T_endeffector_camera（eye-in-hand）或 T_base_camera（eye-to-hand）
 ```
 
-求解分为两步：
-1. 旋转部分求解：R_A * R_X = R_X * R_B
-2. 平移部分求解：(R_A - I) * t_X = R_X * t_B - t_A
+求解分为两步：先进行旋转部分求解（R_A * R_X = R_X * R_B），再进行平移部分求解（(R_A - I) * t_X = R_X * t_B - t_A）。
 
 ```python
 import numpy as np
@@ -492,13 +479,7 @@ ros2 run easy_handeye handeye_calibration_client
 
 **步骤3：采集数据**
 
-通过GUI操作：
-1. 控制机械臂运动到第一个位姿
-2. 点击"Take Sample"采集
-3. 控制机械臂运动到不同位姿
-4. 重复采集（建议至少采集17个样本）
-5. 点击"Compute"计算结果
-6. 点击"Save"保存标定结果
+通过GUI操作完成数据采集：先控制机械臂运动到第一个位姿，点击"Take Sample"采集；再控制机械臂运动到不同位姿并重复采集（建议至少采集17个样本）；最后点击"Compute"计算结果，并点击"Save"保存标定结果。
 
 **步骤4：保存结果**
 
@@ -760,6 +741,18 @@ class TFVisualizer(Node):
             self.get_logger().debug(f'TF查询失败: {e}')
 ```
 
+### 32.3.7 官方要点——OpenCV 官方 ArUco 文档、easy_handeye 标定教程与 TF2 官方坐标变换教程
+
+**OpenCV 官方 ArUco 模块：字典、检测与位姿估计。**OpenCV 官方 ArUco 教程定义了练习第 1 题的全部细节：`cv.aruco.Dictionary_get(aruco.DICT_6X6_250)` 生成 6x6 位纹、250 个标记的字典（H/maxCorrection 决定误检率），`cv.aruco.detectMarkers` 返回角点与 ID，`cv.aruco.estimatePoseSingleMarkers` 用已知 `markerLength`（米）求解板系位姿（rvec/tvec）。官方文档特别提醒一个"规范"问题：正方形标记存在 180° 镜像歧义（rvec 有两个对称解），因此单面 ArUco 的 roll 方向可能整体翻转——工程上常用"对角角点编号排序 + 已知朝上轴"消歧。AprilTag（MIT 项目）在 OpenCV 4.7 后同样纳入 `cv.aruco.detectMarkers` 的字典选项，其四大家族（tag36h11 等）误检率更低，间距依赖更弱，是 ArUco 之外的另一主流选择。
+
+**手眼标定的官方数学约定：AX=XB 与两种构型。**本章 32.2 节的核心方程在机器人视觉文献中即经典 A X = X B 问题：A 是相机两次观测间的变换（由标记位姿相除得到），B 是机械臂两次位姿间的变换（从 TF/正运动学读取），X 是待求手眼矩阵；官方文档普遍强调，平移与旋转需分解求解（先旋转后平移，即本章 32.2 节的方程组），且最小化重投影误差的优化解优于解析解。easy_handeye 官方文档把两种构型讲得很清楚：eye-in-hand（相机装末端，X = 相机→末端）与 eye-to-hand（相机装外部固定位，X = 相机→基座），两者只需在启动时选对参数头文件，算法一致，但 motions 建议不同——eye-in-hand 要求大旋转、小平移，eye-to-hand 反之，两条经验都对应练习第 3 题"至少 17 个样本、位姿差异尽量大"的采集策略。
+
+**easy_handeye2 官方流程：界面、服务与参数。**easy_handeye2（ROS 2 维护版，原 easy_handeye 移植）官方 README 给出了练习第 3/4 题的完整走法：`ros2 launch easy_handeye2 publish.launch.py eye:=on_robot/off_robot` 启动标定界面（MoveIt 侧 RViz 面板 Take Sample / Compute / Save），每次采样自动读取当前机械臂位姿与标记位姿，采集满 17 个以上样本后点 Compute 估算 X；保存时生成 `handeye.yaml`（含 transformation 矩阵），`publish.launch.py` 的 `eye_on_hand` 参数决定发布到 TF 的静态变换名称。官方文档强调标定结果应做交叉验证：采集一组"验证样本"（不参与求解），检查重投影误差与在 RViz 中把相机看到的标记框与机械臂模型对齐；`tsai-lenz`、`park-martin` 等求解器可在配置中切换，官方建议多种解法互相佐证。
+
+**TF2 官方教程：把标定结果变成可用坐标链。**ROS 2 官方 TF2 教程（Writing/Reading Frames）覆盖了练习第 2/4/5 题涉及的变换链：`tf2_ros.StaticTransformBroadcaster` 发布"标定后固定不变"的 camera→base 关系，`tf2_ros.Buffer.lookup_transform` 在任意时刻查询 marker→base 的合成变换；官方教程强调查询应选 `tf2_time` 对齐的同步帧，且静态变换发布后其他节点才能做 look-at 链式运算。练习第 5 题的"标记→机械臂基座"终点在官方工程里就是 Image→camera_info（第 30 章反投影）→ArUco 位姿（第 32.1 节）→lookup（第 32.4 节）四段链路的串接，The Construct 的手眼标定课程与 Robotics Back-End 的教程分别演示了 Gazebo 仿真与真实 UR5 上验证该链条的完整工程案例。
+
+> 本节内容综合翻译自 OpenCV 官方文档（ArUco 模块教程）、easy_handeye / easy_handeye2 官方仓库文档、ROS 2 官方 TF2 教程（Writing/Reading Frame）与 MoveIt 官方 "Hand-Eye Calibration" 相关文档，另参考 AprilTag 项目官方文档与 The Construct 的手眼标定课程。原文均为英文，此处为中文编译，供课后巩固与进阶阅读。
+
 ## 课后练习
 
 1. 生成4个不同的ArUco标记（DICT_6X6_250），打印并固定在物体表面。编写ROS2节点检测并输出每个标记的ID和位姿。
@@ -799,6 +792,11 @@ TF 查询应返回相机相对机器人基座的变换；ArUco 检测和手眼�
 
 ### 源码
 
-- 相机/TF：`src/robot_sim_demo/models/wheeltec_robot/model.sdf`、`src/robot_sim_demo/config/gazebo2_bridge.yaml`
-- xArm MoveIt：`src/xarm/launch/arm_only_move_group.launch.py`
-- 视觉实验参考：`src/lab_code/ch19_lab/vision_detection_lab/`
+相机/TF：`src/robot_sim_demo/models/wheeltec_robot/model.sdf`、`src/robot_sim_demo/config/gazebo2_bridge.yaml`；xArm MoveIt：`src/xarm/launch/arm_only_move_group.launch.py`；视觉实验参考：`src/lab_code/ch19_lab/vision_detection_lab/`。
+
+> 参考来源：
+> - OpenCV 官方文档 —— ArUco 模块教程：https://docs.opencv.org/
+> - AprilTag 官方项目文档：https://april.eecs.umich.edu/
+> - easy_handeye / easy_handeye2 官方仓库：https://github.com/ros4hri/easy_handeye2 、https://github.com/ffrisi/easy_handeye_ros
+> - ROS 2 官方 TF2 教程：https://docs.ros.org/
+> - The Construct / Robotics Back-End —— 手眼标定课程：https://www.theconstructsim.com/ 、https://roboticsbackend.com/

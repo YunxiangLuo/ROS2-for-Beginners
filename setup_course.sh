@@ -108,6 +108,19 @@ HARDWARE_ROSDEP_KEYS=(
   usb_cam
 )
 
+CARLA_APT_PACKAGES=(
+  libomp5
+  libegl1
+  libgl1
+  libgl1-mesa-dri
+  libglx-mesa0
+  libvulkan1
+  mesa-vulkan-drivers
+  vulkan-tools
+  xauth
+  xvfb
+)
+
 BASE_ROSDEP_SKIP_KEYS=(
   ament_python
 )
@@ -566,9 +579,23 @@ install_carla_bridge() {
   mkdir -p "${CARLA_WS}/src"
   touch "${marker}"
   if [[ ! -d "${repo}/.git" ]]; then
-    git clone --recurse-submodules https://github.com/carla-simulator/ros-bridge.git "${repo}"
+    git -c http.version=HTTP/1.1 clone --recurse-submodules \
+      https://github.com/carla-simulator/ros-bridge.git "${repo}"
   fi
-  git -C "${repo}" fetch origin "${CARLA_BRIDGE_COMMIT}"
+  if git -C "${repo}" cat-file -e "${CARLA_BRIDGE_COMMIT}^{commit}" 2>/dev/null; then
+    log_info "Pinned CARLA bridge commit is already available locally"
+  else
+    local fetched=false
+    for _ in 1 2 3; do
+      if git -C "${repo}" -c http.version=HTTP/1.1 \
+          fetch --no-tags origin "${CARLA_BRIDGE_COMMIT}"; then
+        fetched=true
+        break
+      fi
+      sleep 2
+    done
+    [[ "${fetched}" == true ]] || die "Unable to fetch pinned CARLA bridge commit"
+  fi
   git -C "${repo}" checkout --detach "${CARLA_BRIDGE_COMMIT}"
   git -C "${repo}" submodule update --init --recursive
 
@@ -624,7 +651,7 @@ install_carla_bridge() {
 install_carla_profile() {
   [[ "${WITH_CARLA}" == true ]] || return 0
   CURRENT_STEP="CARLA profile"
-  apt_install libomp5
+  apt_install "${CARLA_APT_PACKAGES[@]}"
   install_carla_server
   install_carla_bridge
 }
@@ -717,7 +744,11 @@ write_environment_file() {
       # PYTHONPATH must be expanded when the generated file is sourced.
       # shellcheck disable=SC2016
       printf 'export PYTHONPATH=%q:${PYTHONPATH:-}\n' "$(carla_python_path)"
-      printf "alias carla-server='cd \"\${CARLA_ROOT}\" && ./CarlaUE4.sh -quality-level=Low'\n"
+      if grep -qi microsoft /proc/version 2>/dev/null; then
+        printf "alias carla-server='cd \"\${CARLA_ROOT}\" && GALLIUM_DRIVER=\"\${GALLIUM_DRIVER:-d3d12}\" ./CarlaUE4.sh -quality-level=Low'\n"
+      else
+        printf "alias carla-server='cd \"\${CARLA_ROOT}\" && ./CarlaUE4.sh -quality-level=Low'\n"
+      fi
     fi
     if [[ -f "${CARLA_WS}/install/setup.bash" ]]; then
       printf "alias carla-bridge='source %q && ros2 launch carla_ros_bridge carla_ros_bridge.launch.py'\n" \
@@ -809,6 +840,19 @@ verify_installation() {
       'import carla; from importlib.metadata import version; assert version("carla") == "0.9.16"' || \
       ((failures += 1))
     check "CARLA bridge overlay exists" test -f "${CARLA_WS}/install/setup.bash" || ((failures += 1))
+    if command -v glxinfo >/dev/null 2>&1; then
+      local renderer
+      renderer="$(glxinfo -B 2>/dev/null | awk -F': ' '/OpenGL renderer string:/ {print $2; exit}')"
+      if [[ "${renderer}" == *llvmpipe* ]] && grep -qi microsoft /proc/version 2>/dev/null; then
+        renderer="$(GALLIUM_DRIVER=d3d12 glxinfo -B 2>/dev/null | \
+          awk -F': ' '/OpenGL renderer string:/ {print $2; exit}')"
+      fi
+      if [[ -n "${renderer}" && "${renderer}" != *llvmpipe* ]]; then
+        log_ok "CARLA OpenGL renderer: ${renderer}"
+      else
+        log_warn "CARLA graphics acceleration is unavailable; UE4 runtime may not start"
+      fi
+    fi
   fi
 
   check "Installer shell syntax" bash -n "${COURSE_ROOT}/setup_course.sh" || ((failures += 1))

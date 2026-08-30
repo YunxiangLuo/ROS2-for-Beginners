@@ -40,6 +40,8 @@ ros2 run navigation_sim_demo_ros2 nav_goal_runner \
 
 `nonlab_nav2.png` 主要证明导航组件加载与生命周期启动；完整到达目标的结果应在本地运行中按终端输出判断。
 
+![ch11 Nav2 运行输出](../lab_manuals/images/runtime/ch11_nav2.gif)
+
 ## 11.1 知识要点
 
 ### 11.1.1 Nav2 行为树架构

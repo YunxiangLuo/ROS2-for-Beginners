@@ -26,6 +26,14 @@ ros2 run tf2_ros tf2_echo base_link camera_link
 
 应能获得 320x180 图像和 CameraInfo，并确认相机 frame。源码：`src/robot_sim_demo/robot_sim_demo/camera_info_publisher.py`、`src/robot_sim_demo/config/gazebo2_bridge.yaml`、`src/lab_code/ch19_lab/vision_detection_lab/`。仿真内参不等于真实镜头标定结果。
 
+## 实际运行证据
+
+真实运行的相机话题、CameraInfo 和视觉检测输入检查：
+
+![ch19 视觉检测运行输出](images/runtime/ch19_vision.gif)
+
+原始录制：[ch19_vision.cast](images/runtime/ch19_vision.cast)。
+
 > **对应理论章节**：第30章《相机驱动与标定》、第31章《颜色检测与YOLOv8》、第32章《AR标签检测与手眼标定》
 > **实验课时**：6课时  
 > **实验代码**：`src/lab_code/ch19_lab/vision_detection_lab/`  

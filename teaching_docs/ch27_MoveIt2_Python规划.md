@@ -1,10 +1,15 @@
 # 第27章 MoveIt2 Python规划
 
+> **课程**：ROS2 Python 编程  
+> **章节**：第27章  
+> **课时**：2 课时（90 分钟）  
+> **教学方式**：讲授 + 演示  
+
+---
+
 ## 学习目标
-- 掌握MoveItPy API的核心类和用法
-- 学会使用PlanningComponent进行运动规划
-- 理解关节空间运动规划的方法
-- 掌握正逆运动学求解的编程实现
+
+本章学习目标包括：掌握MoveItPy API的核心类和用法，学会使用PlanningComponent进行运动规划，理解关节空间运动规划的方法，掌握正逆运动学求解的编程实现。
 
 ## 27.1 MoveItPy API概览
 
@@ -111,6 +116,12 @@ moveit = MoveItPy(
     ]
 )
 ```
+
+### 27.1.5 官方要点——MoveItPy 官方教程的六个组件编程模型
+
+> 本节内容综合翻译自 MoveIt 2 官方文档（moveit.picknik.ai 的 MoveItPy Tutorial Suite）、PickNik Academy 的 MoveItPy 课程与 MoveIt 官方示例仓库（ros-planning/moveit2 的 moveit_py 包），另参考 The Construct 的 MoveIt Python 课程与 Robotics Back-End 的 MoveItPy 实战教程。原文均为英文，此处为中文编译，供课后巩固与进阶阅读。
+
+MoveIt 官方 MoveItPy Tutorial Suite 把 API 拆成六个组件练习：`MoveItPy`（顶层接口）、`PlanningSceneMonitor`（场景同步）、`RobotModel`/`RobotState`（状态与正运动学）、`PlanComponents`（规划请求）、`PoseGoal`/`JointGoal`（目标类型）与 `moveit_py` 的 display 工具。官方教程的关键启示是“目标类型决定规划维度”：`PlanComponents.setGoal(joint_values=...)` 构造全关节空间规划，而 `setGoal(pose=...)` 触发逆运动学后接笛卡尔校验；混合目标（部分关节 + 位姿）则走 `MotionPlanRequest` 的组合约束。练习第 3 题“命名位姿 vs 关节目标”的比较，官方教程直接用 `setGoal(named=...)` 与 `setGoal(joint_values=...)` 两行代码演示了等价关系。
 
 ## 27.2 PlanningComponent详解
 
@@ -520,6 +531,14 @@ class DirectFKSolver(Node):
         )
 ```
 
+### 27.4.4 官方要点——逆运动学官方接口的 IK 求解入口与回退
+
+MoveItPy 对待 IK 的官方姿态是“把它当作规划目标而非独立数学函数”：`PlanComponents` 内部先查运动学求解器（默认 KDL 数值 IK，见第 24 章扩展的 kinematics.yaml 讨论），再执行可跳过 IK 的关节空间 fallback。官方示例仓库有一份独立的 `solveIK` 示例，演示了直接调用 `RobotState.setFromIK` 拿到多解并按评分排序的底层路径。练习第 2 题的“末端沿 Z 轴上升 0.1 米”本质是切比雪夫（Cartesian）问题：官方建议每次只给相对位姿偏移并重新求解，因为大幅位姿跳变容易落在奇异区或超出工作空间——这与第 24 章“多解性、存在性、奇异性”三个约束直接呼应。
+
+### 27.4.5 官方要点——正运动学官方路径的 RobotState 查询式接口
+
+练习第 5 题的正运动学在 MoveItPy 中由 `robot_state.getGlobalLinkTransform("gripper_centor_link")` 一行完成：官方教程说明它返回从规划基座到指定连杆的 `Isometry3d`，内部按 URDF 关节链实时解析，不持有任何缓存——因此读取时机（关节是否已更新）决定结果正确性。若要与底盘坐标系合并，官方文档要求先做 `setStateFromIK` 或用 `PlanningSceneMonitor` 的 TF 缓冲把链路接到全局帧。监控运行中状态的标准做法是订阅 `/joint_states`（ros2_control 发布）并同步到 RobotState，与本章仿真实例中的 `ros2 topic echo /joint_states` 一致。
+
 ## 27.5 完整应用示例
 
 ### 27.5.1 多目标运动规划器
@@ -642,6 +661,10 @@ class PlanAnalyzer(Node):
         )
 ```
 
+### 27.5.3 官方要点——规划失败排错的官方文档三步诊断
+
+MoveIt 官方 Troubleshooting 页面对练习中常见的规划失败给出固定排查序列：第一步看规划日志中的 `Error Generating Plan, error code 1/2/3`——code 1 是初始状态越限（start state bounds，planning_adapters 的第一层），code 2 是目标不可达 / IK 无解，code 3 是规划器超时；第二步用 RViz 的 Planning Scene 面板勾选显示 start/goal 状态，目测目标是否在可行域；第三步用 `ros2 run moveit_ros_move_group move_group --ros-args` 打开 debug 日志看采样失败具体在哪些空间维。PickNik Academy 把三步做成了“十分钟排错”视频课；The Construct 的课程则用真实工程案例演示了 MoveItPy 与 RViz 配合的 observe-request-act 循环。
+
 ## 课后练习
 
 1. 编写MoveItPy程序，控制六自由度机械臂依次运动到5个不同的关节目标位置，每次到达后输出当前关节值。
@@ -683,8 +706,15 @@ ros2 topic echo /joint_states --once
 
 ### 源码与边界
 
-- MoveItPy 参考：`src/lab_code/ch17_lab/moveit_fk_ik_lab/`
-- xArm 配置：`src/xarm/config/`
-- MoveIt Launch：`src/xarm/launch/arm_only_move_group.launch.py`
+MoveItPy 参考代码位于 `src/lab_code/ch17_lab/moveit_fk_ik_lab/`，xArm 配置位于 `src/xarm/config/`，MoveIt Launch 文件为 `src/xarm/launch/arm_only_move_group.launch.py`。
 
 入口是否能执行取决于本地 `moveit_py` 和 xArm 描述依赖；不把未运行的规划写成成功结果。
+
+![ch17 MoveIt 运动学规划运行输出](../lab_manuals/images/runtime/ch17_ik_demo.gif)
+
+> 参考来源：
+> - MoveIt 2 官方文档 —— MoveItPy Tutorial Suite 与 Troubleshooting：https://moveit.picknik.ai/
+> - MoveIt 官方示例仓库 —— moveit_py 包：https://github.com/ros-planning/moveit2
+> - PickNik Academy —— MoveItPy 培训课程：https://academy.picknik.ai/
+> - The Construct —— MoveIt Python 课程：https://www.theconstructsim.com/
+> - Robotics Back-End —— MoveItPy 实战教程：https://roboticsbackend.com/

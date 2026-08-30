@@ -15,8 +15,8 @@
 
 1. **启动 CARLA 服务器**
    ```bash
-   # 在 CARLA 安装目录下
-   ./CarlaUE4.sh -quality-level=Low   # Linux
+   source ~/.config/ros2-course/env.bash
+   carla-server                         # Linux / WSL2
    # 或
    CarlaUE4.exe -quality-level=Low     # Windows
    ```

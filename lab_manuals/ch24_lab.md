@@ -17,11 +17,16 @@
 
 ## 练习24.1: 配置并启动多传感器套件
 
+开始前加载课程环境：
+
+```bash
+source ~/.config/ros2-course/env.bash
+```
+
 ### 步骤1: 启动CARLA服务端
 ```bash
 # 终端1: 启动CARLA
-cd /opt/carla/bin
-./CarlaUE4.sh -quality-level=Low
+carla-server
 
 # 或者使用Docker
 docker run --rm -it --gpus all \

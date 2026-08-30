@@ -19,6 +19,16 @@
 - `carla-ros-bridge` 已编译
 - Python 3.8+ with `carla` pip package
 
+推荐使用课程安装器生成的环境启动服务端和 Bridge：
+
+```bash
+source ~/.config/ros2-course/env.bash
+# 终端1
+carla-server
+# 终端2
+carla-bridge
+```
+
 ---
 
 ## 练习29.1: 交通灯检测与停止

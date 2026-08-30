@@ -34,6 +34,8 @@ ros2 topic echo /camera/camera_info --once
 
 不要将固定 mock JSON 当作 VLM 的实际视觉识别结果。
 
+![ch14 相机桥接运行输出](../lab_manuals/images/runtime/ch14_camera_headless.gif)
+
 ## 14.1 知识要点
 
 ### 14.1.1 LLM 任务规划节点

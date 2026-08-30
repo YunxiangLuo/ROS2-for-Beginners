@@ -10,6 +10,20 @@
 
 在 CARLA 0.9.16 和 ROS 2 Jazzy 环境中，完成传感器、感知、规划、控制和安全监控节点的组合验证。课程仓库提供可构建的基础节点、接口包和演示脚本；完整的城区自动驾驶管线还需要另行提供实现模块。
 
+## 实际运行证据
+
+以下 GIF 记录了自动驾驶基础组件的实际运行检查；这些组件即使可以单独启动，也不代表 CARLA 已连接或完整闭环已经成功。
+
+![ch31 传感器配置运行输出](images/runtime/nonlab_av_sensor.gif)
+
+![ch31 激光感知运行输出](images/runtime/nonlab_av_perception.gif)
+
+![ch31 全局规划运行输出](images/runtime/nonlab_av_planning.gif)
+
+![ch31 纵向控制运行输出](images/runtime/nonlab_av_control.gif)
+
+![ch31 安全监控运行输出](images/runtime/nonlab_av_safety.gif)
+
 ## 实验准备
 
 ### 1. 配置课程环境
@@ -110,7 +124,8 @@ ros2 run av_safety_monitor safety_monitor
 
 ### 一键启动
 
-`town_demo.sh` 位于工作空间的 `src/labs/ch31_lab/`，默认使用 `~/ros2_course_ws` 和 `/opt/carla`：
+`town_demo.sh` 位于工作空间的 `src/labs/ch31_lab/`，默认使用课程环境中的
+`$ROS2_COURSE_WS` 和 `$CARLA_ROOT`（分别回退到 `~/ros2_course_ws` 和 `~/carla`）：
 
 ```bash
 cd "$ROS2_COURSE_WS/src/labs/ch31_lab"

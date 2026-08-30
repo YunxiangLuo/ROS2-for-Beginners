@@ -4,10 +4,17 @@
 
 set -e
 
-CARLA_PATH="${1:-./CarlaUE4.sh}"
 SPAWN_POINT="${2:-10}"
 ROS_WS="${HOME}/carla_ws"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+COURSE_ENV_FILE="${XDG_CONFIG_HOME:-${HOME}/.config}/ros2-course/env.bash"
+
+if [ -f "${COURSE_ENV_FILE}" ]; then
+    # shellcheck disable=SC1090
+    source "${COURSE_ENV_FILE}"
+fi
+
+CARLA_PATH="${1:-${CARLA_ROOT:-./CarlaUE4.sh}}"
 
 echo "============================================"
 echo " CARLA-ROS2 Bridge 一键启动脚本"
@@ -30,7 +37,11 @@ else
         "${CARLA_PATH}" -quality-level=Low &
     else
         # Linux
-        bash "${CARLA_PATH}" -quality-level=Low &
+        if grep -qi microsoft /proc/version 2>/dev/null; then
+            GALLIUM_DRIVER="${GALLIUM_DRIVER:-d3d12}" bash "${CARLA_PATH}" -quality-level=Low &
+        else
+            bash "${CARLA_PATH}" -quality-level=Low &
+        fi
     fi
     echo "[INFO] 等待 CARLA 启动 (15秒)..."
     sleep 15

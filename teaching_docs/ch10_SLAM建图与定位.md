@@ -38,6 +38,8 @@ ros2 topic echo /map --once
 
 该证据是 `slam_toolbox` 启动和传感器注册的终端证据；地图可视化应以本地 RViz 实际画面为准。
 
+![ch10 SLAM 运行输出](../lab_manuals/images/runtime/ch10_slam.gif)
+
 ## 10.1 知识要点
 
 ### 10.1.1 SLAM 基本原理

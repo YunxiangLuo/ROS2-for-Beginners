@@ -25,6 +25,14 @@ colcon build --symlink-install --packages-select \
 source install/setup.bash
 ```
 
+## 实际运行证据
+
+真实运行的安全监控、故障注入和状态话题检查：
+
+![ch30 安全监控运行输出](images/runtime/ch30_safety.gif)
+
+原始录制：[ch30_safety.cast](images/runtime/ch30_safety.cast)。
+
 ## 练习 30.1：验证安全监控节点
 
 `av_safety_monitor` 提供 TTC 预警、碰撞事件处理、轨迹安全监控和故障注入节点。

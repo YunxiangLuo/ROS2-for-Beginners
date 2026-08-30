@@ -1,11 +1,15 @@
 # 第26章 MoveIt2基础
 
+> **课程**：ROS2 Python 编程  
+> **章节**：第26章  
+> **课时**：2 课时（90 分钟）  
+> **教学方式**：讲授 + 演示  
+
+---
+
 ## 学习目标
-- 理解MoveIt2的架构设计
-- 掌握Setup Assistant配置流程
-- 学会使用MoveGroupInterface API
-- 理解OMPL运动规划器的工作原理
-- 掌握碰撞检测的配置和使用
+
+本章学习目标包括：理解MoveIt2的架构设计，掌握Setup Assistant配置流程，学会使用MoveGroupInterface API，理解OMPL运动规划器的工作原理，掌握碰撞检测的配置和使用。
 
 ## 26.1 MoveIt2架构
 
@@ -42,9 +46,7 @@ MoveIt2是ROS2环境下最主流的机械臂运动规划框架，是ROS1 MoveIt�
 
 move_group是MoveIt2的核心集成器，将所有系统组件组合在一起，提供一系列可供用户自由使用的ROS2操作与服务。
 
-- **C++ API**：`move_group_interface` 包提供C++接口
-- **Python API**：`moveit_py` 包提供Python接口
-- **GUI**：RViz2中的MotionPlanning插件
+常用的使用方式有三种：C++ API由`move_group_interface`包提供C++接口，Python API由`moveit_py`包提供Python接口，GUI则基于RViz2中的MotionPlanning插件。
 
 **配置参数**：
 
@@ -60,10 +62,7 @@ move_group是MoveIt2的核心集成器，将所有系统组件组合在一起，
 
 PlanningScene是MoveIt2中环境模型的核心概念，包含：
 
-- **RobotState**：当前机器人状态（各关节位置）
-- **CollisionObjects**：环境中的碰撞物体
-- **AttachedCollisionObjects**：附着在机器人上的物体
-- **OccupancyMap**：环境占用地图
+其中**RobotState**表示当前机器人状态（各关节位置），**CollisionObjects**是环境中的碰撞物体，**AttachedCollisionObjects**是附着在机器人上的物体，**OccupancyMap**则是环境占用地图。
 
 ### 26.1.4 运动规划流程
 
@@ -78,6 +77,12 @@ MoveIt2的典型运动规划流程：
                   → 返回规划轨迹
                   → 通过控制器执行轨迹
 ```
+
+### 26.1.5 官方要点——MoveIt 官方文档：move_group 中枢与规划流水线
+
+> 本节内容综合翻译自 MoveIt 2 官方文档（moveit.picknik.ai 的 Concepcepts、MoveItPy 与 Collision Checking 页面）、OMPL 官方文档（ompl.kavrakilab.org）以及 PickNik Academy 官方培训课程，另参考 The Construct 的 MoveIt 课程与 Robotics Back-End 的规划器对比教程。原文均为英文，此处为中文编译，供课后巩固与进阶阅读。
+
+MoveIt 官方 Concepts 文档将 move_group 描述为系统唯一"上帝节点"：它持有机器人模型（robot model）、规划场景（planning scene）、规划流水线（planning pipeline）与控制器管理器（controller manager），对外只暴露 ROS 2 接口（action、service、topic）——这正是本章图 26.1 的结构。官方文档强调流水线级联机制：`planning_adapters`（如 FixStartStateBounds、AddTimeParameterization）先修正请求再交给规划器（planner），规划结果再做时间参数化，因此 OMPL 输出的是"关节路径"，时间参数化才赋予速度/加速度——练习第 4 题的含时路径本质上来自这一层。
 
 ## 26.2 MoveIt2 Setup Assistant
 
@@ -142,10 +147,7 @@ arm_group:
   kinematics_solver_attempts: 3
 ```
 
-规划组的配置方式有两种：
-
-1. **基于关节**：显式列出组包含的关节
-2. **基于连杆**：按连杆链自动确定关节
+规划组的配置方式有两种：基于关节（显式列出组包含的关节），或基于连杆（按连杆链自动确定关节）。
 
 **步骤5：添加末端执行器**
 
@@ -351,6 +353,10 @@ int main(int argc, char** argv) {
 | set_max_velocity_scaling_factor() | 速度缩放 | 0.0~1.0 |
 | set_max_acceleration_scaling_factor() | 加速度缩放 | 0.0~1.0 |
 
+### 26.3.5 官方要点——官方引领的 Python 路线：MoveItPy 教程
+
+MoveIt 官方文档在"Python 或许更简单"的工程命题下重点介绍了 MoveItPy：它绕开 move_group 进程，直接在应用进程内构造 `PlanningSceneMonitor` 与 `MoveItPy` 对象，用 `PlanComponents` 组装规划请求，`plan()` 返回带轨迹的规划结果，`execute()` 走 FollowJointTrajectory action。官方教程的典型结构——加载 robot description、定义初始姿态、多次随机查询并统计规划时间——与练习第 2 题逐行对应；它还可以切换到离线"免状态监视"模式，适合练手与单元测试。
+
 ## 26.4 OMPL运动规划器
 
 ### 26.4.1 OMPL概述
@@ -443,15 +449,15 @@ class CustomPlannerDemo(Node):
 | 2.0s | 中 | 较好 | 常规任务 |
 | 10.0s | 高 | 最优 | 精密操作 |
 
+### 26.4.6 官方要点——OMPL 官方文档：三大规划器定位
+
+OMPL 官方手册（Kavraki 实验室）对练习第 3 题给出的选择依据是：RRTConnect 是"双树连接"式单查询规划器，在工业 6 轴场景中成功率与速度的平衡最好、使用最广；RRT* 是渐进最优算法（Asymptotically Optimal），路径更短但收敛需要大量采样，实践中常配合限时截断使用；PRM 是多查询规划器，一次建图多次查询，适合固定环境的重复抓取任务。Nav2/MoveIt 侧的 ompl_planning.yaml 中，`planner_id` 决定具体算法，`max_planning_time` 与 `max_iterations` 是两个最影响成功率的超参，官方 benchmark 工具（ompl::benchmark）可量化对比三种算法的成功率-时间曲线。
+
 ## 26.5 碰撞检测
 
 ### 26.5.1 碰撞检测机制
 
-MoveIt2使用FCL（Flexible Collision Library）和Bullet进行碰撞检测，支持以下碰撞检测模式：
-
-1. **自碰撞检测**：检查机器人连杆之间的碰撞
-2. **环境碰撞检测**：检查机器人与环境物体的碰撞
-3. **附着物体碰撞检测**：检查附着在机器人上的物体与环境碰撞
+MoveIt2使用FCL（Flexible Collision Library）和Bullet进行碰撞检测，支持三种碰撞检测模式：自碰撞检测（检查机器人连杆之间的碰撞）、环境碰撞检测（检查机器人与环境物体的碰撞）和附着物体碰撞检测（检查附着在机器人上的物体与环境碰撞）。
 
 ### 26.5.2 碰撞检测配置
 
@@ -600,6 +606,10 @@ class ObstacleManager:
         self.psm.process_collision_object(co)
 ```
 
+### 26.5.5 官方要点——碰撞检测官方模式与 PickNik Academy
+
+MoveIt 官方 Collision Checking 页面说明默认后端是 FCL，并把碰撞对象分成三类：环境物体（collision object，unfixed）、附着物体（attached body，随末端执行器移动）与自碰撞（self-collision）——与本章 26.5 三类检测一一对应；合法的物体形状（box、sphere、cylinder、convex、mesh buffer）与"添加到 planning scene 后规划器自动避让"的行为也都是官方约定。PickNik Academy（MoveIt 官方培训机构，由 MoveIt 维护方 PickNik 运营）提供的 ROS 2 级别文档化培训直接对应本章四节内容，适合每一节结束后的官方同步练习，The Construct 与 Robotics Back-End 的课程则补充了从零构建配置包的完整视频演示。
+
 ## 26.6 启动MoveIt2
 
 ### 26.6.1 真实硬件启动
@@ -670,6 +680,11 @@ RViz 显示规划轨迹和碰撞模型；规划器、关节限位和规划组可
 
 ### 源码
 
-- MoveIt 启动：`src/xarm/launch/arm_only_move_group.launch.py`
-- OMPL：`src/xarm/config/arm_only_ompl_planning.yaml`
-- 控制器：`src/xarm/config/arm_only_controllers.yaml`
+相关源码包括 MoveIt 启动文件 `src/xarm/launch/arm_only_move_group.launch.py`、OMPL 配置 `src/xarm/config/arm_only_ompl_planning.yaml` 以及控制器配置 `src/xarm/config/arm_only_controllers.yaml`。
+
+> 参考来源：
+> - MoveIt 2 官方文档 —— Concepts、MoveItPy 与 Collision Checking：https://moveit.picknik.ai/
+> - OMPL 官方文档 —— 规划器与 benchmark：https://ompl.kavrakilab.org/
+> - PickNik Academy —— MoveIt 官方培训课程：https://academy.picknik.ai/
+> - The Construct —— MoveIt 2 课程：https://www.theconstructsim.com/
+> - Robotics Back-End —— MoveIt 规划器对比教程：https://roboticsbackend.com/

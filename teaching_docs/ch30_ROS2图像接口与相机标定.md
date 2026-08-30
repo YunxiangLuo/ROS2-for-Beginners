@@ -1,12 +1,15 @@
 # 第30章 ROS2图像接口与相机标定
 
+> **课程**：ROS2 Python 编程  
+> **章节**：第30章  
+> **课时**：2 课时（90 分钟）  
+> **教学方式**：讲授 + 演示  
+
+---
+
 ## 学习目标
-- 掌握sensor_msgs/Image消息结构
-- 学会使用cv_bridge进行ROS2图像与OpenCV格式互转
-- 理解image_transport图像传输机制
-- 掌握CameraInfo消息和相机内参
-- 学会usb_cam驱动使用
-- 掌握相机标定的原理和实践方法
+
+本章学习目标包括：掌握sensor_msgs/Image消息结构与CameraInfo相机内参消息，学会使用cv_bridge进行ROS2图像与OpenCV格式互转，理解image_transport图像传输机制，学会usb_cam驱动的安装与使用，并掌握相机标定的原理和实践方法。
 
 ## 30.1 ROS2图像消息
 
@@ -83,6 +86,12 @@ class CameraInfoReader(Node):
         self.get_logger().info(f'畸变系数: {msg.d}')
         self.get_logger().info(f'投影矩阵: {msg.p}')
 ```
+
+### 30.1.4 官方要点——sensor_msgs/Image 官方定义与 cv_bridge 官方教程
+
+> 本节内容综合翻译自 ROS 2 官方文档（sensor_msgs 与 image_transport 接口定义）、image_pipeline 官方文档（camera_calibration 包）、usb_cam 官方仓库文档与 OpenCV 官方标定教程，另参考 The Construct 的 ROS 2 视觉课程与 Robotics Back-End 的相机标定教程。原文均为英文，此处为中文编译，供课后巩固与进阶阅读。
+
+ROS 2 官方消息定义（sensor_msgs/Image）把本章 30.1 节的字段语义写死在接口里：`header` 携带时间戳与相机帧、`height/width` 为像素行/列、`encoding` 采用与 OpenCV 相同的字符串（bgr8、mono8、32FC1 等）、`step` 是一行数据的字节数（含内存对齐）、`data` 是扁平字节流。官方 cv_bridge 文档进一步约定 `CvBridge.cvtToCvImg()` 的转换分"复制"与"共享所有权（share）"两种模式：共享模式零拷贝但要求后续算法不得改动图像缓冲，这是官方性能建议与线程安全的分界线，也解释了练习第 1 题中"转灰度后重新发布"必须先复制再改写的原因。
 
 ## 30.2 cv_bridge图像转换
 
@@ -322,6 +331,10 @@ class ImageTransportSubscriber(Node):
             self.get_logger().error(str(e))
 ```
 
+### 30.3.4 官方要点——image_transport 官方插件机制
+
+image_transport 官方文档（image_common 项目）说明它并非一个 publisher，而是"话题重发布器"：同一图像在 `/camera/image_raw`（raw）与 `/camera/image_raw/compressed`（sensor_msgs/CompressedImage）等多个后缀话题上共存，订阅端按需选择传输格式。官方定义的五个标准插件——raw、compressed（JPEG/PNG）、compressedDepth、theora 与 video——通过 pluginlib 动态加载，`image_transport::CameraPublisher` 还能把 Image 与 CameraInfo 同步发布。练习第 5 题的压缩发布在官方文档中就是 `advertise()` + `publish()` 的直接替换，无需修改算法代码；ros2 humble 后官方还加入了参数化压缩质量（jpeg_quality）的说明。
+
 ## 30.4 usb_cam驱动
 
 ### 30.4.1 安装usb_cam
@@ -410,13 +423,9 @@ K = [ 0    fy  cy ]
     [ 0    0    1 ]
 ```
 
-其中：
-- fx, fy：焦距（像素单位）
-- cx, cy：光心坐标（像素）
+其中：fx, fy 为焦距（像素单位），cx, cy 为光心坐标（像素）。
 
-畸变参数包括：
-- 径向畸变：k1, k2, k3（桶形/枕形畸变）
-- 切向畸变：p1, p2（镜头与传感器不平行）
+畸变参数包括两类：径向畸变参数为 k1, k2, k3（桶形/枕形畸变），切向畸变参数为 p1, p2（镜头与传感器不平行）。
 
 畸变校正公式：
 
@@ -427,11 +436,7 @@ y_corrected = y * (1 + k1*r² + k2*r⁴ + k3*r⁶) + p1*(r² + 2y²) + 2*p2*xy
 
 ### 30.5.2 棋盘格标定板
 
-标定板是相机标定的关键工具。常用标定图案：
-
-1. **棋盘格（Chessboard）**：黑白交替方格
-2. **对称圆点图案**：规则排列的圆形
-3. **非对称圆点图案**：用于高精度标定
+标定板是相机标定的关键工具。常用标定图案有三种：**棋盘格（Chessboard）**为黑白交替方格，是最常用的标定图案；**对称圆点图案**由规则排列的圆形组成；**非对称圆点图案**则用于高精度标定。
 
 生成标定板：
 
@@ -472,12 +477,7 @@ ros2 run camera_calibration cameracalibrator.py \
   image:=/camera/color/image_raw camera:=/camera
 ```
 
-标定步骤：
-1. 缓慢移动标定板，覆盖画面各个区域
-2. 将标定板倾斜不同角度
-3. 让标定板接近和远离相机
-4. 当X, Y, Size, Skew条变绿后，点击Calibrate
-5. 查看标定结果，点击Save保存
+标定步骤为：先缓慢移动标定板，覆盖画面各个区域；再将标定板倾斜不同角度，并让标定板接近和远离相机；当X, Y, Size, Skew条变绿后，点击Calibrate；最后查看标定结果，点击Save保存。
 
 标定完成后Save按钮保存结果到`/tmp/calibrationdata.tar.gz`。
 
@@ -593,6 +593,14 @@ def main(args=None):
 if __name__ == '__main__':
     main()
 ```
+
+### 30.5.6 官方要点——camera_calibration 官方教程：从棋盘格到内参文件
+
+image_pipeline 官方文档的 camera_calibration 教程与本章 30.5 节完全同源：打印 8x6 棋盘格（内角点计数按 7x5 填入 `--size 7x5`）、`ros2 run camera_calibration cameracalibrator.py --size 7x5 --square 0.108 image:=/camera/image_raw camera:=/camera`、按 X/Y/Size/Skew 四条指标条全绿后点击 Calibrate。官方文档解释了结果窗口中 d=k1/k2/p1/p2/k3 的畸变系数含义，以及保存后 `camera_info.yaml` 的 key/value 结构——`ros2 run camera_calibration_parsers` 工具可直接把 yaml 转换为 `CameraInfo` 消息。练习第 3 题的"加载标定参数"在官方生态里的标准实现是 `camera_info_manager` 库：节点按 `file:///path/ost.yaml` URL 加载并在 `/camera/camera_info` 上自动发布。
+
+### 30.5.7 官方要点——OpenCV 官方标定教程与去畸变 API
+
+OpenCV 官方 Camera Calibration 文档给出了 ROS 工具背后的同一套数学：`cv::calibrateCamera()` 以张氏标定（Zhang's method）最小化重投影误差，`cv::getOptimalNewCameraMatrix()` 在去畸变时按 `alpha` 参数权衡裁边与保留视野，`cv::undistort()`（全图）与 `cv::initUndistortRectifyMap()+remap()`（查表加速，适合视频流）是练习第 4 题的两种官方推荐实现。官方文档还给出经验阈值：单目标定重投影 RMS 应低于约 0.5 像素，否则提示采集样本不足或棋盘格平面性差；The Construct 与 Robotics Back-End 的课程则补充了多相机/鱼眼（fisheye/omnidir 模型）的扩展用法。
 
 ## 30.6 OpenCV图像处理与ROS2集成
 
@@ -745,6 +753,13 @@ ros2 run rqt_image_view rqt_image_view /camera/image_raw
 
 ### 源码
 
-- 相机启动/桥：`src/robot_sim_demo/launch/gazebo2.launch.py`
-- 内参发布：`src/robot_sim_demo/robot_sim_demo/camera_info_publisher.py`
-- 桥配置：`src/robot_sim_demo/config/gazebo2_bridge.yaml`
+相机启动/桥位于 `src/robot_sim_demo/launch/gazebo2.launch.py`，内参发布位于 `src/robot_sim_demo/robot_sim_demo/camera_info_publisher.py`，桥配置位于 `src/robot_sim_demo/config/gazebo2_bridge.yaml`。
+
+![ch19 视觉检测运行输出](../lab_manuals/images/runtime/ch19_vision.gif)
+
+> 参考来源：
+> - ROS 2 官方消息定义 —— sensor_msgs/Image 与 CameraInfo：https://docs.ros.org/
+> - image_pipeline 官方文档 —— camera_calibration：https://docs.ros.org/ 、https://github.com/ros-perception/image_pipeline
+> - usb_cam 官方仓库文档：https://github.com/ros-drivers/usb_cam
+> - image_transport 官方文档：https://github.com/ros-perception/image_common
+> - OpenCV 官方标定教程：https://docs.opencv.org/

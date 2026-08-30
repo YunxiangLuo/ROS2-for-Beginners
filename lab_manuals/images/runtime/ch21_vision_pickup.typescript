@@ -1,0 +1,64 @@
+Script started on 2026-08-30 11:01:04+08:00 [COMMAND="bash '/mnt/c/Users/tiger/Desktop/robot/Technologies-of-ROS2-Programming-master/scripts/runtime_capture_session.sh'" <not executed on terminal>]
+$ ros2 launch robot_sim_demo gazebo2.launch.py gui:=false rviz:=false drive:=false gz_partition:=runtime_capture_ch21 enable_depth_camera:=true
+$ ros2 topic echo /camera/image_raw --once --field header.frame_id --no-lost-messages
+$ ros2 control list_controllers
+[96mgripper_controller       [0m joint_trajectory_controller/JointTrajectoryController  [96minactive[0m
+[92mxarm_controller          [0m joint_trajectory_controller/JointTrajectoryController  [92mactive  [0m
+[96mwheel_velocity_controller[0m velocity_controllers/JointGroupVelocityController      [96minactive[0m
+[92mjoint_state_broadcaster  [0m joint_state_broadcaster/JointStateBroadcaster          [92mactive  [0m
+$ ros2 run tf2_ros tf2_echo base_link camera_link
+[0m[INFO] [1788058933.956100950] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "base_link" passed to canTransform argument target_frame - frame does not exist[0m
+[0m[INFO] [1788058935.930805454] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058937.930697247] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058938.930711099] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058939.930747434] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058941.930724279] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058942.930782583] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058944.930738365] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058945.930766852] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058947.930762566] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058949.930831898] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058951.930747802] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058952.930977523] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058954.930831402] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058956.930713822] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058958.930727195] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058959.930733743] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058960.930772775] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058961.930783990] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058962.930918541] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058964.930725520] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058965.930757773] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058967.930922420] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058969.930717693] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058970.930736864] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058971.930773716] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058973.930725405] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058974.930730577] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058976.930734251] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058977.930735860] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058979.930738837] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058980.930786777] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058982.930795210] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058984.931671980] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058986.931008721] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058988.930910650] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058990.930730041] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058991.930739467] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058992.930746828] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058994.930739436] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058996.930737308] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788058997.930738430] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+
+# simulation process output
+[parameter_bridge-8] [INFO] [1788058867.198440582] [gazebo2_camera_bridge]: Creating GZ->ROS Bridge: [/rgbd_camera/image (gz.msgs.Image) -> /rgbd_camera/image (sensor_msgs/msg/Image)] (Lazy 0)
+[parameter_bridge-5] [INFO] [1788058867.199199198] [gazebo2_clock_bridge]: Creating GZ->ROS Bridge: [/clock (gz.msgs.Clock) -> /clock (rosgraph_msgs/msg/Clock)] (Lazy 0)
+[parameter_bridge-8] [INFO] [1788058867.203941294] [gazebo2_camera_bridge]: Creating GZ->ROS Bridge: [/rgbd_camera/camera_info (gz.msgs.CameraInfo) -> /rgbd_camera/camera_info (sensor_msgs/msg/CameraInfo)] (Lazy 0)
+[create-9] [INFO] [1788058869.381391073] [ros_gz_sim]: Entity creation successful.
+
+# arm_only process output
+[move_group-5] [92mYou can start planning now![0m
+[0m[INFO] [1788058998.930837995] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+[0m[INFO] [1788059000.930806661] [tf2_echo]: Waiting for transform base_link ->  camera_link: Invalid frame ID "camera_link" passed to canTransform argument source_frame - frame does not exist[0m
+
+Script done on 2026-08-30 11:03:21+08:00 [COMMAND_EXIT_CODE="0"]

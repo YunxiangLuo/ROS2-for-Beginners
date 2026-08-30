@@ -232,6 +232,169 @@ bash setup_course.sh --with-carla
 bash setup_course.sh --all-profiles --run-tests
 ```
 
+## 机械臂与 CARLA 安装
+
+下面的步骤覆盖本项目中 xArm6 机械臂仿真和 CARLA 0.9.16 自动驾驶仿真。两套仿真都建议在 Ubuntu 24.04 / WSL2、ROS 2 Jazzy 环境中使用；CARLA 服务端也可以单独运行在 Windows 主机上。
+
+### xArm6 机械臂仿真
+
+#### 1. 安装 ROS 2、Gazebo、MoveIt 2 和课程包
+
+```bash
+cd /path/to/Technologies-of-ROS2-Programming-master
+
+# 如果使用外部兼容的 XBot Arm 描述包，请将实际路径替换到下一行后再执行
+# 要求：xarm_description 2.0.0，关节名为 arm_1_joint ~ arm_6_joint
+# source /path/to/xarm_description_workspace/install/setup.bash
+
+# 安装基础依赖、ros2_control、MoveIt 2、Gazebo Harmonic 并编译课程工作空间
+bash setup_course.sh
+source ~/.config/ros2-course/env.bash
+```
+
+本项目的 `xarm_ros2_arm_only` 位于 `src/xarm/`，底层 `xarm_description` 不随本仓库提供，必须使用与本项目 SRDF、URDF 和控制器配置兼容的 XBot Arm 版本。安装后检查：
+
+```bash
+ros2 pkg prefix xarm_description
+ros2 pkg prefix xarm_ros2_arm_only
+ros2 pkg prefix moveit_ros_move_group
+ros2 pkg prefix gz_ros2_control
+```
+
+如果只需要重新构建机械臂包：
+
+```bash
+cd ~/ros2_course_ws
+colcon build --symlink-install --packages-select xarm_ros2_arm_only
+source install/setup.bash
+```
+
+#### 2. 启动和验证机械臂
+
+完整模式会启动 Gazebo、ros2_control、MoveIt 2 和 RViz2：
+
+```bash
+source ~/ros2_course_ws/install/setup.bash
+ros2 launch xarm_ros2_arm_only arm_only.launch.py
+```
+
+只查看 RViz2 中的机械臂和 MoveIt MotionPlanning 面板时，可使用轻量模式：
+
+```bash
+ros2 launch xarm_ros2_arm_only arm_only.launch.py \
+  use_gazebo:=false use_sim_time:=false
+```
+
+完整模式启动后，在另一个已加载环境的终端中验证规划链路：
+
+```bash
+ros2 control list_controllers
+ros2 topic echo /joint_states --once
+ros2 run xarm_ros2_arm_only arm_only_runtime_smoke
+```
+
+启动后的 xArm6 RViz/MoveIt 画面（30 秒录制）：
+
+![xArm6 RViz MoveIt2 启动画面](lab_manuals/images/runtime/xarm_startup.gif)
+
+### CARLA 0.9.16
+
+#### 1. Linux / WSL2 安装 CARLA 和 ROS 2 Bridge
+
+推荐由安装器一次完成 CARLA 服务端、Python API、图形依赖和固定版本的 ROS 2 Bridge：
+
+```bash
+cd /path/to/Technologies-of-ROS2-Programming-master
+bash setup_course.sh --with-carla
+source ~/.config/ros2-course/env.bash
+```
+
+安装结果如下：
+
+- CARLA 服务端：`~/carla`
+- CARLA Python venv：`~/.venvs/carla-0.9.16`
+- ROS 2 Bridge 工作空间：`~/carla_ws`
+- CARLA 版本：`0.9.16`
+
+手动安装时，至少需要图形和运行库依赖：
+
+```bash
+sudo apt-get update
+sudo apt-get install -y libomp5 libegl1 libgl1 libgl1-mesa-dri \
+  libglx-mesa0 libvulkan1 mesa-vulkan-drivers vulkan-tools xauth xvfb
+
+mkdir -p ~/carla
+cd ~/carla
+curl -fL https://tiny.carla.org/carla-0-9-16-linux \
+  -o CARLA_0.9.16.tar.gz
+
+python3 -m venv --system-site-packages ~/.venvs/carla-0.9.16
+~/.venvs/carla-0.9.16/bin/python -m pip install carla==0.9.16
+```
+
+#### 2. Windows 原生 CARLA 服务端
+
+Windows 10/11 已内置 DirectX 12 API。CARLA 启动器另外需要旧版 DirectX 辅助运行库；如果出现 `The following component(s) are required to run this program: DirectX Runtime`，请从 Microsoft 官方页面下载并运行 `directx_Jun2010_redist.exe`，在安装向导中接受许可并完成 `DXSETUP`：
+
+[DirectX End-User Runtimes (June 2010)](https://www.microsoft.com/en-us/download/details.aspx?id=8109)
+
+下载并解压 [CARLA 0.9.16 Windows package](https://carla-releases.b-cdn.net/Windows/CARLA_0.9.16.zip)，然后在 PowerShell 中启动服务端：
+
+```powershell
+cd C:\CARLA
+.\CarlaUE4.exe -quality-level=Low -nosound `
+  -carla-rpc-port=2000 -carla-streaming-port=2001
+```
+
+确认 Windows 主机的 `127.0.0.1:2000` 已监听后，再在 WSL2 中连接它。当前 WSL 网络模式下 `localhost` 不一定指向 Windows 主机，应使用 WSL 默认网关：
+
+```bash
+source ~/.config/ros2-course/env.bash
+export CARLA_HOST="$(ip route show default | awk '/default via/ {print $3; exit}')"
+cd "$ROS2_COURSE_ROOT"
+
+# 验证 Python API 和服务端版本
+python3 src/lab_code/ch22_lab/explore_carla.py \
+  --host "$CARLA_HOST" --port 2000 --timeout 30
+```
+
+#### 3. 启动 Bridge、生成车辆并验证话题
+
+```bash
+source ~/.config/ros2-course/env.bash
+export CARLA_HOST="$(ip route show default | awk '/default via/ {print $3; exit}')"
+source /opt/ros/jazzy/setup.bash
+source ~/carla_ws/install/setup.bash
+
+# 异步模式适合可视化和数据采集
+ros2 launch carla_ros_bridge carla_ros_bridge.launch.py \
+  host:="$CARLA_HOST" port:=2000 \
+  synchronous_mode:=False register_all_sensors:=True
+```
+
+Bridge 启动后，在另一个终端生成带 RGB 相机和 LiDAR 的 Ego Vehicle：
+
+```bash
+source ~/.config/ros2-course/env.bash
+export CARLA_HOST="$(ip route show default | awk '/default via/ {print $3; exit}')"
+cd "$ROS2_COURSE_ROOT"
+python3 src/lab_code/ch23_lab/spawn_ego.py \
+  --host "$CARLA_HOST" --port 2000 --spawn-point 10
+```
+
+最后检查节点、话题和传感器数据：
+
+```bash
+ros2 node list
+ros2 topic list | grep carla
+ros2 topic echo /carla/status --once
+python3 src/lab_code/ch23_lab/check_topics.py --role-name ego_vehicle --verbose
+```
+
+启动后的 CARLA 城市场景画面（30 秒录制）：
+
+![CARLA 0.9.16 启动画面](lab_manuals/images/runtime/carla_startup.gif)
+
 源码会使用 `rsync --delete` 同步到脚本管理的 `~/ros2_course_ws`：课程 ROS 包位于
 
 `src/course/`，实验代码位于 `src/labs/`；源码树中的 `src/lab_code/` 不会再次复制到

@@ -27,6 +27,14 @@ ros2 topic echo /display_planned_path --once
 
 观察障碍物加入前后的规划轨迹以及 attach/detach 后的场景状态。源码：`src/lab_code/ch18_lab/moveit_pick_place_lab/`、`src/xarm/config/`。仓库没有保证成功的完整抓取物体和执行证据，结果以本地 MoveIt 返回值为准。
 
+## 实际运行证据
+
+真实运行的 MoveIt 规划场景、路径跟随和轨迹执行输出：
+
+![ch18 MoveIt 路径跟随运行输出](images/runtime/ch18_beeline_demo.gif)
+
+原始录制：[ch18_beeline_demo.cast](images/runtime/ch18_beeline_demo.cast)。
+
 > **对应理论章节**：第28章《笛卡尔路径与避障》、第29章《抓取与放置实验》
 > **实验课时**：4课时  
 > **实验代码**：`src/lab_code/ch18_lab/moveit_pick_place_lab/`  

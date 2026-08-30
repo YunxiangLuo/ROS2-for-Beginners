@@ -20,15 +20,25 @@ BLUE='\033[0;34m'
 CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
+# Load the managed course environment when the script is called directly.
+COURSE_ENV_FILE="${XDG_CONFIG_HOME:-${HOME}/.config}/ros2-course/env.bash"
+if [ -f "$COURSE_ENV_FILE" ]; then
+    # shellcheck disable=SC1090
+    set +u
+    source "$COURSE_ENV_FILE"
+    set -u
+fi
+
 # ── 默认配置 ──
-CARLA_PATH="${CARLA_PATH:-/opt/carla}"
-ROS_WS="${ROS_WS:-$HOME/ros2_course_ws}"
+CARLA_PATH="${CARLA_PATH:-${CARLA_ROOT:-$HOME/carla}}"
+ROS_WS="${ROS_WS:-${ROS2_COURSE_WS:-$HOME/ros2_course_ws}}"
+CARLA_BRIDGE_WS="${CARLA_BRIDGE_WS:-$HOME/carla_ws}"
 TOWN="Town03"
 WEATHER="default"
 TRAFFIC_DENSITY="medium"
 RECORD_BAG=false
 AUTO_START=false
-SCREEN_MODE="normal"
+SCREEN_MODE=""
 PIPELINE_AVAILABLE=false
 
 # ── 帮助函数 ──
@@ -36,7 +46,7 @@ usage() {
     echo -e "${CYAN}用法:${NC} $0 [选项]"
     echo ""
     echo "选项:"
-    echo "  --carla-path PATH    CARLA安装路径 (默认: /opt/carla)"
+    echo "  --carla-path PATH    CARLA安装路径 (默认: ~/carla 或 CARLA_ROOT)"
     echo "  --ros-ws PATH        ROS2工作空间路径 (默认: ~/ros2_course_ws)"
     echo "  --town NAME          CARLA城镇地图 (默认: Town03)"
     echo "  --weather TYPE       天气: default|rainy|sunset|night (默认: default)"
@@ -124,19 +134,28 @@ start_carla_server() {
         fi
     fi
 
-    CARLA_CMD="./CarlaUE4.sh $SCREEN_MODE -carla-rpc-port=2000 -carla-streaming-port=2100"
+    local -a carla_cmd=()
+    local -a carla_env=()
+    carla_cmd=("./CarlaUE4.sh")
+    if [ -n "$SCREEN_MODE" ]; then
+        carla_cmd+=("$SCREEN_MODE")
+    fi
+    carla_cmd+=("-carla-rpc-port=2000" "-carla-streaming-port=2100")
+    if grep -qi microsoft /proc/version 2>/dev/null; then
+        carla_env=(env "GALLIUM_DRIVER=${GALLIUM_DRIVER:-d3d12}")
+    fi
 
     # 根据天气添加参数
     case "$WEATHER" in
-        rainy)  CARLA_CMD="$CARLA_CMD -quality-level=Low -weather=Rainy" ;;
-        sunset) CARLA_CMD="$CARLA_CMD -quality-level=Low -weather=Sunset" ;;
-        night)  CARLA_CMD="$CARLA_CMD -quality-level=Low -weather=Night" ;;
-        *)      CARLA_CMD="$CARLA_CMD -quality-level=Low" ;;
+        rainy)  carla_cmd+=("-quality-level=Low" "-weather=Rainy") ;;
+        sunset) carla_cmd+=("-quality-level=Low" "-weather=Sunset") ;;
+        night)  carla_cmd+=("-quality-level=Low" "-weather=Night") ;;
+        *)      carla_cmd+=("-quality-level=Low") ;;
     esac
 
     # 在后台启动CARLA
-    echo -e "${CYAN}执行: $CARLA_CMD${NC}"
-    $CARLA_CMD &
+    echo -e "${CYAN}执行: ${carla_env[*]} ${carla_cmd[*]}${NC}"
+    "${carla_env[@]}" "${carla_cmd[@]}" &
     CARLA_PID=$!
     echo -e "${GREEN}[CARLA] 服务器已启动 (PID: $CARLA_PID)${NC}"
 
@@ -157,8 +176,13 @@ start_carla_server() {
 
 # ── 加载ROS2环境 ──
 source_ros() {
+    set +u
     source /opt/ros/${ROS_DISTRO}/setup.bash
     source "$ROS_WS/install/setup.bash"
+    if [ -f "$CARLA_BRIDGE_WS/install/setup.bash" ]; then
+        source "$CARLA_BRIDGE_WS/install/setup.bash"
+    fi
+    set -u
 }
 
 # ── 启动CARLA ROS2 Bridge ──

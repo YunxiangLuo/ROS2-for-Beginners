@@ -6,7 +6,17 @@
 
 ---
 
-本实验使用 Ubuntu 24.04 + ROS 2 Jazzy + CARLA 0.9.16 环境。
+本实验使用 Ubuntu 24.04 + ROS 2 Jazzy + CARLA 0.9.16 环境。CARLA 服务端和 ROS 2 Bridge 必须先完成安装。
+
+推荐在课程仓库根目录统一安装：
+
+```bash
+cd /path/to/Technologies-of-ROS2-Programming-master
+bash setup_course.sh --with-carla
+source ~/.config/ros2-course/env.bash
+```
+
+安装器会将 CARLA 放在 `~/carla`，将固定版本 Bridge 编译到 `~/carla_ws`，并安装 `libomp5`、Vulkan/OpenGL、Xvfb 等运行依赖。
 
 ## 实验目标
 
@@ -49,7 +59,10 @@ nvidia-smi
 # 检查OpenGL渲染器
 sudo apt-get install mesa-utils
 glxinfo -B | grep "OpenGL renderer"
-# 期望: 显示真实GPU型号（非 "llvmpipe" 表示使用软件渲染）
+# 期望: 显示物理GPU；WSL2 可显示 D3D12 后端，不应使用 llvmpipe
+if grep -qi microsoft /proc/version; then
+  export GALLIUM_DRIVER="${GALLIUM_DRIVER:-d3d12}"
+fi
 ```
 
 **步骤2：检查系统依赖与磁盘空间**
@@ -114,9 +127,8 @@ tar -xzf AdditionalMaps_0.9.16.tar.gz -C ~/carla
 **步骤2：安装Python依赖**
 
 ```bash
-pip install pygame numpy
-cd ~/carla/PythonAPI/carla
-pip install -e .
+python3 -m venv --system-site-packages ~/.venvs/carla-0.9.16
+~/.venvs/carla-0.9.16/bin/python -m pip install pygame numpy carla==0.9.16
 ```
 
 **步骤3：启动CARLA服务器**
@@ -347,7 +359,7 @@ docker run --name carla \
   /bin/bash ./CarlaUE4.sh -vulkan -quality-level=Low
 
 # 3. Python 客户端直接在宿主机运行（连接 localhost:2000）
-pip install carla-client  # 轻量级客户端库
+  pip install carla==0.9.16  # 客户端库必须与服务端版本一致
 python3 -c "import carla; c=carla.Client('localhost',2000); c.set_timeout(10); print(c.get_server_version())"
 ```
 

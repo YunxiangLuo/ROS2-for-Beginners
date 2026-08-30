@@ -26,6 +26,14 @@ ros2 topic echo /camera/camera_info --once
 
 可验收图像进入节点且 JSON 可解析；固定 mock 内容不代表 VLM 完成了真实场景理解。源码：`src/lab_code/ch20_lab/`、`src/robot_sim_demo/`。
 
+## 实际运行证据
+
+真实运行的视觉语言模型 mock 输入和服务接口检查：
+
+![ch20 视觉语言模型运行输出](images/runtime/ch20_vision.gif)
+
+原始录制：[ch20_vision.cast](images/runtime/ch20_vision.cast)。
+
 > **对应理论章节**：第33章《视觉大模型集成》
 > **实验课时**：2课时  
 > **实验代码**：`src/lab_code/ch20_lab/`（本章仅提供设计说明占位，无参考实现包，练习需自行实现）  

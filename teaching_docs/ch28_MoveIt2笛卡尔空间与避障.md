@@ -1,10 +1,15 @@
 # 第28章 MoveIt2笛卡尔空间与避障
 
+> **课程**：ROS2 Python 编程  
+> **章节**：第28章  
+> **课时**：2 课时（90 分钟）  
+> **教学方式**：讲授 + 演示  
+
+---
+
 ## 学习目标
-- 掌握笛卡尔路径规划的方法
-- 理解位姿约束和路径约束的概念
-- 学会在规划场景中添加障碍物
-- 掌握避障规划的配置和调试
+
+本章学习目标包括：掌握笛卡尔路径规划的方法；理解位姿约束和路径约束的概念；学会在规划场景中添加障碍物；掌握避障规划的配置和调试。
 
 ## 28.1 笛卡尔路径规划
 
@@ -12,13 +17,7 @@
 
 笛卡尔空间规划要求机械臂末端沿指定路径运动，MoveIt2使用`plan_cartesian_path`函数计算笛卡尔路径。
 
-关键API：
-- `plan_cartesian_path(waypoints, eef_step, jump_threshold, avoid_collisions)`：计算笛卡尔路径
-  - `waypoints`：路径点列表
-  - `eef_step`：末端步进值（米）
-  - `jump_threshold`：跳跃阈值（0为不允许跳跃）
-  - `avoid_collisions`：避障规划
-  - 返回：`(plan, fraction)` — 规划结果和路径覆盖率
+MoveIt2实现笛卡尔规划的关键API是`plan_cartesian_path(waypoints, eef_step, jump_threshold, avoid_collisions)`，它根据给定的路径点列表计算笛卡尔路径：`waypoints`为路径点列表，`eef_step`为末端步进值（米），`jump_threshold`为跳跃阈值（0为不允许跳跃），`avoid_collisions`控制是否进行避障规划，返回值`(plan, fraction)`分别为规划结果和路径覆盖率。
 
 ```python
 #!/usr/bin/env python3
@@ -273,6 +272,12 @@ def generate_zigzag(start_pose, width=0.08, segments=4):
     return waypoints
 ```
 
+### 28.1.4 官方要点——官方笛卡尔路径教程：computeCartesianPath 的三个参数
+
+> 本节内容综合翻译自 MoveIt 2 官方文档（moveit.picknik.ai 的 Cartesian Path、Planning Scene 与 Motion Planning Pipeline 教程）、OMPL 官方文档（ompl.kavrakilab.org）与 PickNik Academy 培训课程，另参考 The Construct 的 MoveIt 避障课程与 Robotics Back-End 的规划场景实战教程。原文均为英文，此处为中文编译，供课后巩固与进阶阅读。
+
+MoveIt 官方 Cartesian Path Tutorial 明确了 `computeCartesianPath` 的三个决定性参数：`eef_step`（末端插值步长，官方建议 0.01 m 量级，过大会跳过碰撞）、`jump_threshold`（关节空间跳变阈值，用于拒绝解臂形变附近的"假直线"，设 0 表示禁用检测）与 `avoid_collisions`（是否在插值中逐点做碰撞检查）。官方特别强调返回值 fraction（成功插值的 waypoint 比例）必须达到 1.0（或显式接受的阈值）才可执行——练习第 1 题的"正方形四边"要用四次直线笛卡尔段而非一个 waypoint 列表直接到位，每次转弯处规划器会自然停顿重算。
+
 ## 28.2 位姿约束
 
 ### 28.2.1 路径约束类型
@@ -379,16 +384,17 @@ def add_joint_constraint(self, joint_name, target_value, tolerance=0.1):
     self.get_logger().info(f'关节 {joint_name} 约束已添加: {target_value}±{tolerance}')
 ```
 
+### 28.2.4 官方要点——位姿约束与圆弧轨迹的官方做法
+
+对练习第 2 题的圆弧轨迹，官方文档给出的标准方案是"密集 waypoint + 位姿约束"：在应用层按参数方程生成圆弧上的采样位姿（每段 0.005~0.01 rad），逐次调用笛卡尔规划；或改用 `MotionPlanRequest` 的 `path_constraints`（方向约束 tolerance）让优化型规划器在连续空间内保持姿态。官方文档提醒：笛卡尔路径是"直线插值 + 校验"而非"带约束的求解"，因此圆弧越细越接近真实弧线——这也是 The Construct 课程中"画圆"练习的核心结论。
+
 ## 28.3 规划场景与障碍物
 
 ### 28.3.1 PlanningSceneInterface
 
 MoveIt2通过规划场景接口提供场景更新API，包括添加、移除、附着物体等操作。
 
-关键概念：
-- **CollisionObject**：规划场景中的碰撞物体（盒体、球体、圆柱体、网格模型）
-- **AttachedCollisionObject**：附着在机械臂上的物体
-- **PlanningScene**：完整的规划场景消息
+MoveIt2规划场景涉及三个关键概念：**CollisionObject**（规划场景中的碰撞物体，包括盒体、球体、圆柱体与网格模型）、**AttachedCollisionObject**（附着在机械臂上的物体）与**PlanningScene**（完整的规划场景消息）。
 
 ### 28.3.2 添加障碍物
 
@@ -609,16 +615,15 @@ class AttachDetachDemo(Node):
         self.get_logger().info(f'物体 {object_id} 已从 {link_name} 分离')
 ```
 
+### 28.3.4 官方要点——规划场景官方 API：物体、附着与八叉树
+
+MoveIt 官方 Planning Scene Tutorial 把 26.3 节的 API 归纳为四个操作：`applyCollisionObjects`（批量添加 box/sphere/cylinder/mesh，含位姿与颜色）、`moveCollisionObject`（平移已存在物体）、`attachObject`（把物体挂到某个连杆，随末端运动）与 `detachObject`（释放回场景）。练习第 4 题的"附着前后差异"在官方教程中有精确对应：附着后物体从环境碰撞体变为机器人的一部分，自碰撞检查会把它与机械臂的接触视为合法（通过 Allowed Collision Matrix 自动放行），因此抓取后的工作空间行为会显著变化。真实深度相机环境则走 octomap 通道（`octomap` 服务自动更新，可用 `octocollision_object` 过滤），本章仿真实例的 `/planning_scene` topic 就是官方标准的监控接口。
+
 ## 28.4 避障规划
 
 ### 28.4.1 避障规划策略
 
-MoveIt2的避障规划基于以下策略：
-
-1. **碰撞检测**：在规划过程中持续检测机器人与障碍物的碰撞
-2. **配置空间搜索**：在无碰撞的配置空间中搜索路径
-3. **安全余量**：通过padding参数设置碰撞安全距离
-4. **重规划**：环境变化时自动重新规划
+MoveIt2的避障规划基于以下策略：**碰撞检测**（在规划过程中持续检测机器人与障碍物的碰撞）、**配置空间搜索**（在无碰撞的配置空间中搜索路径）、**安全余量**（通过padding参数设置碰撞安全距离）与**重规划**（环境变化时自动重新规划）。
 
 ### 28.4.2 碰撞安全余量设置
 
@@ -809,6 +814,10 @@ Rviz MotionPlanning 插件配置：
 - Scene Geometry: Show All
 ```
 
+### 28.4.5 官方要点——狭窄通道：OMPL 官方的规划器建议
+
+练习第 5 题的狭窄通道是 OMPL 官方文档反复强调的经典难题（narrow passage problem）：RRTConnect 在开阔空间几乎必成，但两侧树都难以穿过窄缝；PRM/EST 这类基于"采样扩散"的算法在通道内布点效率更低，官方文档建议在受限空间中改用带目标的采样策略或对称连接（Symmetric Connect）类规划器，并配合 `link_padding`/`link_scale`（26.4 节的安全余量）做"缩放通过"的调参——先用小 padding 规划成功再逐步加大验证。PickNik Academy 的避障课程演示了用 benchmark 工具把成功率-时间曲线量化成表格的方法，与本章练习要求的"比较成功率"完全一致。
+
 ## 课后练习
 
 1. 编写笛卡尔路径规划程序，使末端执行器沿正方形的四条边运动（边长0.1米），回到起点。
@@ -847,8 +856,15 @@ ros2 topic echo /planning_scene --once
 
 ### 源码与边界
 
-- 实验参考：`src/lab_code/ch18_lab/moveit_pick_place_lab/`
-- xArm 配置：`src/xarm/config/arm_only_ompl_planning.yaml`
-- RViz：`src/xarm/config/arm_only_moveit.rviz`
+实验参考代码位于`src/lab_code/ch18_lab/moveit_pick_place_lab/`，xArm 规划配置位于`src/xarm/config/arm_only_ompl_planning.yaml`，RViz 配置位于`src/xarm/config/arm_only_moveit.rviz`。
 
 仓库没有预置可保证成功的障碍物场景；结果以本地 RViz 和 MoveIt 返回值为准。
+
+![ch18 MoveIt 路径跟随运行输出](../lab_manuals/images/runtime/ch18_beeline_demo.gif)
+
+> 参考来源：
+> - MoveIt 2 官方文档 —— Cartesian Path、Planning Scene 与 Motion Planning Pipeline 教程：https://moveit.picknik.ai/
+> - OMPL 官方文档 —— 规划器与 benchmark：https://ompl.kavrakilab.org/
+> - PickNik Academy —— MoveIt 官方培训课程：https://academy.picknik.ai/
+> - The Construct —— MoveIt 避障课程：https://www.theconstructsim.com/
+> - Robotics Back-End —— 规划场景实战教程：https://roboticsbackend.com/

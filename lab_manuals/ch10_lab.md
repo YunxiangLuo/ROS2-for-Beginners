@@ -30,6 +30,14 @@ RViz 中添加 Map、LaserScan、TF；终端检查 `map_updates`、`known_cell_g
 
 源码：`src/slam_sim_demo_ros2/`。启动日志证据：`images/runtime/nonlab_slam.png`。本节验证的是 `slam_toolbox`，不把它的结果标为 Hector、gmapping 或 Cartographer 结果。
 
+## 实际运行证据
+
+真实运行的 `slam_toolbox`、传感器话题和地图更新检查输出：
+
+![ch10 SLAM 运行输出](images/runtime/ch10_slam.gif)
+
+原始录制：[ch10_slam.cast](images/runtime/ch10_slam.cast)。
+
 > **实验平台**：Ubuntu 22.04 + ROS 2 Humble + Gazebo 仿真
 >
 > **预计时间**：2 课时（90 分钟）

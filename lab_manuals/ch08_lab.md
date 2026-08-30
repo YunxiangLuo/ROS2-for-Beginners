@@ -28,6 +28,14 @@ ros2 launch robot_sim_demo gazebo2.launch.py \
 
 RViz 应显示 Xacro 模型及其 TF；Gazebo 显示 Wheeltec 传感器模型。源码：`src/urdf_demo_ros2/urdf/`、`src/robot_sim_demo/models/wheeltec_robot/model.sdf`。
 
+## 实际运行证据
+
+真实运行的 Xacro 展开、XML 校验和 RobotModel/TF 启动输出：
+
+![ch08 URDF 与 RViz 运行输出](images/runtime/ch08_urdf.gif)
+
+原始录制：[ch08_urdf.cast](images/runtime/ch08_urdf.cast)。
+
 > **实验课时**：2 课时（90 分钟） | XBot-U 模型
 
 ---

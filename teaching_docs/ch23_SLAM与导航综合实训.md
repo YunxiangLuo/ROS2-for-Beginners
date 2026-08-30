@@ -1,54 +1,15 @@
 # 第23章 SLAM与导航综合实训
 
-## 仿真结合实例（当前仓库）：从在线建图切换到 Nav2 导航
+> **课程**：ROS2 Python 编程  
+> **章节**：第23章  
+> **课时**：4 课时（180 分钟）  
+> **教学方式**：讲授 + 演示  
 
-### 目标与知识点对应
-
-先用 `slam_sim_demo_ros2` 在 Gazebo 中建立地图并检查地图增长，再用 `navigation_sim_demo_ros2` 加载预置地图启动 Nav2，串联 SLAM、定位、规划与控制四个阶段。
-
-### 运行步骤
-
-```bash
-source /opt/ros/jazzy/setup.bash
-source install/setup.bash
-
-# 终端 1：在线建图
-ros2 launch slam_sim_demo_ros2 slam_demo.launch.py \
-  use_gazebo:=true use_rviz:=true gz_headless:=false
-# 终端 2：驱动并检查地图
-ros2 run slam_sim_demo_ros2 slam_map_runner
-```
-
-完成输入检查后，停止该组进程，在新的 ROS 域或干净终端中运行：
-
-```bash
-# 终端 3：加载预置地图并启动 Nav2
-ros2 launch navigation_sim_demo_ros2 nav2_demo.launch.py \
-  use_gazebo:=true use_rviz:=true gz_headless:=false
-# 终端 4：检查生命周期并发送目标
-ros2 run navigation_sim_demo_ros2 nav2_lifecycle_runner
-ros2 run navigation_sim_demo_ros2 nav_goal_runner
-```
-
-### 观察结果
-
-第一阶段观察 `/map` 更新和 `slam-map-updated`；第二阶段观察 Nav2 组件激活、RViz 地图/路径和 `/odom` 变化。
-
-### 源码与证据
-
-- SLAM：`src/slam_sim_demo_ros2/`
-- Nav2：`src/navigation_sim_demo_ros2/`
-- Gazebo：`src/robot_sim_demo/`
-- 终端证据：`lab_manuals/images/runtime/nonlab_slam.png`、`nonlab_nav2.png`
-
-两套 Launch 都可能启动 Gazebo，切换时必须先停止上一套进程，避免两个仿真器争用同一 ROS/Gazebo 图。
+---
 
 ## 学习目标
-- 掌握从SLAM建图到自主导航的完整流程
-- 能够在仿真环境中完成建图、保存地图和导航
-- 理解多机器人调度系统的设计方法
-- 培养项目文档编写和方案设计能力
-- 掌握SLAM与导航系统集成的工程实践
+
+本章学习目标包括：掌握从SLAM建图到自主导航的完整流程，能够在仿真环境中完成建图、保存地图和导航，理解多机器人调度系统的设计方法，培养项目文档编写和方案设计能力，掌握SLAM与导航系统集成的工程实践。
 
 ## 23.1 综合项目概述
 
@@ -66,25 +27,11 @@ ros2 run navigation_sim_demo_ros2 nav_goal_runner
 阶段6: 项目文档与评估    → 撰写设计文档和性能评估
 ```
 
-**实训环境：**
-- ROS 2 Jazzy
-- Gazebo Sim Harmonic 仿真环境
-- Wheeltec 机器人模型（课程包 `robot_sim_demo`）
-- Nav2导航框架
+实训环境包括：ROS 2 Jazzy、Gazebo Sim Harmonic 仿真环境、Wheeltec 机器人模型（课程包 `robot_sim_demo`）以及 Nav2 导航框架。
 
 ### 23.1.2 项目要求
 
-**基本要求：**
-1. 构建至少500m²环境的完整地图
-2. 实现稳定的自主导航（成功率>90%）
-3. 支持多点导航和航点跟随
-4. 具备基本故障恢复能力
-
-**进阶要求：**
-1. 多传感器融合建图（可选IMU）
-2. 自定义行为树优化导航
-3. 多机器人协同导航
-4. 动态避障和重规划
+基本要求包括：构建至少500m²环境的完整地图，实现稳定的自主导航（成功率>90%），支持多点导航和航点跟随，具备基本故障恢复能力。进阶要求包括：多传感器融合建图（可选IMU），自定义行为树优化导航，多机器人协同导航，以及动态避障和重规划。
 
 ## 23.2 SLAM建图实践
 
@@ -345,6 +292,10 @@ processor.inflate_obstacles(pixel_radius=3)
 processor.crop_map()
 processor.save('~/maps/processed_map')
 ```
+
+### 23.2.5 官方要点——slam_toolbox 官方 Wiki：建图、保存与序列化
+
+练习第 1 题的每一步在 slam_toolbox 官方 Wiki 都有对应说明：异步建图（`sync`/`async` 两种模式，后者不阻塞回调）结束后，用 `map_saver_cli -f mymap` 导出 pgm+yaml 地图对；Wiki 强调更推荐用 `/slam_toolbox/serialize_map` 服务保存 `.posegraph` 序列化文件，它保留了位姿图与原始扫描，后续可 `deserialize_map` 继续增量建图——这是"边运营边补图"的官方工作流。Wiki 还给出了占用栅格参数（resolution、map_update_interval）与建图模式（localization-only 模式加载已有位姿图）的切换方法，正好覆盖练习第 1 题从建图到定位的全链路。
 
 ## 23.3 自主导航配置
 
@@ -651,6 +602,10 @@ def main():
     rclpy.shutdown()
 ```
 
+### 23.3.4 官方要点——Nav2 官方：从建图到导航的误差控制
+
+Nav2 官方调优文档把练习第 4 题的"误差来源"拆成了三层：建图层—— slam_toolbox 的 `minimum_travel_distance`（关键帧间距）过大导致局部细节缺失，官方建议在拐角处降低阈值；定位层——AMCL 的 `set_initial_pose` 未设时首帧需人工给位姿，`laser_model_type` 与 `max_beams` 直接决定粒子发散速度（官方文档建议室内 360° 雷达用 likelihood_field 模型）；规划层——代价地图 inflation_radius 取值过小会造成贴墙路径，过大则狭窄通道不可达，官方调优指南给出" inflation = 机器人半径 + 动态余量"的经验公式。三层误差会相乘式放大，官方因此强调"每层单独验证"（先 rosbag 回放定位精度，再全链路导航）。
+
 ## 23.4 多机器人调度
 
 ### 23.4.1 多机器人架构
@@ -831,6 +786,10 @@ ros2 launch slam_toolbox online_async_launch.py \
 # 启动调度器
 ros2 run slam_nav_project multi_robot_scheduler
 ```
+
+### 23.4.3 官方要点——多机器人：官方示例与调度架构
+
+练习第 3 题可参考两个官方项目：Nav2 官方文档的 multi-robot 页面给出了"每机器人一个独立 namespace + 各自 costmap/AMCL，共享一张合并地图"的推荐架构，配合 `multirobot_map_merge` 与 `multi_nav2` 示例包；调度层面官方推荐用一个中心化节点封装 Simple Commander 的 `followWaypoints`（支持为每个航点分配不同机器人），并通过 `robot_state` 话题广播各机状态实现冲突避免（如充电桩互斥、窄道会车让行）。RoboCup@Home 与 AWS RoboMaker 官方示例也展示了"任务队列 + 优先级抢占"的调度器框架，与练习第 6 题商超多机器人（清洁/巡检/导购）的任务分配需求同构。
 
 ## 23.5 项目文档规范
 
@@ -1163,6 +1122,10 @@ class TroubleshootingGuide:
         print(commands)
 ```
 
+### 23.7.1 官方要点——自动探索与健康管理：官方生态的收尾组件
+
+练习第 2 题的自主探索建图在官方生态中有成熟模板：`explore-lite`（m-explore 的 ROS 2 移植）以"边界点（frontier）检测 + Nav2 导航"循环建图，其 README 明确支持与 slam_toolbox 组合；把"覆盖率>95% 自动保存"改为订阅地图元数据统计自由区域即可。健康管理方面，Nav2 官方文档建议用 `diagnostic_updater` 汇报各服务器活性（bt_navigator、controller_server 的心跳），配合 `lifecycle_manager` 的 `bond_timeout` 实现进程级看门狗——服务器失联时自动触发树级恢复而非整机重启，这是商超长期运营方案（练习第 6 题）的系统监控基座。Robotics Back-End 的实训教程把这些组件串成了完整的"建图→保存→定位→导航→探索→监控"脚本模板。
+
 ## 课后练习
 
 1. **操作题:** 完成从SLAM建图到自主导航的完整流程：启动仿真→slam_toolbox建图→保存地图→启动AMCL定位→发送导航目标到达目标点。
@@ -1176,3 +1139,57 @@ class TroubleshootingGuide:
 5. **文档题:** 仿照本节的设计文档模板，为你的SLAM与导航项目撰写完整的设计文档，包含需求分析、系统架构、参数配置、测试方案和问题记录。
 
 6. **综合题:** 设计一个面向大型商超的机器人服务方案（包括清洁、巡检、导购等多类型机器人），涵盖SLAM建图方案（跨楼层）、多机器人调度（任务优先级）、人机交互（目标下达）和系统监控（健康管理）。
+
+---
+
+## 仿真结合实例（当前仓库）：从在线建图切换到 Nav2 导航
+
+### 目标与知识点对应
+
+先用 `slam_sim_demo_ros2` 在 Gazebo 中建立地图并检查地图增长，再用 `navigation_sim_demo_ros2` 加载预置地图启动 Nav2，串联 SLAM、定位、规划与控制四个阶段。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+
+# 终端 1：在线建图
+ros2 launch slam_sim_demo_ros2 slam_demo.launch.py \
+  use_gazebo:=true use_rviz:=true gz_headless:=false
+# 终端 2：驱动并检查地图
+ros2 run slam_sim_demo_ros2 slam_map_runner
+```
+
+完成输入检查后，停止该组进程，在新的 ROS 域或干净终端中运行：
+
+```bash
+# 终端 3：加载预置地图并启动 Nav2
+ros2 launch navigation_sim_demo_ros2 nav2_demo.launch.py \
+  use_gazebo:=true use_rviz:=true gz_headless:=false
+# 终端 4：检查生命周期并发送目标
+ros2 run navigation_sim_demo_ros2 nav2_lifecycle_runner
+ros2 run navigation_sim_demo_ros2 nav_goal_runner
+```
+
+### 观察结果
+
+第一阶段观察 `/map` 更新和 `slam-map-updated`；第二阶段观察 Nav2 组件激活、RViz 地图/路径和 `/odom` 变化。
+
+### 源码与证据
+
+SLAM 源码位于 `src/slam_sim_demo_ros2/`，Nav2 源码位于 `src/navigation_sim_demo_ros2/`，Gazebo 模型位于 `src/robot_sim_demo/`，终端证据见 `lab_manuals/images/runtime/nonlab_slam.png` 与 `nonlab_nav2.png`。
+
+![ch10 SLAM 组件启动](../lab_manuals/images/runtime/nonlab_slam.gif)
+
+![ch11 Nav2 组件启动](../lab_manuals/images/runtime/nonlab_nav2.gif)
+
+两套 Launch 都可能启动 Gazebo，切换时必须先停止上一套进程，避免两个仿真器争用同一 ROS/Gazebo 图。
+
+> 参考来源：
+> - slam_toolbox 官方 Wiki（SteveMacenski）：https://wiki.ros.org/slam_toolbox
+> - Nav2 官方文档 —— 地图服务、调优与多机器人：https://docs.nav2.org/
+> - navigation2 仓库 —— multi_nav2 与 Simple Commander 示例：https://github.com/ros-navigation/navigation2
+> - explore-lite 官方仓库（m-explore ROS 2 移植）：https://github.com/robo-friends/m-explore-ros2
+> - The Construct —— SLAM 与导航综合实训课程：https://www.theconstructsim.com/
+> - Robotics Back-End —— 建图导航衔接实战教程：https://roboticsbackend.com/

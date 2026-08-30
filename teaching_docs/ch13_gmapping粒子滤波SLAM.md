@@ -1,43 +1,15 @@
 # 第13章 gmapping粒子滤波SLAM
 
-## 仿真结合实例（当前仓库）：用 Gazebo 数据验证粒子滤波 SLAM 接口
+> **课程**：ROS2 Python 编程  
+> **章节**：第13章  
+> **课时**：2 课时（90 分钟）  
+> **教学方式**：讲授 + 演示  
 
-### 目标与知识点对应
-
-gmapping 的粒子滤波更新需要激光观测、里程计和 TF。本仓库没有 gmapping 节点，实例用 `robot_sim_demo` 产生同样的数据接口，并用 rosbag 检查数据连续性。
-
-### 运行步骤
-
-```bash
-source /opt/ros/jazzy/setup.bash
-source install/setup.bash
-ros2 launch robot_sim_demo gazebo2.launch.py \
-  gui:=false rviz:=false drive:=true
-```
-
-```bash
-ros2 bag record -o /tmp/gmapping_input /scan /odom /tf /tf_static
-# 运行约 10 秒后 Ctrl+C
-ros2 bag info /tmp/gmapping_input
-```
-
-### 观察结果
-
-检查 bag 中 `/scan` 和 `/odom` 的消息数量、时间范围与 frame_id；这些是粒子预测和观测更新的输入条件。
-
-### 源码与边界
-
-- 数据桥：`src/robot_sim_demo/config/gazebo2_bridge.yaml`
-- 在线建图对照：`src/slam_sim_demo_ros2/slam_sim_demo_ros2/slam_map_runner.py`
-
-本例不运行 gmapping 算法，也不把 `slam_toolbox` 的地图作为 gmapping 结果。
+---
 
 ## 学习目标
-- 理解粒子滤波SLAM的基本原理和Rao-Blackwellized分解
-- 掌握FastSLAM框架的算法流程
-- 熟悉gmapping的提议分布优化和自适应重采样策略
-- 能够在ROS2中使用slam_toolbox进行建图
-- 掌握建图参数调优方法
+
+本章学习目标包括：理解粒子滤波SLAM的基本原理和Rao-Blackwellized分解，掌握FastSLAM框架的算法流程，熟悉gmapping的提议分布优化和自适应重采样策略，能够在ROS2中使用slam_toolbox进行建图，掌握建图参数调优方法。
 
 ## 13.1 粒子滤波SLAM原理
 
@@ -45,15 +17,9 @@ ros2 bag info /tmp/gmapping_input
 
 粒子滤波 (Particle Filter) 是一种基于蒙特卡洛方法的贝叶斯滤波实现。它使用一组加权粒子来近似后验概率分布。
 
-**粒子的定义：**
-- 每个粒子表示一个假设的机器人轨迹
-- 粒子包含：位姿 `x_t` 和权重 `w_t`
-- 所有粒子共同近似后验分布 `p(x_t | z_{1:t}, u_{1:t-1})`
+**粒子的定义：**每个粒子表示一个假设的机器人轨迹；粒子包含位姿 `x_t` 和权重 `w_t`；所有粒子共同近似后验分布 `p(x_t | z_{1:t}, u_{1:t-1})`。
 
-**粒子滤波的优势：**
-- 可以表示任意复杂的概率分布（非高斯、多模态）
-- 易于实现，不需要线性化
-- 计算复杂度可控（通过粒子数平衡精度和效率）
+**粒子滤波的优势：**可以表示任意复杂的概率分布（非高斯、多模态），易于实现、不需要线性化，计算复杂度可控（通过粒子数平衡精度和效率）。
 
 **粒子滤波的三大步骤：**
 ```
@@ -75,10 +41,7 @@ p(x_{1:t}, m | z_{1:t}, u_{1:t-1}) =
 p(m | x_{1:t}, z_{1:t}) · p(x_{1:t} | z_{1:t}, u_{1:t-1})
 ```
 
-分解含义：
-- 使用粒子滤波估计机器人路径 `x_{1:t}`
-- 每个粒子根据其估计的路径，独立维护一个地图 `m`
-- 给定路径后，地图估计可以解析计算（条件高斯）
+分解含义：使用粒子滤波估计机器人路径 `x_{1:t}`，每个粒子根据其估计的路径独立维护一个地图 `m`，给定路径后地图估计可以解析计算（条件高斯）。
 
 ```python
 import numpy as np
@@ -174,6 +137,10 @@ def detect_particle_depletion(particles: list) -> bool:
 ```
 
 **解决退化的方法：重采样**
+
+### 13.1.4 官方要点——RBPF 的理论根基与 Grisetti 2007 年关键论文
+
+本章 13.1.2 的 Rao-Blackwellized 分解对应的是 Grisetti、Stachniss 与 Burgard 于 2007 年发表的经典论文《Improved Techniques for Grid Mapping with Rao-Blackwellized Particle Filters》（TER 期刊）及其 2005 年 ICRA 会议版本。论文提出的三项改进正是本章 13.3 的三板斧：①用激光似然优化提议分布（13.3.2，只在观测信息量大时用激光修正采样，否则退回里程计模型）；②自适应重采样（13.3.3，用有效样本数 Neff 阈值替代每帧重采样，避免粒子多样性骤减）；③选择性扫描匹配（仅当移动/旋转超过阈值才执行）。理解本章代码后重读该论文的推导，是深入粒子滤波 SLAM 最直接的一条路径。
 
 ## 13.2 FastSLAM框架
 
@@ -320,12 +287,11 @@ class FastSLAM1_0:
 
 FastSLAM 2.0 的关键改进是：使用激光观测优化提议分布，而不仅仅依赖运动模型。
 
-**改进点：**
-- 提议分布融合了当前观测信息：
+**改进点：**提议分布融合当前观测信息，直接在提议分布中融入激光观测，使采样更集中到高概率区域：
+
   ```
   x_t ~ p(x_t | x_{t-1}, u_t, z_t, m)
   ```
-- 在粒子的提议分布中融入激光观测，使采样更集中到高概率区域
 
 ```python
 class FastSLAM2_0:
@@ -420,16 +386,19 @@ class FastSLAM2_0:
 | 实现难度 | 中等 | 简单 |
 | 应用场景 | 大场景、非高斯  | 小场景、高斯噪声 |
 
+### 13.2.4 官方要点——粒子滤波的工程代价与替代路线
+
+粒子滤波的三重代价在 galactic 之后的文献与 The Construct 课程中被反复讨论：粒子多样性丧失（重采样后粒子快速趋同，对应 13.1.3 的退化度量 Neff）、计算量随粒子数线性增长、以及对里程计漂移的敏感。RBPF 在里程计差时会让提议分布严重偏离，粒子被迫用数量弥补——这正是本章 13.5.1 建议「噪声大→加粒子」的原因。
+
+作为替代，图优化 SLAM（slam_toolbox 的 pose graph + Ceres、Cartographer 的前端配准+后端优化）把「一次解算近似」换成「最小二乘再求解」，不依赖粒子数量，劣势是把漂移责任转移给回环检测与参数调优。Robotics Back-End 的对比文章给出结论性建议：中小场景、REAL 低噪声里程计上 RBPF 已够用；场地大、要求回环修正时直接上 slam_toolbox（本章 13.4 的实践路线）。
+
 ## 13.3 gmapping实现详解
 
 ### 13.3.1 gmapping算法特点
 
 gmapping 是基于RBPF的2D SLAM算法，在FastSLAM基础上做了重要改进：
 
-**核心改进：**
-1. **优化提议分布：** 使用激光观测的似然来优化粒子的提议分布，使粒子集中在高概率区域
-2. **自适应重采样：** 仅在必要时进行重采样，减少粒子退化
-3. **选择性扫描匹配：** 只对关键帧进行扫描匹配，提高效率
+**核心改进：**使用激光观测的似然来优化粒子的提议分布，使粒子集中在高概率区域；仅在必要时进行自适应重采样，减少粒子退化；只对关键帧进行选择性扫描匹配，提高效率。
 
 **gmapping的算法流程：**
 ```
@@ -714,11 +683,7 @@ class GmappingSLAM:
 
 在ROS2中，slam_toolbox替代了ROS1的gmapping，提供了更丰富的功能：
 
-**slam_toolbox支持的工作模式：**
-- `mapping` — 在线建图模式
-- `localization` — 在已有地图上定位
-- `mapping+localization` — 同时建图和定位
-- `localize_in_partial_map` — 部分地图定位
+**slam_toolbox支持的工作模式：**`mapping` 为在线建图模式，`localization` 在已有地图上定位，`mapping+localization` 同时建图和定位，`localize_in_partial_map` 支持部分地图定位。
 
 **slam_toolbox的核心参数：**
 
@@ -866,6 +831,12 @@ ros2 launch slam_toolbox online_async_launch.py \
   slam_params_file:=./config/mapper_params_online_async.yaml
 ```
 
+### 13.4.6 官方要点——gmapping 的官方文档与参数体系
+
+gmapping 是 ROS 1 时代应用最广的 2D SLAM 包，其 ROS Wiki 页面提供了完整的参数表，与本章 13.4.5 的映射关系一一对应：`particles`（粒子数）、`linearUpdate`/`angularUpdate`（触发扫描匹配的移动/旋转阈值，对应 slam_toolbox 的 `minimum_travel_distance`/`minimum_travel_heading`）、`srr`/`srt`/`str`/`stt`（里程计运动模型噪声）、`lsigma`/`ogain`（激光似然参数）、`llsamplerange`（局部搜索范围）。
+
+openslam.org 的 gmapping 项目页则给出原始实现的说明：它要求输入 `/scan`、里程计与 TF（`map`→`odom`→`base`→`laser`），并强调「粒子数越多建图越稳定，但每帧代价线性增长」——这是本章 13.5.1 粒子数选择公式的理论根据。官方还指出 gmapping 对大场景有地图尺寸限制（内存预分配），这也是 ROS 2 生态最终转向 slam_toolbox 的原因之一。
+
 ## 13.5 参数调优与最佳实践
 
 ### 13.5.1 粒子数选择
@@ -938,8 +909,11 @@ def generate_mapping_path(environment_type: str) -> str:
 ### 13.5.3 常见问题排查
 
 **问题1：地图重影/偏移**
-- 原因：回环检测未正确触发，或扫描匹配错误
-- 解决：
+
+原因：回环检测未正确触发，或扫描匹配错误。
+
+解决：降低移动速度并手动控制速度（线性 0.15、角速度 0.3），同时减少环境速度相关参数：
+
   ```bash
   # 降低移动速度
   ros2 run teleop_twist_keyboard teleop_twist_keyboard
@@ -952,8 +926,11 @@ def generate_mapping_path(environment_type: str) -> str:
   ```
 
 **问题2：地图缺失区域**
-- 原因：未充分探索，激光扫描范围有限
-- 解决：
+
+原因：未充分探索，激光扫描范围有限。
+
+解决：使用自动探索算法，或手动补充扫描并检查激光范围设置：
+
   ```bash
   # 使用自动探索算法
   ros2 run exploration exploration_node
@@ -964,13 +941,20 @@ def generate_mapping_path(environment_type: str) -> str:
   ```
 
 **问题3：定位丢失**
-- 原因：快速移动或环境特征不足
-- 解决：
+
+原因：快速移动或环境特征不足。
+
+解决：增加角点检测灵敏度：
+
   ```yaml
   # 增加角点检测灵敏度
   correlation_search_space_smear_deviation: 0.05
   loop_match_maximum_variance_big: 0.005
   ```
+
+### 13.5.4 官方要点——粒子滤波 SLAM 的调优与质量监控纪律
+
+结合官方文档与课程实践，粒子滤波建图的三条纪律值得牢记：第一，录制 bag（本章开头实例的 `/scan`、`/odom`、`/tf`）离线试参，先检查 `ros2 bag info` 确认话题频率与时间戳连续，再谈算法；第二，用本章 13.4.4 的 MapQualityMonitor 思路量化覆盖度（unknown 比例）与重影（同一区域占据栅格离散度），而不是凭肉眼判断；第三，SimTime 环境强调 `use_sim_time:=true` 与时钟对齐，仿真中更容易复现的时间戳错位问题在真机上会因网络延迟放大。建议按本章练习第 4 题系统对比 `resolution`、`minimum_travel_distance` 与回环参数对最终地图的影响，并记录每组参数下的覆盖度数值。
 
 ## 课后练习
 
@@ -985,3 +969,43 @@ def generate_mapping_path(environment_type: str) -> str:
 5. **推导题:** 推导gmapping中优化提议分布的数学形式，说明为什么融合激光观测的提议分布可以提高采样效率。
 
 6. **设计题:** 某2000m²的仓库需要高精度建图，机器人配备2D激光雷达和轮式里程计。设计完整的建图方案，包括SLAM算法选择、参数配置、建图路径规划和地图质量评估方法。
+
+---
+
+## 仿真结合实例（当前仓库）：用 Gazebo 数据验证粒子滤波 SLAM 接口
+
+### 目标与知识点对应
+
+gmapping 的粒子滤波更新需要激光观测、里程计和 TF。本仓库没有 gmapping 节点，实例用 `robot_sim_demo` 产生同样的数据接口，并用 rosbag 检查数据连续性。
+
+### 运行步骤
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+ros2 launch robot_sim_demo gazebo2.launch.py \
+  gui:=false rviz:=false drive:=true
+```
+
+```bash
+ros2 bag record -o /tmp/gmapping_input /scan /odom /tf /tf_static
+# 运行约 10 秒后 Ctrl+C
+ros2 bag info /tmp/gmapping_input
+```
+
+### 观察结果
+
+检查 bag 中 `/scan` 和 `/odom` 的消息数量、时间范围与 frame_id；这些是粒子预测和观测更新的输入条件。
+
+### 源码与边界
+
+数据桥配置位于 `src/robot_sim_demo/config/gazebo2_bridge.yaml`，在线建图对照位于 `src/slam_sim_demo_ros2/slam_sim_demo_ros2/slam_map_runner.py`。
+
+本例不运行 gmapping 算法，也不把 `slam_toolbox` 的地图作为 gmapping 结果。
+
+> 参考来源：
+> - ROS Wiki —— gmapping 包文档与参数说明：https://wiki.ros.org/gmapping
+> - OpenSLAM —— gmapping 项目页（RBPF 网格建图）：https://openslam-org.github.io/gmapping.html
+> - SLAM Toolbox Wiki —— Steve Macenski 维护的参数与架构说明：https://github.com/SteveMacenski/slam_toolbox/wiki
+> - The Construct —— ROS 2 SLAM 课程（gmapping 到 slam_toolbox 的迁移）：https://www.theconstructsim.com/
+> - Robotics Back-End —— gMapping vs Cartographer 对比与建图实践：https://roboticsbackend.com/

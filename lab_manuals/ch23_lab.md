@@ -40,8 +40,11 @@ source install/setup.bash
 
 ### 启动CARLA仿真器
 ```bash
-# Linux
-./CarlaUE4.sh -quality-level=Low
+# Linux / WSL2
+if grep -qi microsoft /proc/version; then
+  export GALLIUM_DRIVER="${GALLIUM_DRIVER:-d3d12}"
+fi
+carla-server
 
 # Windows (CARLA安装在C:/CARLA)
 C:/CARLA/CarlaUE4.exe -quality-level=Low

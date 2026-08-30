@@ -2,6 +2,14 @@
 """连接到CARLA服务器并打印世界信息"""
 import argparse
 import carla
+from importlib.metadata import PackageNotFoundError, version
+
+
+def carla_api_version():
+    try:
+        return version("carla")
+    except PackageNotFoundError:
+        return getattr(carla, "__version__", "unknown")
 
 
 def print_separator(title):
@@ -16,7 +24,7 @@ def explore_world(client, world):
     server_version = client.get_server_version()
     print_separator("服务器信息")
     print(f"  CARLA 版本: {server_version[1]}")
-    print(f"  API  版本:  {carla.__version__}")
+    print(f"  API  版本:  {carla_api_version()}")
 
     # 地图信息
     print_separator("地图信息")

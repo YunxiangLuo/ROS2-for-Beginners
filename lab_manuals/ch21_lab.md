@@ -30,6 +30,14 @@ ros2 launch xarm_ros2_arm_only arm_only.launch.py
 
 分开检查相机话题、TF、目标位姿、规划结果和夹爪执行状态。源码：`src/lab_code/ch21_lab/vision_pickup_lab/`、`src/robot_sim_demo/`、`src/xarm/`。当前仓库没有真实 ArUco/YOLO 检测和成功抓取证据，不将接口验证写成完整闭环成功。
 
+## 实际运行证据
+
+真实运行的 Gazebo 相机桥接、xArm 控制器与 MoveIt 规划服务接口检查：
+
+![ch21 相机目标接口与 xArm 规划分层](images/runtime/ch21_vision_pickup.gif)
+
+原始录制：[ch21_vision_pickup.cast](images/runtime/ch21_vision_pickup.cast)。相机 TF 查询结果仍需按本地环境单独检查。
+
 > **对应理论章节**：第34章《视觉抓取完整流程》、第35章《综合实训：智能机器人产线》
 > **实验课时**：6课时  
 > **实验代码**：`src/lab_code/ch21_lab/vision_pickup_lab/`  

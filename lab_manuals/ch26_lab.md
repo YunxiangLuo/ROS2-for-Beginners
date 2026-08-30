@@ -174,7 +174,7 @@ python lat_lon_ctrl.py
 
 ## 实际运行证据
 
-当前环境已实际运行 PID 和 Pure Pursuit 控制器测试；CARLA 闭环部分因缺少 CARLA 服务器暂未登记截图。
+当前环境已实际运行 PID 和 Pure Pursuit 控制器测试；CARLA 服务端和 Bridge 已安装，但 UE4 在当前 WSL 图形后端初始化时退出，因此 CARLA 闭环部分暂未登记截图。
 
 ![ch26 控制器测试输出](images/runtime/ch26_control.gif)
 

@@ -25,8 +25,11 @@ pip install opencv-python numpy
 # 下载YOLOv8模型
 python3 -c "from ultralytics import YOLO; YOLO('yolov8n.pt')"
 
+# 加载课程 CARLA/Bridge 环境
+source ~/.config/ros2-course/env.bash
+
 # 启动CARLA服务器（终端1）
-/path/to/CarlaUE4.sh -quality-level=Low
+carla-server
 
 # 启动ROS2 Bridge（终端2）
 ros2 launch carla_ros_bridge carla_ros_bridge.launch.py

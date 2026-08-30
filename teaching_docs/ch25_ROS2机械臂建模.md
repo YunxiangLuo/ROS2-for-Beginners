@@ -1,10 +1,15 @@
 # 第25章 ROS2机械臂建模
 
+> **课程**：ROS2 Python 编程  
+> **章节**：第25章  
+> **课时**：2 课时（90 分钟）  
+> **教学方式**：讲授 + 演示  
+
+---
+
 ## 学习目标
-- 掌握URDF和Xacro建模方法
-- 理解SRDF语义描述文件的结构
-- 学会在Rviz中可视化机械臂模型
-- 掌握3D模型导入与整合方法
+
+本章学习目标包括：掌握URDF和Xacro建模方法，理解SRDF语义描述文件的结构，学会在Rviz中可视化机械臂模型，掌握3D模型导入与整合方法。
 
 ## 25.1 URDF建模基础
 
@@ -12,10 +17,7 @@
 
 URDF（Unified Robot Description Format，统一机器人描述格式）是ROS2中标准的机器人模型描述格式。它基于XML规范，用于描述机器人的运动学、动力学和几何信息。
 
-URDF的核心结构将机器人建模为由连杆（Link）和关节（Joint）组成的树状结构：
-
-- **连杆（Link）**：描述刚体的外观和物理属性
-- **关节（Joint）**：描述连杆之间的连接和相对运动关系
+URDF的核心结构将机器人建模为由连杆（Link）和关节（Joint）组成的树状结构，其中连杆（Link）描述刚体的外观和物理属性，关节（Joint）描述连杆之间的连接和相对运动关系。
 
 URDF文件的基本结构：
 
@@ -356,6 +358,10 @@ mkdir -p urdf launch rviz meshes
 </robot>
 ```
 
+### 25.2.3 官方要点——ros2_control 官方 URDF 中的硬件描述标签
+
+ros2_control 官方文档规定在 URDF 内嵌入 `<ros2_control>` 块描述硬件接口：`<joint>` 声明 command/state 接口类型（position、velocity、effort），`<hardware>` 声明实现插件——真实机器人用厂商驱动，仿真或调试时用官方 `mock_components`（虚拟硬件，直接把命令回读为状态）与 `gazebo_ros2_control`。官方文档强调：URDF 的 `transmission` 标签是 ros1_control 时代的遗产，ros2_control 不再使用，接口全部由 `<ros2_control>` 块声明——这是许多 ROS 1 迁移项目最常见的坑。本章仿真实例的 `hardware_type:=mock_components` 正是官方推荐的无硬件验证路径。
+
 ## 25.3 Xacro建模
 
 ### 25.3.1 Xacro简介
@@ -550,17 +556,17 @@ Xacro（XML Macros）是URDF的宏语言扩展，提供了变量定义、数学�
 </robot>
 ```
 
+### 25.3.4 官方要点——ROS 2 官方教程 URDF 基础与 Xacro 宏
+
+> 本节内容综合翻译自 ROS 2 官方文档的 URDF 与 Xacro 教程、MoveIt 官方 Setup Assistant 文档以及 ros2_control 官方文档，另参考 The Construct 的机械臂建模课程与 Robotics Back-End 的 URDF 建模教程。原文均为英文，此处为中文编译，供课后巩固与进阶阅读。
+
+ROS 2 官方 URDF 教程是练习第 1-2 题的权威参考：文档规定 link 的 inertia 单位换算（默认 kg·m²）、joint 的 origin 为父系到子系的变换、`visual`/`collision` 的 geometry 支持 box/cylinder/sphere/mesh 四类，并强调"joint 的 origin 会在父子变换中自动解析为 TF"——这正是上一章 robot_state_publisher 的基础。官方 Xacro 教程则演示了两大机制：属性（`<xacro:property>` 定义长度、颜色等参数，对应练习第 2 题）与宏（`<xacro:macro>` 把重复的 link+joint 对参数化），并特别说明 Xacro 是预处理工具，最终仍展开为纯 URDF——因此调试时可用 `xacro <file> > out.urdf` 先看展开结果。
+
 ## 25.4 SRDF语义描述
 
 ### 25.4.1 SRDF的作用
 
-SRDF（Semantic Robot Description Format）是对URDF的语义补充，为MoveIt2等高级框架提供额外的语义信息，包括：
-
-- 规划组（Planning Groups）：定义关节集合
-- 预设位姿（Named Poses）：预定义的关节位置
-- 自碰撞对（Collision Pairs）：不需要碰撞检测的连杆对
-- 末端执行器（End Effectors）：定义工具信息
-- 虚拟关节（Virtual Joints）：连接机器人与世界坐标系
+SRDF（Semantic Robot Description Format）是对URDF的语义补充，为MoveIt2等高级框架提供额外的语义信息，包括：规划组（Planning Groups）定义关节集合，预设位姿（Named Poses）提供预定义的关节位置，自碰撞对（Collision Pairs）标记不需要碰撞检测的连杆对，末端执行器（End Effectors）定义工具信息，虚拟关节（Virtual Joints）连接机器人与世界坐标系。
 
 ### 25.4.2 SRDF文件示例
 
@@ -643,6 +649,10 @@ generated_moveit_config/
     ├── planning_context.launch.py
     └── demo.launch.py
 ```
+
+### 25.4.4 官方要点——MoveIt Setup Assistant 从 URDF 到 SRDF 的工业流程
+
+MoveIt 官方 Setup Assistant 文档是与练习第 3 题对应的标准工作流：加载 URDF → 定义规划组（Planning Group：arm 用 chain，gripper 用 joint 或 link 类型）→ 生成碰撞矩阵（自动检测默认不可碰撞的相邻连杆对）→ 添加预定义位姿（Pre-defined Poses，对应练习中的 home/vertical）→ 配置虚拟关节（Virtual Joint，连接机器人基座与 world）与末端执行器（End Effector 组）。官方文档强调 SRDF 本身不改变模型几何，只携带语义信息（组、位姿、碰撞矩阵），MoveIt 在运行时把 URDF 与 SRDF 合并构造成规划场景（planning scene）。
 
 ## 25.5 在Rviz中可视化
 
@@ -858,11 +868,11 @@ urdf_to_graphviz six_dof_arm.urdf
 
 ### 25.7.3 Rviz调试技巧
 
-在Rviz中添加以下显示组件进行调试：
+在Rviz中添加以下显示组件进行调试：RobotModel 显示机器人模型，TF 显示坐标系，MotionPlanning 用于 MoveIt2 规划显示。
 
-1. **RobotModel**：显示机器人模型
-2. **TF**：显示坐标系
-3. **MotionPlanning**：MoveIt2规划显示
+### 25.7.4 官方要点——模型验证工具链与官方调试手法
+
+官方教程推荐三层验证：语法层用 `check_urdf <file>` 或 `xmllint --noout` 做 XML 校验（本章仿真实例的 `xmllint` 命令即源自此）；结构层用 `urdf_to_graphiz` 生成连杆关节拓扑图，一眼看出父链错误（如末连杆悬空、关节共轴冲突）；运行时层用 `joint_state_publisher_gui` 拖动滑块观察 RViz 中连杆联动是否符合预期（对应练习第 4 题）。官方还提示：3D 网格（练习第 5 题）的碰撞模型讲究"简化"，文档建议把 STL/DAE 用 MeshLab 等工具抽壳减面，碰撞网格顶点数控制在数百量级，否则 MoveIt 的碰撞检测在每 tick 都会成为性能瓶颈。
 
 ## 课后练习
 
@@ -905,8 +915,14 @@ RViz 中应显示 xArm 连杆、关节和 `xarm` 规划组；改变 Xacro 参数
 
 ### 源码与边界
 
-- Xacro：`src/xarm/urdf/arm_only_xarm.urdf.xacro`
-- SRDF：`src/xarm/config/xarm.srdf`
-- RViz：`src/xarm/config/arm_only_moveit.rviz`
+相关文件包括：Xacro 模型位于 `src/xarm/urdf/arm_only_xarm.urdf.xacro`，SRDF 位于 `src/xarm/config/xarm.srdf`，RViz 配置位于 `src/xarm/config/arm_only_moveit.rviz`。底层描述包和网格不随本仓库提供；本实例验证描述文件和配置关系，不替代真实机械臂标定。
 
-底层描述包和网格不随本仓库提供；本实例验证描述文件和配置关系，不替代真实机械臂标定。
+![ch16 URDF 与 TF 运行输出](../lab_manuals/images/runtime/ch16_urdf_tf.gif)
+
+> 参考来源：
+> - ROS 2 官方文档 —— URDF 与 Xacro 教程：https://docs.ros.org/en/jazzy/Tutorials.html
+> - MoveIt 官方文档 —— Setup Assistant：https://moveit.picknik.ai/
+> - ros2_control 官方文档 —— 控制器与硬件接口：https://control.ros.org/
+> - xacro 官方仓库与文档：https://github.com/ros/xacro
+> - The Construct —— 机械臂建模课程：https://www.theconstructsim.com/
+> - Robotics Back-End —— URDF 建模实战教程：https://roboticsbackend.com/

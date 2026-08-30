@@ -27,6 +27,14 @@ ros2 topic echo /joint_states --once
 
 RViz 中检查 `xarm` 规划组和 `gripper_centor_link` 末端；程序输出的关节目标与 RViz 轨迹应能对应。源码：`src/lab_code/ch17_lab/moveit_fk_ik_lab/`、`src/xarm/config/`。缺少底层描述包时只记录为环境未满足。
 
+## 实际运行证据
+
+真实运行的 MoveIt 运动学规划和 xArm 控制器输出：
+
+![ch17 MoveIt 运动学规划运行输出](images/runtime/ch17_ik_demo.gif)
+
+原始录制：[ch17_ik_demo.cast](images/runtime/ch17_ik_demo.cast)。
+
 > **对应理论章节**：第26章《MoveIt2配置与基础规划》、第27章《Python关节空间规划》
 > **实验课时**：4课时  
 > **实验代码**：`src/lab_code/ch17_lab/moveit_fk_ik_lab/`  

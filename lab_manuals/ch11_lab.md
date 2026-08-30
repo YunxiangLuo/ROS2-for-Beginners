@@ -34,6 +34,14 @@ ros2 run navigation_sim_demo_ros2 nav_goal_runner \
 
 启动日志应出现 `map_server`、`amcl`、`planner_server`、`controller_server` 和 `bt_navigator`；RViz 可查看地图、路径和代价地图。组件启动证据：`images/runtime/nonlab_nav2.png`；目标是否到达以本地 `/odom` 和程序输出为准。
 
+## 实际运行证据
+
+真实运行的 Nav2 生命周期、导航动作和 Gazebo 场景输出：
+
+![ch11 Nav2 运行输出](images/runtime/ch11_nav2.gif)
+
+原始录制：[ch11_nav2.cast](images/runtime/ch11_nav2.cast)。
+
 ## 环境说明
 
 本实验使用 XBot-U 机器人 + Gazebo Sim (Fortress) 仿真, 预建地图位于 `/home/yun/maps/`:

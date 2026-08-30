@@ -1,272 +1,127 @@
-# 第15章 实验指导书：综合实训
+# 第15章 实验：机械臂基础与关节空间控制
 
-## 当前仓库仿真验证：感知端与 xArm 操作端分层联调
+## 当前仓库仿真验证：xArm 关节状态发布与 RViz 可视化
 
 ### 实验目标
 
-用移动机器人仿真提供图像/内参，用 xArm 仿真提供 MoveIt2 规划环境，练习综合系统中的消息、TF 和任务接口分层。
+用四个 Python 发布器向 `/joint_states` 发布 xArm 的 8 个关节角（`arm_1_joint`~`arm_6_joint`、`gripper_1_joint`、`gripper_2_joint`），配合 `robot_state_publisher` 在 RViz 中观察机械臂往复运动与夹爪开合。xArm 仿真环境由仓库 `src/xarm/` 的 arm_only 一体化 launch 提供。
 
 ### 运行步骤
 
 ```bash
 source /opt/ros/jazzy/setup.bash
 source install/setup.bash
-ros2 launch robot_sim_demo gazebo2.launch.py \
-  gui:=true rviz:=true drive:=false
-ros2 topic echo /camera/camera_info --once
+
+# 终端 1：xArm 一体化仿真（MoveIt + RViz，含 robot_state_publisher）
+ros2 launch xarm_ros2_arm_only arm_only_move_group.launch.py
 ```
 
-在已安装兼容 `xarm_description` 2.0.0 的环境中另开终端：
+```bash
+# 终端 2：发布关节状态（四选一）
+ros2 run arm_joint_pub_lab arm_joints_pub1
+# ros2 run arm_joint_pub_lab arm_gripper
+# ros2 run arm_joint_pub_lab gripper_open_close
+# ros2 run arm_joint_pub_lab hello_arm_node
+```
 
 ```bash
-source /path/to/xarm_description_workspace/install/setup.bash
-ros2 launch xarm_ros2_arm_only arm_only.launch.py
+# 终端 3：验证话题
+ros2 topic echo /joint_states --once
 ```
 
 ### 观察与验收
 
-感知端检查 `/camera/image_raw`、`/camera/camera_info` 和 TF；操作端在 RViz 检查 `xarm` 规划组和轨迹。源码：`src/robot_sim_demo/`、`src/xarm/`、`src/lab_code/ch15_lab/`。当前不宣称完成真实化学试剂识别或自动抓取。
+RViz 中 xArm 模型跟随关节角运动：`arm_joints_pub1` 令 `arm_2_joint` 在 ±1.5rad 内往复摆动；`gripper_open_close` 令夹爪两指同步开合（0~0.65rad）；`ros2 topic echo` 输出的 8 个关节名必须与 xArm URDF 一致，`position`/`velocity`/`effort` 数组与 `name` 等长。源码边界：`src/lab_code/ch15_lab/arm_joint_pub_lab/`、`src/xarm/`。
 
-> **实验课时**：4 课时（180 分钟）  
-> **实验平台**：XBot-U Gazebo 仿真 + OpenAI/Qwen API  
+## 实际运行证据
 
----
+本实验为纯 Python 发布器教学（不依赖真实机械臂硬件），运行证据需上机自采：记录 `ros2 topic echo /joint_states --once` 的输出，并将 RViz 中机械臂往复运动的截图保存至 `docs/images/arm_joint_pub.png`（包 README 约定）。仓库 `src/xarm/` 的 arm_only 一体化仿真提供同名关节的真实运行环境，其端到端冒烟检查脚本 `arm_only_runtime_smoke` 会校验三个活动控制器与 8 个关节命名。
+
+> **对应理论章节**：第24章《机械臂基础知识》
+> **实验课时**：2课时  
+> **实验代码**：`src/lab_code/ch15_lab/`（`arm_joint_pub_lab/` 功能包：四个关节状态发布器）  
 
 ## 实验目标
+- 掌握 `sensor_msgs/JointState` 消息结构与发布方法
+- 理解机械臂关节命名与 `robot_state_publisher` 的配合机制
+- 会用定时器周期发布实现关节往复运动
+- 理解关节空间控制的基本形式：直接指定各关节目标角
+- 了解夹爪（平动指）开合控制与机械臂联动
 
-完成 6 个综合编程题目，构建完整的**机械臂辅助化学实验自动化系统**。
+## 实验环境
+- ROS 2 Jazzy
+- xArm 一体化仿真（`src/xarm/xarm_ros2_arm_only`）
+- RViz2
+- `sensor_msgs/msg/JointState`（机器人标准关节接口）
 
----
+## 参考代码说明
+`src/lab_code/ch15_lab/arm_joint_pub_lab/` 为 ament_python 功能包，`setup.py` 注册了 4 个 `console_scripts` 入口：
 
-## 题目 1：LLM 配方验证服务（约 30 分钟）
-
-### 要求
-编写 `recipe_validator` 服务节点，实现化学实验配方的 LLM 自动校验。
-
-### 实现要点
-1. 定义 `RecipeValidate.srv`（接收配方文本，返回校验结果）
-2. 构建 LLM Prompt：包含配比计算规则和安全检查项
-3. 解析 LLM 返回的 JSON 结果
-
-### 测试用例
 ```
-输入配方：
-"取 5ml 稀盐酸 (HCl, 1mol/L) 加入试管，
- 再加入 5ml 氢氧化钠溶液 (NaOH, 1mol/L)，
- 滴入 2 滴酚酞指示剂，观察颜色变化"
-
-期望输出：
-{
-  "is_valid": true,
-  "feedback": "配比正确：HCl + NaOH → NaCl + H₂O，
-               1:1 摩尔比，产物中性",
-  "products": ["NaCl", "H₂O"],
-  "safety_warnings": ["稀盐酸具腐蚀性，需佩戴手套"]
-}
+src/lab_code/ch15_lab/
+├── arm_joint_pub_lab/                  # ROS2 功能包（ament_python）
+│   ├── arm_joint_pub_lab/
+│   │   ├── hello_arm_node.py           # 通用教学示例（joint1/finger 命名）
+│   │   ├── arm_joints_pub1.py          # xArm 8 关节，arm_2_joint 往复
+│   │   ├── arm_gripper.py              # 臂手联动循环
+│   │   └── gripper_open_close.py       # 夹爪开合
+│   └── setup.py / package.xml
+└── README.md
 ```
 
-### 验收标准
-- ✓ 正确调用 LLM API
-- ✓ 返回结构化 JSON
-- ✓ 校验配比逻辑
-- ✓ 识别安全隐患
+四个发布器的行为对照：
 
-### 参考代码
-`lab_code/ch15_lab/src/recipe_validator.py`
+| 发布器 | 周期 | 行为 |
+|------|------|------|
+| `hello_arm_node` | 0.1s | 教学命名（`joint1`~`joint3`、`finger1/2_joint`）：`joint2` ±1.5rad 往复、`joint3=0.5×joint2`、夹爪同步开合，并打印关节角日志 |
+| `arm_joints_pub1` | 0.05s | xArm 8 关节；`arm_2_joint` 以 0.015 步长在 ±1.5rad 间往复 |
+| `arm_gripper` | 0.05s | 以 `cycle`（0~100 / 100~200）控制 `arm_1_joint`、`arm_4_joint` 与两指关节正反交替 |
+| `gripper_open_close` | 0.05s | `gripper_1_joint`/`gripper_2_joint` 同步在 0~0.65rad 间开合 |
 
----
+- 所有发布器都只写 `JointState` 的 `name` 与 `position`，由 `robot_state_publisher` 将关节角映射为模型位姿与 TF——这是关节空间控制的最低层接口，第26章起 MoveIt2 的规划结果最终也通过 `/joint_states` 驱动模型。
+- 关节名与 `src/xarm` 的 xArm URDF 完全一致（6 个旋转关节 + 2 个平行夹爪指关节），因此无需改任何参数即可在 arm_only 仿真中展示。
 
-## 题目 2：YOLO 试剂瓶检测（约 30 分钟）
+## 实验步骤
 
-### 要求
-订阅 XBot-U 相机话题 `/camera/image_raw`，使用 YOLOv8 实时检测实验台上的试剂瓶。
+1. 构建实验包：
 
-### 实现要点
-1. `cv_bridge` 将 ROS Image 转为 OpenCV 格式
-2. 加载 YOLOv8n 预训练模型（或自定义训练的试剂瓶模型）
-3. 发布 `/bottle_detections` 话题（Detection2DArray）
-
-### 测试方法
 ```bash
-# 终端1：启动 Gazebo 仿真
-ros2 launch robot_sim_demo_ros2 sim_bringup.launch.py \
-  use_gazebo:=true gz_headless:=false
-
-# 终端2：启动检测节点
-ros2 run bottle_detector bottle_detector
-
-# 终端3：查看检测结果
-ros2 topic echo /bottle_detections
+cd <机器人工作区>       # 即含 src/lab_code 的 ROS 2 工作区
+source /opt/ros/jazzy/setup.bash
+colcon build --symlink-install --packages-select arm_joint_pub_lab
+source install/setup.bash
 ```
 
-### 验收标准
-- ✓ 相机图像正确转换为 OpenCV 格式
-- ✓ YOLO 模型成功加载并推理
-- ✓ 检测结果话题正常发布
-- ✓ `ros2 topic echo` 可查看检测结果
+2. 终端 1 启动 xArm 一体化仿真：
 
-### 参考代码
-`lab_code/ch15_lab/src/bottle_detector.py`
-
----
-
-## 题目 3：VLM 标签文字识别（约 30 分钟）
-
-### 要求
-基于题2的检测框截取试剂瓶图像区域，发送给 VLM（GPT-4o-Vision）读取标签文字，与配方期望值比对。
-
-### 实现要点
-1. 订阅 `/bottle_detections` 获取检测框坐标
-2. 从原始图像中截取 ROI 区域
-3. 将 ROI 编码为 base64 → 发送到 GPT-4o API
-4. 解析 VLM 识别结果，与期望材料名称比对
-
-### 测试方法
 ```bash
-# 终端1：Gazebo 仿真运行中
-# 终端2：YOLO 检测节点运行中
-# 终端3：启动标签识别
-ros2 run label_reader label_reader --ros-args \
-  -p expected_material:="HCl"
+ros2 launch xarm_ros2_arm_only arm_only_move_group.launch.py
 ```
 
-### 验收标准
-- ✓ 正确截取检测框对应的图像区域
-- ✓ VLM 成功识别标签文字
-- ✓ 比对结果：matches_expected = True/False
-- ✓ 输出 confidence 置信度
+3. 终端 2 依次运行四个发布器（每次只运行一个，对比行为差异）。
 
-### 参考代码
-`lab_code/ch15_lab/src/label_reader.py`
+4. 终端 3 验证关节数据：
 
----
-
-## 题目 4：TF 空间定位（约 30 分钟）
-
-### 要求
-在 Gazebo 世界中添加 AR 标签虚拟标记，通过 TF2 查询试剂瓶的 3D 空间位姿。
-
-### 实现要点
-1. 在 Gazebo 仿真中添加 4 个带有 frame_id 的标记模型
-2. 广播 TF 变换（ar_marker_hcl → base_link 等）
-3. 编写 `lookup_transform()` 查询代码
-4. 发布 PoseStamped 话题（用于 MoveIt2 抓取）
-
-### 标记 frame 清单
-| frame_id | 位置 (x,y,z) | 对应试剂 |
-|----------|-------------|---------|
-| ar_marker_hcl | (-0.3, 0.2, 0.1) | 稀盐酸 |
-| ar_marker_naoh | (0.3, -0.2, 0.1) | 氢氧化钠 |
-| ar_marker_h2o | (0.5, 0.3, 0.1) | 蒸馏水 |
-| ar_marker_phenolphthalein | (-0.5, 0.0, 0.1) | 酚酞指示剂 |
-
-### 验收标准
-- ✓ TF 广播正常工作
-- ✓ `lookup_transform` 成功查询 4 个 marker 位姿
-- ✓ `ros2 run tf2_tools view_frames` 生成 TF 树
-
-### 参考代码
-`lab_code/ch15_lab/src/bottle_localizer.py`
-
----
-
-## 题目 5：MoveIt2 抓取规划（约 30 分钟）
-
-### 要求
-基于题4的 3D 位姿结果，使用 MoveItPy 编写机械臂 pick → transfer → pour 完整流程。
-
-### 实现要点
-1. 初始化 MoveItPy 规划组
-2. 编写 `plan_pick(pre_grasp_pose)` 方法
-3. 编写 `plan_transfer(from_pose, to_pose)` 方法
-4. 编写 `plan_pour(duration_sec)` 倾倒动作
-5. 使用 Action Server 对外暴露接口
-
-### 运动流程伪代码
-```python
-# 1. 预抓取（目标上方 0.1m）
-move_to(target_pose, z_offset=0.1)
-# 2. 抓取（下降到目标）
-move_to(target_pose)
-close_gripper()
-# 3. 转移（到试管上方）
-move_to(pour_pose)
-# 4. 倾倒（末端旋转 180°，保持 2 秒）
-rotate_end_effector(180)
-sleep(2.0)
-open_gripper()
-```
-
-### 验收标准
-- ✓ MoveItPy 初始化成功
-- ✓ plan_and_execute 生成有效轨迹
-- ✓ 3 阶段运动流程完整
-- ✓ 碰撞检测正常工作
-
-### 参考代码
-`lab_code/ch15_lab/src/arm_controller.py`
-
----
-
-## 题目 6：全流程编排（约 30 分钟）
-
-### 要求
-编写 Action Server `ExperimentPipeline`，编排题1-5的所有模块，按配方组分列表循环迭代完成全自动化实验。
-
-### 实现要点
-1. 定义 `ExperimentPipeline.action`
-2. 创建各模块的 ROS 2 客户端
-3. 异步调用链：validate → detect → verify → localize → pick_and_place
-4. 发布实时进度反馈（current_step / total_steps）
-5. 支持取消操作和错误恢复
-
-### 编排伪代码
-```python
-async def execute(self, goal_handle):
-    recipe = goal_handle.request.recipe_text
-    # 步骤1-2：校验+解析
-    valid = await self.validate_recipe(recipe)
-    components = await self.parse_components(recipe)
-    # 步骤3-5：循环处理每个组分
-    for comp in components:
-        detection = await self.detect_bottle(comp.name)
-        verified = await self.verify_label(detection, comp.name)
-        pose = await self.localize_bottle(comp.name)
-        await self.pick_and_place(pose, comp.name)
-    # 完成
-    goal_handle.succeed()
-```
-
-### 测试方法
 ```bash
-# 启动全流程编排
-ros2 run experiment_pipeline pipeline_server &
-
-# 发送实验配方
-ros2 action send_goal /run_experiment experiment_interfaces/action/ExperimentPipeline \
-  "{recipe_text: '取5ml HCl加入试管，再加入5ml NaOH...'}" --feedback
+ros2 topic echo /joint_states --once
 ```
 
-### 验收标准
-- ✓ Action Server 正常启动
-- ✓ 6 步流程按序执行
-- ✓ 实时反馈 current_step 进度
-- ✓ `Ctrl+C` 取消操作正常工作
-- ✓ 单个步骤失败时能输出错误信息
+5. 在 RViz 中观察：`arm_joints_pub1` 的 2 号关节往复、`gripper_open_close` 的夹爪开合；再用「关节名 → 数值」对照 URDF 的关节定义。
 
-### 参考代码
-`lab_code/ch15_lab/src/experiment_pipeline.py`
+6. （可选）修改 `arm_joints_pub1.py` 的步长（0.015）与幅值（±1.5），重新 `python3` 运行（或构建后重跑），观察往复速度变化。
 
----
+7. 实验结束按 Ctrl+C 停止所有进程。
 
-## 评分标准
+## 实验结果与分析
 
-| 题目 | 分值 | 核心考核点 |
-|:--:|:--:|------|
-| 题1 | 15 | LLM API 调用、结构化输出解析 |
-| 题2 | 15 | cv_bridge、YOLO 推理、ROS 话题 |
-| 题3 | 15 | VLM 多模态 API、图像编码 |
-| 题4 | 15 | TF2 广播/查询、坐标系计算 |
-| 题5 | 20 | MoveItPy 规划、运动控制 |
-| 题6 | 20 | Action 编排、异步调用链 |
-| **合计** | **100** | |
+- `ros2 topic echo` 显示 `arm_2_joint` 的 position 随时间呈三角波往复（步长 0.015、范围 ±1.5rad），说明定时器 + 状态翻转即可实现连续关节运动。
+- 夹爪两指关节数值同步增/减（0~0.65rad），与 URDF 中对称的指连杆定义对应，体现第24章所述平行夹爪的自由度结构。
+- `robot_state_publisher` 以 `/joint_states` 为输入发布关节间 TF 与模型显示，验证了「关节空间控制只需给定关节角、无需逆运动学」的基本结论。
+
+## 思考题
+
+1. `JointState` 的 `name`/`position`/`velocity`/`effort` 数组为什么要等长对齐？`name` 顺序变化会影响什么？
+2. 为什么关节空间控制只需指定各关节角，而不需要求解逆运动学？
+3. `arm_gripper` 的 `cycle` 计数实现的是什么行为？与 `gripper_open_close` 的边界翻转写法有何异同？
+4. 若把 `hello_arm_node` 的 `joint2` 步长从 0.02 改为 0.2，其角度-时间曲线会有什么变化？
+5. 本章的 `/joint_states` 发布与第16章 `robot_state_publisher` 的关系是什么？在完整机械臂系统中谁负责真实关节状态的读取与发布？

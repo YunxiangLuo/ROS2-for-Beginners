@@ -102,6 +102,7 @@ ros2 run tf2_ros tf2_echo base_link imu_link
 #### Step 2: 启动融合系统
 
 ```bash
+# 先执行 `source ~/.config/ros2-course/env.bash`，并在另一终端运行 `carla-server`
 # 终端1: CARLA + ROS2 桥接
 ros2 launch carla_ros_bridge carla_ros_bridge.launch.py
 

@@ -25,7 +25,7 @@ WHITE='\033[1;37m'
 NC='\033[0m'
 
 # ── 配置 ──
-ROS_WS="${ROS_WS:-$HOME/ros2_course_ws}"
+ROS_WS="${ROS_WS:-${ROS2_COURSE_WS:-$HOME/ros2_course_ws}}"
 REPORT_DIR="${REPORT_DIR:-./test_reports}"
 CARLA_ENABLED=false
 COVERAGE=false

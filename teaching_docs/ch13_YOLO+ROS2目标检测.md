@@ -35,6 +35,8 @@ ros2 run rqt_image_view rqt_image_view /camera/image_raw
 
 本实例不声称完成 YOLO 训练或检测精度验证。
 
+![ch13 Gazebo 相机桥接运行输出](../lab_manuals/images/runtime/ch13_camera.gif)
+
 ## 13.1 知识要点
 
 ### 13.1.1 YOLOv8 模型架构

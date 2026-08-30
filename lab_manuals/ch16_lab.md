@@ -21,12 +21,20 @@ ros2 run robot_state_publisher robot_state_publisher --ros-args \
 # 终端 2：另行启动 Gazebo Wheeltec 对照 TF
 ros2 launch robot_sim_demo gazebo2.launch.py \
   gui:=true rviz:=true drive:=false
-ros2 run tf2_ros tf2_echo base_link laser_link
+ros2 run tf2_ros tf2_echo base_link laser
 ```
 
 ### 观察与验收
 
 自定义模型的关节角变化应反映到 RViz RobotModel；Wheeeltec 侧可看到独立的传感器 TF。源码：`src/lab_code/ch16_lab/`、`src/robot_sim_demo/models/wheeltec_robot/model.sdf`。两套模型不能混用 frame 或关节名。
+
+## 实际运行证据
+
+真实运行的 Xacro/XML 校验、Robot State Publisher、Gazebo 桥接和 `base_link -> laser` TF 输出：
+
+![ch16 URDF 与 TF 运行输出](images/runtime/ch16_urdf_tf.gif)
+
+原始录制：[ch16_urdf_tf.cast](images/runtime/ch16_urdf_tf.cast)。
 
 > **对应理论章节**：第25章《ROS2机械臂建模（URDF/Xacro）》
 > **实验课时**：2课时  

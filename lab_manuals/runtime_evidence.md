@@ -31,6 +31,8 @@ GIF 证据直接嵌入本页；原始终端录制保留为 `.cast` 链接。
 - ch11 Nav2 自主导航（nav2_demo, museum 场景）：![ch11 Nav2 自主导航](images/runtime/ch11_nav2.gif) · [原始录制](images/runtime/ch11_nav2.cast)
 - ch12 MoveIt 2 机械臂关节规划（arm_only）：![ch12 MoveIt 2 机械臂关节规划](images/runtime/ch12_arm_only.gif) · [原始录制](images/runtime/ch12_arm_only.cast)
 - ch15 综合实训相机桥接与控制器检查：![ch15 综合实训相机桥接与控制器检查](images/runtime/ch15_arm_camera.gif) · [原始录制](images/runtime/ch15_arm_camera.cast)
+- ch16 URDF 与 TF：![ch16 URDF 与 TF](images/runtime/ch16_urdf_tf.gif) · [原始录制](images/runtime/ch16_urdf_tf.cast)
+- ch21 相机目标接口与 xArm 规划分层：![ch21 相机目标接口与 xArm 规划分层](images/runtime/ch21_vision_pickup.gif) · [原始录制](images/runtime/ch21_vision_pickup.cast)
 
 ## 场景演示
 
@@ -55,6 +57,7 @@ GIF 证据直接嵌入本页；原始终端录制保留为 `.cast` 链接。
 
 ## 待采集
 
-- ch16/ch21-ch25、ch27-ch29、ch31 仍需逐个运行并生成证据。
-- CARLA 章节需要可用的 CARLA 服务器和 ROS bridge；当前环境未提供，不能伪造截图。
+- ch22-ch25、ch27-ch29、ch31 仍需逐个运行并生成证据。
+- CARLA 0.9.16 服务端、Python API 和固定版本 ROS bridge 已安装并通过静态验证；当前 WSLg 使用 Intel Arc D3D12 后端，但 CARLA UE4 在启动初始化阶段仍退出 `Signal 11`，因此尚未登记 CARLA 动态运行截图。
+- 在具有稳定 UE4 图形运行能力的主机上，先执行 `source ~/.config/ros2-course/env.bash`，再启动 `carla-server` 和 `carla-bridge` 后补采上述章节；当前失败日志不能作为成功证据。
 - RViz 已能启动并加载 OpenGL，但 WSLg 的窗口抓取返回全黑帧；黑帧不作为实验截图，需改用可见的桌面捕获链路后再登记。

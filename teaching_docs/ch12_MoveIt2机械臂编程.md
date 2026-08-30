@@ -42,6 +42,8 @@ RViz 显示 xArm 模型、规划组和轨迹；Gazebo 中的模型状态应由�
 
 当前仓库不包含真实硬件驱动；本实例只针对仿真规划，不代表真实机械臂可用。
 
+![ch12 MoveIt 2 机械臂运行输出](../lab_manuals/images/runtime/ch12_arm_only.gif)
+
 ## 12.1 知识要点
 
 ### 12.1.1 MoveIt 2 架构概览

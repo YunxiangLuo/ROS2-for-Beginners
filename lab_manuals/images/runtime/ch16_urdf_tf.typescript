@@ -1,62 +1,688 @@
-Script started on 2026-08-30 06:29:17+08:00 [COMMAND="bash '/mnt/c/Users/tiger/Desktop/robot/Technologies-of-ROS2-Programming-master/scripts/runtime_capture_session.sh'" <not executed on terminal>]
+Script started on 2026-08-30 10:58:01+08:00 [COMMAND="bash '/mnt/c/Users/tiger/Desktop/robot/Technologies-of-ROS2-Programming-master/scripts/runtime_capture_session.sh'" <not executed on terminal>]
 $ ros2 run xacro xacro ...
 xacro generated and XML validated: 6588
 $ ros2 run robot_state_publisher robot_state_publisher --ros-args -p robot_description:="$(cat /tmp/arm16.urdf)"
 $ ros2 launch robot_sim_demo gazebo2.launch.py gui:=false rviz:=false drive:=false gz_partition:=runtime_capture_ch16 enable_depth_camera:=true
-$ ros2 run tf2_ros tf2_echo base_link laser_link
-[0m[INFO] [1788042563.556544893] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "base_link" passed to canTransform argument target_frame - frame does not exist[0m
-[0m[INFO] [1788042565.537563024] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042566.537609103] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042568.537589789] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042570.537578027] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042571.537592966] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042572.537599775] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042574.537590478] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042575.537605616] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042577.537585031] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042578.537595711] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042579.537596616] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042580.537615381] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042582.537583984] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042584.537592182] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042585.537600033] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042586.537603427] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042588.537587634] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042589.537626712] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042591.537583441] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042592.537591929] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042594.537565763] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042596.537589406] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042597.537594638] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042598.537813284] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042600.537578859] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042601.537598584] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042603.537577521] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042605.537555409] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042606.537607814] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042608.537597124] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042610.537585617] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042611.537638555] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042613.537586482] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042614.537681714] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042616.537581453] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042618.537575450] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042620.537587206] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042622.537561988] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042623.537565812] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042624.537585764] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042625.537599145] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042627.537586780] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
+$ ros2 run tf2_ros tf2_echo base_link laser
+[0m[INFO] [1788058686.969081324] [tf2_echo]: Waiting for transform base_link ->  laser: Invalid frame ID "base_link" passed to canTransform argument target_frame - frame does not exist[0m
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
 
 # rsp process output
-[INFO] [1788042560.275612003] [robot_state_publisher]: Robot initialized
+[INFO] [1788058683.536286975] [robot_state_publisher]: Robot initialized
 
 # simulation process output
-[parameter_bridge-5] [INFO] [1788042561.844974982] [gazebo2_clock_bridge]: Creating GZ->ROS Bridge: [/clock (gz.msgs.Clock) -> /clock (rosgraph_msgs/msg/Clock)] (Lazy 0)
-[parameter_bridge-8] [INFO] [1788042561.845115704] [gazebo2_camera_bridge]: Creating GZ->ROS Bridge: [/rgbd_camera/image (gz.msgs.Image) -> /rgbd_camera/image (sensor_msgs/msg/Image)] (Lazy 0)
-[parameter_bridge-8] [INFO] [1788042561.854199895] [gazebo2_camera_bridge]: Creating GZ->ROS Bridge: [/rgbd_camera/camera_info (gz.msgs.CameraInfo) -> /rgbd_camera/camera_info (sensor_msgs/msg/CameraInfo)] (Lazy 0)
-[create-9] [INFO] [1788042563.958699127] [ros_gz_sim]: Entity creation successful.
-[0m[INFO] [1788042628.537685805] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
-[0m[INFO] [1788042629.537790922] [tf2_echo]: Waiting for transform base_link ->  laser_link: Invalid frame ID "laser_link" passed to canTransform argument source_frame - frame does not exist[0m
+[parameter_bridge-5] [INFO] [1788058684.725401207] [gazebo2_clock_bridge]: Creating GZ->ROS Bridge: [/clock (gz.msgs.Clock) -> /clock (rosgraph_msgs/msg/Clock)] (Lazy 0)
+[parameter_bridge-8] [INFO] [1788058684.729240658] [gazebo2_camera_bridge]: Creating GZ->ROS Bridge: [/rgbd_camera/image (gz.msgs.Image) -> /rgbd_camera/image (sensor_msgs/msg/Image)] (Lazy 0)
+[parameter_bridge-8] [INFO] [1788058684.736209096] [gazebo2_camera_bridge]: Creating GZ->ROS Bridge: [/rgbd_camera/camera_info (gz.msgs.CameraInfo) -> /rgbd_camera/camera_info (sensor_msgs/msg/CameraInfo)] (Lazy 0)
+[create-9] [INFO] [1788058686.921985326] [ros_gz_sim]: Entity creation successful.
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
+At time 0.0
+- Translation: [0.114, 0.000, 0.226]
+- Rotation: in Quaternion (xyzw) [0.000, 0.000, 0.000, 1.000]
+- Rotation: in RPY (radian) [0.000, -0.000, 0.000]
+- Rotation: in RPY (degree) [0.000, -0.000, 0.000]
+- Matrix:
+  1.000  0.000  0.000  0.114
+  0.000  1.000  0.000  0.000
+  0.000  0.000  1.000  0.226
+  0.000  0.000  0.000  1.000
 
-Script done on 2026-08-30 06:30:31+08:00 [COMMAND_EXIT_CODE="0"]
+Script done on 2026-08-30 10:59:14+08:00 [COMMAND_EXIT_CODE="0"]
