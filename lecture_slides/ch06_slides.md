@@ -12,6 +12,8 @@
 - 章节：第 6 章
 - 课时：2 课时
 
+<!-- 旁白：这是第 6 章参数系统与 Launch 文件的标题页。前几章学会用话题与服务传递数据，但节点的配置和系统一次性启动还没解决，这正是本章的两大主题。本章 2 课时，先讲参数声明、回调与 YAML 加载，再讲 Launch 的组合编排。 -->
+
 ---
 
 ## P2 · 本课学习目标
@@ -22,6 +24,8 @@
 - 掌握 Python Launch 文件结构与 `Node()` 动作
 - 用 `LaunchConfiguration` + `IfCondition` 实现参数传递与条件启动
 - 用 `IncludeLaunchDescription` 组合多个 Launch 文件
+
+<!-- 旁白：六个目标分为两半：前三项围绕参数，涵盖声明、获取、回调验证与 YAML 批量加载；后三项围绕 Launch，涵盖节点动作、条件启动与文件组合。学习时注意一条分工主线：参数解决节点的内部配置，Launch 解决系统的外部编排。 -->
 
 ---
 
@@ -48,6 +52,8 @@ class ParamDemoNode(Node):
 - 参数是「每个节点的键值对配置项」，可携带类型、描述与默认值
 - 声明集中在 `__init__` 中完成，命名使用蛇形小写
 
+<!-- 旁白：参数是每个节点可独立配置的键值对，声明集中在初始化函数里并给出默认值。代码覆盖四种基础类型外加数组参数，注意 get_parameter 返回的是参数对象，取值要加 .value。好处是同样的代码可以用不同配置启动多套实例。 -->
+
 ---
 
 ## P4 · 参数类型与命令行工具
@@ -67,6 +73,16 @@ class ParamDemoNode(Node):
 
 - 官方示例：`set` 小乌龟 `background_b` 后画面立即变色，演示动态生效
 - 静态配置（分辨率、串口号）求稳，运行时可调项（速度上限）求灵活
+
+![Turtle set pen parameters：docs.ros.org](images/web/ch06/set_pen.png)
+
+图：官方小乌龟示例——通过命令行修改画笔参数，画面立即生效。
+
+![Turtle spawn service：docs.ros.org](images/web/ch06/spawn.png)
+
+图：官方小乌龟示例——spawn 服务调用把实体位姿与名称作为参数传入。
+
+<!-- 旁白：本页两张表给出参数类型与命令行四件套。官方小乌龟示例最有说服力：运行时执行 param set 修改背景或画笔参数，画面立刻变化。两张图演示了参数即命令的直观效果。记住分工：静态配置求稳，运行时可调项求灵活。 -->
 
 ---
 
@@ -95,6 +111,8 @@ class DynamicParamNode(Node):
 - 校验失败返回 `successful=False`，非法值将被拒绝
 - 也可用 `set_parameters_callback` 拦截写入，实现「只读参数」
 
+<!-- 旁白：回调是动态重配置的关键：参数值写入前先经过 add_on_set_parameters_callback 验证，校验失败返回 successful=False 拒绝写入。示例把速度限定在 0 到 10 之间，非法值被拦截并记录错误。也可用 set_parameters_callback 拦截写入实现只读参数。 -->
+
 ---
 
 ## P6 · YAML 参数文件
@@ -117,6 +135,12 @@ ros2 run my_pkg param_demo \
 - YAML 结构约定：首层为节点名（或 `/**` 通配），其下 `ros__parameters:` 键列参数
 - `ros2 param dump` 生成的文件可直接复用为启动参数文件
 - 批量参数推荐在 `Node` 中用 `parameters=['path/to/params.yaml']` 引入
+
+![rqt parameter editor：docs.ros.org](images/web/ch06/rqt.png)
+
+图：rqt 参数面板可视化查看与修改节点参数，与命令行工具互补。
+
+<!-- 旁白：YAML 参数文件把配置与代码分离：首层键名对应节点名，其下 ros__parameters 键列出参数。用 --params-file 或 Node 的 parameters 选项批量加载，param dump 导出的快照可直接复用。rqt 面板则提供图形界面，方便观察参数变化。 -->
 
 ---
 
@@ -150,6 +174,8 @@ def generate_launch_description():
 - 常用项：package、executable、name、namespace、parameters、remappings
 - 执行：`ros2 launch <包名> <文件.launch.py>`
 
+<!-- 旁白：Launch 文件是系统启动的编排脚本，最小示例用 Node 动作同时启动 talker 与 listener。常用参数项包括包名、可执行文件名、节点名、命名空间与参数。一条 ros2 launch 命令就能代替多个终端手工启动，这也是后续章节所有实例的入口形式。 -->
+
 ---
 
 ## P8 · 高级 Launch：参数与条件启动
@@ -181,6 +207,8 @@ return LaunchDescription([
 - 命令行传参：`ros2 launch pkg file.launch.py use_rviz:=true map:=warehouse.yaml`
 - `UnlessCondition` 与 `IfCondition` 反向控制启停
 
+<!-- 旁白：本页把 Launch 升级为参数化脚本：LaunchConfiguration 接收命令行传参，IfCondition 按开关条件启动 RViz，节点参数也可以用启动变量填充。命令行用冒号等号语法覆盖默认值，真正实现一次编写、多种用法。 -->
+
 ---
 
 ## P9 · IncludeLaunchDescription 组合启动
@@ -209,6 +237,8 @@ def generate_launch_description():
 - 分工模式：参数解决「节点的内部配置」，Launch 解决「系统的组合编排」
 - 一份仓库即可适配仿真与实机多套场景
 
+<!-- 旁白：IncludeLaunchDescription 把多个 Launch 拼装成系统级入口，本例先引入仿真启动文件再启动导航节点。工程上常见组合是驱动加 SLAM 加 RViz。参数管内部配置、Launch 管外部编排，二者各司其职，一份仓库即可适配多套场景。 -->
+
 ---
 
 ## P10 · 工程实践建议
@@ -219,6 +249,8 @@ def generate_launch_description():
 - YAML 文件首层节点名必须与 `Node` 的 `name` 匹配
 - `param dump` 导出调好的参数，再写带 `DeclareLaunchArgument` 的启动文件把参数文件路径开放为启动选项
 - `RegisterEventHandler` 监听进程退出事件，实现失败自动重启
+
+<!-- 旁白：本页是工程实践经验：命名统一蛇形小写且声明集中；关键参数用 ParameterDescriptor 标注范围；高频循环要缓存参数值而不是反复查询；首层节点名要与 Node 的 name 匹配；param dump 导出参数后将其开放为启动选项。 -->
 
 ---
 
@@ -240,6 +272,12 @@ ros2 launch robot_sim_demo gazebo2.launch.py gui:=true rviz:=true drive:=true \
 
 - 演示点：`LaunchConfiguration`、条件启动、参数传递
 
+![参数与 Launch 仿真运行输出：Launch 参数切换运行模式](images/runtime/ch06_parameters.png)
+
+![运行演示：ch06 参数与 Launch 运行演示](images/runtime/ch06_parameters.gif)
+
+<!-- 旁白：这是仿真结合实例：gazebo2.launch.py 把 GUI、RViz、巡航与世界文件全部暴露为 Launch 参数。--show-args 查看入口支持，冒号等号传入开关，同一入口即可切换无界面检查或完整演示两种模式。运行演示中注意区分 Launch 参数与节点运行时参数。 -->
+
 ---
 
 ## P12 · 观察结果与边界说明
@@ -250,6 +288,8 @@ ros2 launch robot_sim_demo gazebo2.launch.py gui:=true rviz:=true drive:=true \
 - 注意：实例使用的是 Gazebo Launch 参数，不等同于 ROS 节点运行时参数，二者分别由 Launch 系统和节点参数 API 管理
 - 相关文件：`src/robot_sim_demo/launch/gazebo2.launch.py`、`src/robot_sim_demo/robot_sim_demo/patrol_driver.py`、`src/robot_sim_demo/rviz/museum.rviz`
 
+<!-- 旁白：观察要点：drive 开关决定巡航节点是否启动，rviz 开关条件启动 RViz，修改生成位姿与速度参数后重新启动即可对比效果。特别注意实例用的是 Gazebo Launch 参数，与节点运行时参数分别由两套系统管理，这是初学者最容易混淆的地方。 -->
+
 ---
 
 ## P13 · 本章要点
@@ -259,6 +299,8 @@ ros2 launch robot_sim_demo gazebo2.launch.py gui:=true rviz:=true drive:=true \
 3. YAML 文件存储参数，通过 `--params-file` 或 Launch 加载
 4. Python Launch 文件用 `Node()` 启动节点，`LaunchConfiguration()` 传递参数
 5. `IfCondition` 实现条件启动，`IncludeLaunchDescription` 组合多个 Launch
+
+<!-- 旁白：回顾本章主线：参数侧掌握声明、获取、回调验证与 YAML 加载，Launch 侧掌握 Node 动作、LaunchConfiguration、IfCondition 与 IncludeLaunchDescription。五条要点对应六个目标，也是练习题的考点所在。 -->
 
 ---
 
@@ -271,6 +313,8 @@ ros2 launch robot_sim_demo gazebo2.launch.py gui:=true rviz:=true drive:=true \
 5. 在 Launch 中添加条件启动参数 `use_rviz`，控制 RViz 是否启动
 6. 使用 `ros2 param list/get/set` 命令行操作节点参数
 
+<!-- 旁白：六道练习从参数节点起步，逐步叠加回调验证、YAML 加载、Launch 双节点启动与条件开关，最后用命令行四件套检查。建议按顺序完成，第 6 题可与第 2 题的校验逻辑互相对照，验证动态重配置生效。 -->
+
 ---
 
 ## P15 · 下章预告
@@ -281,3 +325,5 @@ ros2 launch robot_sim_demo gazebo2.launch.py gui:=true rviz:=true drive:=true \
 - 静态变换与动态变换广播器
 - `lookup_transform` 查询与点坐标变换
 - TF 调试工具 tf2_echo / tf2_monitor / view_frames
+
+<!-- 旁白：下一章转向 TF2 坐标变换系统：坐标系树如何设计，静态与动态变换如何广播，变换如何查询，以及三大调试工具。参数与 Launch 是系统骨架，坐标变换则是机器人空间感知的基石。 -->

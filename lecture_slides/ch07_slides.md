@@ -12,6 +12,8 @@
 - 章节：第 7 章
 - 课时：2 课时
 
+<!-- 旁白：这是第 7 章 TF2 坐标变换系统的标题页。机器人要回答数据来自哪个坐标系、目标在世界何处，必须依靠坐标变换。本章 2 课时，从坐标系树设计讲到广播与查询，最后用三大调试工具实战验证。 -->
+
 ---
 
 ## P2 · 本课学习目标
@@ -22,6 +24,8 @@
 - 用 `Buffer.lookup_transform` 查询变换关系
 - 用 `do_transform_point` 完成点坐标变换
 - 理解时间同步、插值机制与三大调试工具
+
+<!-- 旁白：六个目标分三层：先理解树与 DAG 结构，再掌握静态与动态两种广播器，最后学会查询变换、变换点坐标与三大调试工具。学完应能分清「相对变换」与「绝对变换」，这也是练习中反复出现的考点。 -->
 
 ---
 
@@ -40,6 +44,12 @@ map → odom → base_footprint → base_link
 - 各坐标系只能有一个父系（DAG），保证变换查找唯一路径
 - 官方类比「地图上的寻人」：知道「世界→机器人」「机器人→机械臂」两张图，就能推得世界下机械臂的位姿，即变换叠加
 
+![Turtlesim TF in RViz2：docs.ros.org](images/web/ch07/turtlesim_rviz.png)
+
+图：官方教程——在 RViz2 中显示小乌龟各坐标系的层级关系。
+
+<!-- 旁白：TF2 把坐标系组织成树，每个子系只有一个父系，保证查找路径唯一。官方用地图寻人作类比：知道世界到机器人、机器人到机械臂两步变换，叠加就能推出世界下机械臂的位姿，这就是变换叠加的思想。RViz 图中每个彩色的坐标系标记都在树上。 -->
+
 ---
 
 ## P4 · TF2 核心 API 模块
@@ -57,6 +67,8 @@ from tf2_ros.static_transform_broadcaster import StaticTransformBroadcaster
 | `TransformListener` | 订阅 /tf 话题，与 Buffer 同步 |
 | `TransformBroadcaster` | 动态变换广播 |
 | `StaticTransformBroadcaster` | 静态变换广播（固定安装关系） |
+
+<!-- 旁白：核心 API 就四个：Buffer 缓存变换历史，TransformListener 订阅 /tf 话题并与 Buffer 同步，TransformBroadcaster 广播动态变换，StaticTransformBroadcaster 广播固定安装关系。静态变换通常只发送一次即可，动态变换则周期性更新。 -->
 
 ---
 
@@ -83,6 +95,8 @@ class StaticTFPublisher(Node):
 
 - 命令行等效：`ros2 run tf2_ros static_transform_publisher --x 0.2 --z 0.1 --frame-id base_link --child-frame-id laser_frame`
 
+<!-- 旁白：静态变换适用于安装在底盘上固定不动的传感器，程序 7-1 把激光雷达放到 base_link 前方 0.2 米、上方 0.1 米处，只发送一次。命令行 static_transform_publisher 可以做同样的事，适合快速测试与临时挂载坐标系。 -->
+
 ---
 
 ## P6 · 动态变换广播器
@@ -108,6 +122,8 @@ class DynamicTFPublisher(Node):
 程序 7-2：动态变换持续广播（如 odom→base_link），约 10Hz 定时更新。
 
 - 广播端发布的是「相对变换」（子帧相对父帧），查询端得到的是「绝对变换」（任意两帧推导结果），二者不可混用
+
+<!-- 旁白：动态变换与静态相反，需要周期性持续广播，示例用正弦余弦模拟圆形轨迹，约 10 赫兹更新。关键要分清：广播端发布的是相对变换，查询端查到的任意两帧结果是推导出的绝对变换，二者不可混用，否则查出的数据会难以理解。 -->
 
 ---
 
@@ -138,6 +154,8 @@ class TFListener(Node):
 
 程序 7-3：`lookup_transform(target, source, time)` 查询两个坐标系之间的变换关系。
 
+<!-- 旁白：lookup_transform 是查询核心接口，三个参数分别是目标坐标系、源坐标系与时间戳。查询可能因帧未加载或时间未同步而失败，所以要捕获异常并打印警告。工程上通常用 try 包住查询，失败时降级处理并稍后重试。 -->
+
 ---
 
 ## P8 · 坐标点变换
@@ -158,6 +176,8 @@ point_in_base = do_transform_point(point_in_laser, transform)
 
 - 先查询变换，再用 `do_transform_point` 施加平移与旋转
 - Buffer 延迟约等于话题频率的倒数，工程上常查询过去 50–100 ms 的数据
+
+<!-- 旁白：点坐标变换分两步：先查变换，再用 do_transform_point 施加平移与旋转。示例把激光坐标系下的点转换到 base_link。由于 Buffer 缓存存在延迟，工程上常查询过去 50 到 100 毫秒的数据，保证时效性。 -->
 
 ---
 
@@ -181,6 +201,8 @@ def lookup_tf_with_wait(self):
 - 传感器数据查询应使用数据自身时间戳 `header.stamp`
 - 排障两大高频原因：帧名拼写、时间戳不连续
 
+<!-- 旁白：时间同步的关键是 can_transform 加超时等待，避免时序问题导致查询失败。Buffer 默认保存约 10 秒历史，未命中的时刻自动插值，查询应使用数据自身时间戳。排障两大高频原因：帧名拼写错误与时间戳不连续。 -->
+
 ---
 
 ## P10 · 命令行调试工具
@@ -203,6 +225,12 @@ ros2 run tf2_ros static_transform_publisher \
 
 - 树中出现分叉或多根即声明错误，`view_frames` 可直接看出
 
+![view_frames output frames：docs.ros.org](images/web/ch07/turtlesim_frames.png)
+
+图：官方教程——view_frames 导出的坐标系树文件示例，可直接观察父子层级。
+
+<!-- 旁白：三大调试工具：tf2_echo 实时打印两帧变换，tf2_monitor 监视所有变换的频率与延迟，view_frames 生成 PDF 坐标系树。树中出现分叉或多根即声明错误，view_frames 一眼就能看出，是排障的第一现场。 -->
+
 ---
 
 ## P11 · 高频报错与根因对照
@@ -215,6 +243,8 @@ ros2 run tf2_ros static_transform_publisher \
 
 - 三类症状对应根因：帧树断裂、时间不同步、广播频率过低
 - 练习中复现的每种报错都应对应到根因，形成排障直觉
+
+<!-- 旁白：本页把高频报错与根因对照：找不到连接多半是静态变换未加载，invalid tree 是父子循环，Data unavailable 是时间戳超出缓存窗口。排障时从这三个方向入手，练习中每次报错都要对应到根因，形成直觉。 -->
 
 ---
 
@@ -235,6 +265,12 @@ ros2 run tf2_tools view_frames
 - 移动机器人后再查询，可区分固定的 `base_link → laser_link` 安装变换与随运动变化的底盘变换
 - 具体 frame 名称以当前模型和 `ros2 topic echo /tf` 输出为准，不强行套用示例名称
 
+![TF 仿真运行输出：TF 树查询与显示](images/runtime/ch07_tf.png)
+
+![运行演示：ch07 TF 运行演示](images/runtime/ch07_tf.gif)
+
+<!-- 旁白：实例演示完整流程：RViz 中先看层级，tf2_echo 持续输出，view_frames 导出当前树。移动机器人后对比，可区分固定安装变换与运动变换。注意 frame 名称以实际输出为准，不强行套用示例名称。运行演示展示查询结果与可视化。 -->
+
 ---
 
 ## P13 · 本章要点
@@ -245,6 +281,8 @@ ros2 run tf2_tools view_frames
 4. `can_transform` 加 timeout 实现时间同步等待
 5. TF2 自动插值支持历史时间戳查询
 6. `tf2_echo`、`tf2_monitor`、`view_frames` 是三大调试工具
+
+<!-- 旁白：回顾六条要点：树加 DAG 结构、两种广播器、lookup_transform 查询、can_transform 时间同步、自动插值支持历史时间戳、三大调试工具。至此 TF2 编程与排障形成完整闭环，可以直接支撑下一章建模的坐标系验证。 -->
 
 ---
 
@@ -257,6 +295,8 @@ ros2 run tf2_tools view_frames
 5. 使用 `can_transform` 实现带超时的安全查询，超时后重试最多 3 次
 6. 使用 `tf2_echo`、`tf2_monitor`、`view_frames` 调试完整 TF 树，导出 frames.pdf
 
+<!-- 旁白：六道练习从静态广播起步，到动态圆轨迹、监听查询、点变换、超时重试，最后用三个调试工具导出 frames.pdf。建议以完整 TF 树为目标，逐题验证后再综合调试，其中第 6 题覆盖前三题的全部成果。 -->
+
 ---
 
 ## P15 · 下章预告
@@ -267,3 +307,5 @@ ros2 run tf2_tools view_frames
 - XACRO 宏与参数化建模
 - robot_state_publisher 自动发布 TF
 - RViz2 RobotModel 可视化验证
+
+<!-- 旁白：下一章进入 URDF 建模：link 与 joint 语法、Xacro 宏参数化、robot_state_publisher 自动发布 TF、RViz RobotModel 可视化验证。本章的坐标系树正是由 URDF 模型驱动生成的，两章知识在此衔接。 -->
