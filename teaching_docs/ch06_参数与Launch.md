@@ -1,53 +1,9 @@
 # 第6章：参数系统与 Launch 文件
 
-## 仿真结合实例（当前仓库）：用 Launch 参数切换 Gazebo、RViz 和巡航驱动
-
-### 目标与知识点对应
-
-`robot_sim_demo` 的 Launch 文件把 `gui`、`rviz`、`drive`、世界文件和生成位姿暴露为 Launch 参数。通过同一个入口切换运行模式，可以直接观察 `LaunchConfiguration`、条件启动和参数传递的效果。
-
-### 运行步骤
-
-在工作区根目录执行：
-
-```bash
-source /opt/ros/jazzy/setup.bash
-source install/setup.bash
-
-# 查看当前入口支持的参数
-ros2 launch robot_sim_demo gazebo2.launch.py --show-args
-```
-
-分别测试两种配置：
-
-```bash
-# 终端 1：无 GUI、无 RViz、无自动巡航，适合检查话题
-ros2 launch robot_sim_demo gazebo2.launch.py gui:=false rviz:=false drive:=false
-```
-
-```bash
-# 终端 2：Gazebo + RViz，启用巡航驱动
-ros2 launch robot_sim_demo gazebo2.launch.py gui:=true rviz:=true drive:=true \
-  drive_linear_speed:=0.12 drive_angular_speed:=0.45
-```
-
-### 观察结果
-
-- `drive:=false` 时不会启动 `patrol_driver`，机器人保持静止；`drive:=true` 时 `/cmd_vel` 出现巡航指令。
-- `rviz:=true` 会条件启动 `museum_rviz`，可同时查看 RobotModel、TF 和 LaserScan。
-- 修改 `spawn_x`、`spawn_y` 或速度参数后重新启动，比较参数对仿真行为的影响。
-
-### 源码与相关配置
-
-- Launch：`src/robot_sim_demo/launch/gazebo2.launch.py`
-- 参数节点：`src/robot_sim_demo/robot_sim_demo/patrol_driver.py`
-- RViz 配置：`src/robot_sim_demo/rviz/museum.rviz`
-
-该实例使用的是 Gazebo Launch 参数，不等同于 ROS 节点运行时参数；二者分别由 Launch 系统和节点参数 API 管理。
-
 > **课程**：ROS2 Python 编程  
 > **章节**：第6章  
 > **课时**：2 课时（90 分钟）  
+> **教学方式**：讲授 + 演示  
 
 ---
 
@@ -134,6 +90,18 @@ param_demo:
 ros2 run my_pkg param_demo \
   --ros-args --params-file config/robot_params.yaml
 ```
+
+### 知识点 6.1.4：官方要点——参数机制与命令行工具
+
+官方 Understanding ROS 2 parameters 教程将参数定义为「每个节点的键值对配置项」，类型涵盖布尔、整数、浮点、字符串及四者的数组，可携带描述与默认值。命令行工具与本章 6.1 节对应：`ros2 param list` 列出参数、`ros2 param get <node> <name>` 读取、`ros2 param set <node> <name> <value>` 运行时修改、`ros2 param dump` 将参数快照保存为 YAML 文件。教程用小乌龟 `background_b`（背景蓝色分量）演示了「set 之后画面立即变色」的动态生效过程。
+
+The Construct 的课程把参数分成两类理解：启动时静态配置（如分辨率、串口号）与运行时可调项（如速度上限）。前者求稳，后者求灵活——`param set` 让调试无需重启节点，而 `dump/load` 则保证调好的参数可固化复现。
+
+### 知识点 6.1.5：官方要点——在节点类中使用参数
+
+官方 Using parameters in a class (Python) 教程演示了参数编程的标准套路：节点初始化时 `declare_parameter('my_parameter', 'world')` 声明（带默认值与类型），随后 `get_parameter('my_parameter').value` 读取；还展示了 `ParameterDescriptor` 添加人类可读的描述，以及用 `set_parameters_callback` 拦截非法写入实现「只读参数」效果。教程末尾的「添加回调并自动改背景色」实验，正好对应本章 6.1.2 节的参数回调函数。
+
+工程实践建议（官方与 Articulated Robotics 均强调）：参数命名用蛇形小写；声明放在 `__init__` 中集中完成；对关键参数使用描述符标注取值范围；不要在回调里反复 `get_parameter`——高频循环中应缓存参数值，监听变更事件再刷新。
 
 ---
 
@@ -234,15 +202,23 @@ def generate_launch_description():
     ])
 ```
 
+### 知识点 6.2.4：官方要点——Launch 基础与参数文件
+
+官方 Creating a launch file 教程介绍了 Launch 系统的三种语法（Python 为首选）与核心概念：`Node` 动作描述单个节点（package、executable、name、namespace、parameters、remappings 六大常用项），`LaunchDescription` 容纳全部启动动作，`launch_ros` 提供节点级封装。教程特别演示了把参数直接写在 `parameters=[{'background_r': 150, ...}]` 里传入节点的方式。
+
+批量参数推荐 YAML 文件方案：`parameters=['path/to/params.yaml']`。官方给出了 YAML 结构约定——首层为节点名（或 `/**` 通配），其下 `ros__parameters:` 键再列参数，且需在 `Node` 中用 `name` 指定节点名以匹配。这与本章 6.1.3 节的 `robot_params.yaml` 结构完全一致；`ros2 param dump` 生成的文件即可直接复用为启动参数文件。
+
+### 知识点 6.2.5：官方要点——Launch 进阶与工程化实践
+
+进阶用法集中在官方 Using launch files 系列与 `launch` 包 API 文档中：`IncludeLaunchDescription` 组合多个 launch 文件（如「驱动 + SLAM + RViz」拼装为系统级启动）；`DeclareLaunchArgument` + `LaunchConfiguration` 实现命令行传参 `ros2 launch pkg file.launch.py map:=warehouse.yaml`；`IfCondition`/`UnlessCondition` 控制节点启停；`RegisterEventHandler` 监听进程退出等事件实现失败重启。本章 6.2.2~6.2.3 节的高级 Launch 功能正是这些特性的综合运用。
+
+Articulated Robotics 总结的分工模式值得记住：参数解决「节点的内部配置」，Launch 解决「系统的组合编排」，二者合用即可做到一份仓库适配仿真与实机多套场景。建议读者在完成练习 6.6 后，尝试用 `param dump` 导出调好的参数，再写一个带 `DeclareLaunchArgument` 的启动文件把参数文件路径开放为启动选项。
+
 ---
 
 ## 6.3 本章小结
 
-1. 参数声明 `declare_parameter(name, default)`，获取 `get_parameter(name).value`
-2. 参数回调 `add_on_set_parameters_callback()` 实现动态重配置和验证
-3. YAML 文件存储参数 → 通过 `--params-file` 或 Launch 加载
-4. Python Launch 文件使用 `Node()` 启动节点，`LaunchConfiguration()` 传递参数
-5. `IfCondition` 实现条件启动，`IncludeLaunchDescription` 组合多个 Launch
+本章总结了参数与 Launch 的五个要点：参数声明用 `declare_parameter(name, default)`，获取用 `get_parameter(name).value`；参数回调 `add_on_set_parameters_callback()` 实现动态重配置和验证；YAML 文件存储参数，通过 `--params-file` 或 Launch 加载；Python Launch 文件使用 `Node()` 启动节点，`LaunchConfiguration()` 传递参数；`IfCondition` 实现条件启动，`IncludeLaunchDescription` 组合多个 Launch。
 
 ---
 
@@ -259,3 +235,58 @@ def generate_launch_description():
 **练习 6.5**：在 Launch 中添加条件启动参数 `use_rviz`，控制 RViz 是否启动。
 
 **练习 6.6**：使用 `ros2 param list/get/set` 命令行操作节点参数。
+
+---
+
+## 仿真结合实例（当前仓库）：用 Launch 参数切换 Gazebo、RViz 和巡航驱动
+
+### 目标与知识点对应
+
+`robot_sim_demo` 的 Launch 文件把 `gui`、`rviz`、`drive`、世界文件和生成位姿暴露为 Launch 参数。通过同一个入口切换运行模式，可以直接观察 `LaunchConfiguration`、条件启动和参数传递的效果。
+
+### 运行步骤
+
+在工作区根目录执行：
+
+```bash
+source /opt/ros/jazzy/setup.bash
+source install/setup.bash
+
+# 查看当前入口支持的参数
+ros2 launch robot_sim_demo gazebo2.launch.py --show-args
+```
+
+分别测试两种配置：
+
+```bash
+# 终端 1：无 GUI、无 RViz、无自动巡航，适合检查话题
+ros2 launch robot_sim_demo gazebo2.launch.py gui:=false rviz:=false drive:=false
+```
+
+```bash
+# 终端 2：Gazebo + RViz，启用巡航驱动
+ros2 launch robot_sim_demo gazebo2.launch.py gui:=true rviz:=true drive:=true \
+  drive_linear_speed:=0.12 drive_angular_speed:=0.45
+```
+
+### 观察结果
+
+运行后可观察三类现象：`drive:=false` 时不会启动 `patrol_driver`，机器人保持静止，`drive:=true` 时 `/cmd_vel` 出现巡航指令；`rviz:=true` 会条件启动 `museum_rviz`，可同时查看 RobotModel、TF 和 LaserScan；修改 `spawn_x`、`spawn_y` 或速度参数后重新启动，比较参数对仿真行为的影响。
+
+### 源码与相关配置
+
+Launch 文件位于 `src/robot_sim_demo/launch/gazebo2.launch.py`；参数节点位于 `src/robot_sim_demo/robot_sim_demo/patrol_driver.py`；RViz 配置位于 `src/robot_sim_demo/rviz/museum.rviz`。
+
+该实例使用的是 Gazebo Launch 参数，不等同于 ROS 节点运行时参数；二者分别由 Launch 系统和节点参数 API 管理。
+
+![ch06 参数系统运行输出](../lab_manuals/images/runtime/ch06_parameters.gif)
+
+---
+
+> 参考来源：
+> - ROS 2 Documentation (Humble) —— Understanding ROS 2 parameters：https://docs.ros.org/en/humble/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Parameters.html
+> - ROS 2 Documentation (Humble) —— Using parameters in a class (Python)：https://docs.ros.org/en/humble/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-Python.html
+> - ROS 2 Documentation (Humble) —— Creating a launch file：https://docs.ros.org/en/humble/Tutorials/Intermediate/Launch/Creating-Launch-Files.html
+> - ROS 2 Documentation (Humble) —— Using launch files for large projects（Launch 系统主页）：https://docs.ros.org/en/humble/Tutorials/Intermediate/Launch/Launch-Main.html
+> - The Construct —— ROS 2 Basics in 5 Days：https://www.theconstructsim.com/
+> - Articulated Robotics —— ROS 2 Basics 系列视频：https://www.youtube.com/@ArticulatedRobotics
