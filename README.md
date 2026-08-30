@@ -486,7 +486,7 @@ Campus 入口默认启动 GUI、传感器桥和 RViz 可选项，但不自动巡
 | `spawn_x/y/z/yaw` | `0/0/0.017/0` | 机器人生成位姿 |
 | `use_sim_time` | `true` | 使用 Gazebo 仿真时钟 |
 
-![Nav2 导航](./nav2.gif)
+![Nav2 导航](lab_manuals/images/runtime/nav2.gif)
 
 ### 常用启动方式
 
