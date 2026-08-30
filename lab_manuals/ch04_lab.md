@@ -74,7 +74,6 @@ ros2 run service_demo client 5 10  # 终端2
 
 ![alt text](images/image-20.png)
 
-
 **参考代码**：`lab_code/ch04_lab/service_demo/`
 
 ---
@@ -176,7 +175,6 @@ ros2 service call /weather_query \
   ```
 
 ![alt text](images/image-21.png)
-
 
 **参考代码**：`lab_code/ch04_lab/weather_interfaces/` + `lab_code/ch04_lab/weather_srv/`
 
@@ -454,6 +452,5 @@ ros2 run speed_control speed_client 0.0 1.0 2.0
 真实运行的 AddTwoInts Server、Client 和服务调用结果：
 
 ![ch04 服务通信运行输出](images/runtime/ch04_service.gif)
-
 
 原始录制：[ch04_service.cast](images/runtime/ch04_service.cast)。完整证据索引见[实际运行证据](runtime_evidence.md)。

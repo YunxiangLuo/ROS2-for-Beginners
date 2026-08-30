@@ -421,9 +421,9 @@ carla_msgs 的 `CarlaEgoVehicleControl` 官方消息体与本章 37.4.1 完全�
 
 CARLA-ROS2 Bridge 是连接仿真与ROS2的关键中间件，实现了传感器数据和车辆控制的完整双向映射。Ego Vehicle 通过Blueprint选取 → role_name设置 → Spawn Point确定 → spawn_actor 的流程生成。RViz2 可订阅Bridge发布的传感器话题实现数据可视化，TF树提供了完整的坐标关系。车辆控制接口支持手动和自动驾驶两种模式，可通过Service实现动态切换。
 
-> 参考来源：
-> - carla-ros-bridge 官方代码库：https://github.com/carla-simulator/ros-bridge
-> - CARLA 官方文档 —— 模拟器时间与 ROS Bridge 章节：https://carla.readthedocs.io/
-> - The Construct —— Self-Driving Cars with ROS 2 and CARLA 课程：https://www.theconstructsim.com/
-> - ROS 2 官方文档 —— TF2 与 time 同步：https://docs.ros.org/
-> - Robotics Back-End —— 话题与 TF 调试教程：https://roboticsbackend.com/
+学习材料：
+- carla-ros-bridge 官方代码库：https://github.com/carla-simulator/ros-bridge
+- CARLA 官方文档 —— 模拟器时间与 ROS Bridge 章节：https://carla.readthedocs.io/
+- The Construct —— Self-Driving Cars with ROS 2 and CARLA 课程：https://www.theconstructsim.com/
+- ROS 2 官方文档 —— TF2 与 time 同步：https://docs.ros.org/
+- Robotics Back-End —— 话题与 TF 调试教程：https://roboticsbackend.com/

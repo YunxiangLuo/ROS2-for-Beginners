@@ -16,18 +16,13 @@
 
 ![ch31 传感器配置运行输出](images/runtime/nonlab_av_sensor.gif)
 
-
 ![ch31 激光感知运行输出](images/runtime/nonlab_av_perception.gif)
-
 
 ![ch31 全局规划运行输出](images/runtime/nonlab_av_planning.gif)
 
-
 ![ch31 纵向控制运行输出](images/runtime/nonlab_av_control.gif)
 
-
 ![ch31 安全监控运行输出](images/runtime/nonlab_av_safety.gif)
-
 
 ## 实验准备
 

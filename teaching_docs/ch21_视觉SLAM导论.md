@@ -971,10 +971,10 @@ ros2 run tf2_ros tf2_echo base_link camera_link
 
 没有 ORB-SLAM/DSO 实现，不能由此实例宣称完成视觉里程计或地图构建。
 
-> 参考来源：
-> - OpenCV 官方文档 —— ORB 特征与特征匹配教程：https://docs.opencv.org/
-> - ORB-SLAM3 官方仓库（UZ-SLAMLab）与论文：https://github.com/UZ-SLAMLab/ORB_SLAM3
-> - EVO 官方文档 —— 轨迹评估工具：https://github.com/MichaelGrupp/evo
-> - VINS-Fusion 官方仓库（HKUST）：https://github.com/HKUST-Aerial-Robotics/VINS-Fusion
-> - The Construct —— 视觉 SLAM 课程：https://www.theconstructsim.com/
-> - Robotics Back-End —— ORB-SLAM3 与 ROS 2 实战教程：https://roboticsbackend.com/
+学习材料：
+- OpenCV 官方文档 —— ORB 特征与特征匹配教程：https://docs.opencv.org/
+- ORB-SLAM3 官方仓库（UZ-SLAMLab）与论文：https://github.com/UZ-SLAMLab/ORB_SLAM3
+- EVO 官方文档 —— 轨迹评估工具：https://github.com/MichaelGrupp/evo
+- VINS-Fusion 官方仓库（HKUST）：https://github.com/HKUST-Aerial-Robotics/VINS-Fusion
+- The Construct —— 视觉 SLAM 课程：https://www.theconstructsim.com/
+- Robotics Back-End —— ORB-SLAM3 与 ROS 2 实战教程：https://roboticsbackend.com/

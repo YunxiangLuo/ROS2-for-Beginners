@@ -32,7 +32,6 @@ ros2 topic echo /camera/camera_info --once
 
 ![ch20 视觉语言模型运行输出](images/runtime/ch20_vision.gif)
 
-
 原始录制：[ch20_vision.cast](images/runtime/ch20_vision.cast)。
 
 > **对应理论章节**：第33章《视觉大模型集成》

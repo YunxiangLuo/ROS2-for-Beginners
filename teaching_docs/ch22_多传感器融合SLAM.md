@@ -884,10 +884,10 @@ ros2 topic echo /odom --once
 
 Bridge 配置文件位于 `src/robot_sim_demo/config/gazebo2_bridge.yaml`，相机内参发布脚本位于 `src/robot_sim_demo/robot_sim_demo/camera_info_publisher.py`，模型文件位于 `src/robot_sim_demo/models/wheeltec_robot/model.sdf`。当前仓库没有 FAST-LIO/VINS 等完整融合算法，本例只验证输入和标定信息。
 
-> 参考来源：
-> - Robot Localization 官方 Wiki 与文档：https://github.com/cra-ros-pkg/robot_localization
-> - Cartographer 官方文档 —— 配置与传感器数据：https://cartographer.readthedocs.io/
-> - FAST-LIO2 官方仓库（HKU-MARS）与论文：https://github.com/hku-mars/FAST_LIO
-> - REP-145 与 REP-105 标准文档：https://www.ros.org/reps/
-> - The Construct —— 多传感器融合课程：https://www.theconstructsim.com/
-> - Robotics Back-End —— IMU 预处理与融合教程：https://roboticsbackend.com/
+学习材料：
+- Robot Localization 官方 Wiki 与文档：https://github.com/cra-ros-pkg/robot_localization
+- Cartographer 官方文档 —— 配置与传感器数据：https://cartographer.readthedocs.io/
+- FAST-LIO2 官方仓库（HKU-MARS）与论文：https://github.com/hku-mars/FAST_LIO
+- REP-145 与 REP-105 标准文档：https://www.ros.org/reps/
+- The Construct —— 多传感器融合课程：https://www.theconstructsim.com/
+- Robotics Back-End —— IMU 预处理与融合教程：https://roboticsbackend.com/

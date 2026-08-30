@@ -919,11 +919,10 @@ RViz 中应显示 xArm 连杆、关节和 `xarm` 规划组；改变 Xacro 参数
 
 ![ch16 URDF 与 TF 运行输出](../lab_manuals/images/runtime/ch16_urdf_tf.gif)
 
-
-> 参考来源：
-> - ROS 2 官方文档 —— URDF 与 Xacro 教程：https://docs.ros.org/en/jazzy/Tutorials.html
-> - MoveIt 官方文档 —— Setup Assistant：https://moveit.picknik.ai/
-> - ros2_control 官方文档 —— 控制器与硬件接口：https://control.ros.org/
-> - xacro 官方仓库与文档：https://github.com/ros/xacro
-> - The Construct —— 机械臂建模课程：https://www.theconstructsim.com/
-> - Robotics Back-End —— URDF 建模实战教程：https://roboticsbackend.com/
+学习材料：
+- ROS 2 官方文档 —— URDF 与 Xacro 教程：https://docs.ros.org/en/jazzy/Tutorials.html
+- MoveIt 官方文档 —— Setup Assistant：https://moveit.picknik.ai/
+- ros2_control 官方文档 —— 控制器与硬件接口：https://control.ros.org/
+- xacro 官方仓库与文档：https://github.com/ros/xacro
+- The Construct —— 机械臂建模课程：https://www.theconstructsim.com/
+- Robotics Back-End —— URDF 建模实战教程：https://roboticsbackend.com/

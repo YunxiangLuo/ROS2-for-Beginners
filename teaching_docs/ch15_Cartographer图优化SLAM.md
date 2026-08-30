@@ -1547,9 +1547,9 @@ RViz 中可看到机器人运动和激光扫描；bag 的时间序列可用于�
 
 当前仓库没有 Cartographer 后端，不能把 `slam_toolbox` 的在线地图称为 Cartographer 图优化结果。
 
-> 参考来源：
-> - Cartographer 官方文档（readthedocs）—— 算法架构与调优指南：https://cartographer.readthedocs.io/
-> - Google cartographer_ros 仓库 —— 配置文件与 assets_writer 示例：https://github.com/cartographer-project/cartographer_ros
-> - Cartographer 论文 —— Hess et al., "Real-Time Loop Closure in 2D LIDAR SLAM"（ICRA 2016）：https://research.google/pubs/pub45466/
-> - The Construct —— Cartographer 建图与定位课程：https://www.theconstructsim.com/
-> - slam_toolbox Wiki —— 与 Cartographer 对照的参数体系：https://github.com/SteveMacenski/slam_toolbox/wiki
+学习材料：
+- Cartographer 官方文档（readthedocs）—— 算法架构与调优指南：https://cartographer.readthedocs.io/
+- Google cartographer_ros 仓库 —— 配置文件与 assets_writer 示例：https://github.com/cartographer-project/cartographer_ros
+- Cartographer 论文 —— Hess et al., "Real-Time Loop Closure in 2D LIDAR SLAM"（ICRA 2016）：https://research.google/pubs/pub45466/
+- The Construct —— Cartographer 建图与定位课程：https://www.theconstructsim.com/
+- slam_toolbox Wiki —— 与 Cartographer 对照的参数体系：https://github.com/SteveMacenski/slam_toolbox/wiki

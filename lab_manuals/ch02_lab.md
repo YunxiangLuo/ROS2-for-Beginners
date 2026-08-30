@@ -133,16 +133,15 @@ ros2 run hello_pkg hello_node
 
 - 截图1：colcon build 输出显示编译成功
 
-  ![alt text](images/image-21.png)
+![alt text](images/image-21.png)
 
 - 截图2：ros2 run 输出显示周期日志
 
-  ![alt text](images/image-20.png)
+![alt text](images/image-20.png)
 
 - 截图3：`ros2 node list` 显示 /hello_node
 
-  ![alt text](images/image-22.png)
-
+![alt text](images/image-22.png)
 
 ### 参考代码
 > 完整参考代码位于 `lab_code/ch02_lab/hello_pkg/`
@@ -237,16 +236,15 @@ ros2 run hello_pkg logger_demo --ros-args \
 
 - 截图1：默认日志输出（DEBUG ~ ERROR）
 
-  ![alt text](images/image-23.png)
+![alt text](images/image-23.png)
 
 - 截图2：`--log-level ERROR` 仅显示错误日志
 
-  ![alt text](images/image-27.png)
+![alt text](images/image-27.png)
 
 - 截图3：`rqt_console` 输出（`ros2 run rqt_console rqt_console`）
 
-  ![alt text](images/image-28.png)
-
+![alt text](images/image-28.png)
 
 ### 参考代码
 > 完整参考代码位于 `lab_code/ch02_lab/hello_pkg/hello_pkg/logger_demo.py`
@@ -303,16 +301,15 @@ rviz2
 
 - 截图1：rqt_graph 中的节点-话题拓扑图
 
-  ![alt text](images/image-29.png)
+![alt text](images/image-29.png)
 
 - 截图2：ros2 node info /talker 输出
 
-  ![alt text](images/image-30.png)
+![alt text](images/image-30.png)
 
 - 截图3：RViz2 启动界面
 
-  ![alt text](images/image-31.png)
-
+![alt text](images/image-31.png)
 
 ### 思考题
 
@@ -391,7 +388,6 @@ ros2 topic pub /cmd_vel geometry_msgs/msg/Twist \
 
 ![alt text](images/image-32.png)
 
-
 ### 思考题
 1. `/odom` 中的 `pose.pose.orientation` 使用四元数表示姿态，如何转换为欧拉角？使用 TF2转换为欧拉角 (Roll、Pitch、Yaw)，其中Yaw是航向角
 2. 如何利用 `/odom` 数据计算机器人的行驶总距离？每次接收 /odom 消息时，读取当前位置 (x, y)，与上一时刻的位置计算两点间距离 并将每次位移累加，得到机器人的总行驶距离。
@@ -401,6 +397,5 @@ ros2 topic pub /cmd_vel geometry_msgs/msg/Twist \
 真实运行的 Python 节点、节点列表和节点信息输出：
 
 ![ch02 Python 节点运行输出](images/runtime/ch02_nodes.gif)
-
 
 原始录制：[ch02_nodes.cast](images/runtime/ch02_nodes.cast)。完整证据索引见[实际运行证据](runtime_evidence.md)。

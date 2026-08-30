@@ -1976,7 +1976,6 @@ ros2 run pose_nav_action nav_server
 
 ![alt text](images/image-29.png)
 
-
 # 发送完整位姿目标
 
 终端 3：
@@ -1990,14 +1989,12 @@ ros2 run pose_nav_action nav_client 2.0 1.0 1.57
 
 ![alt text](images/image-30.png)
 
-
 # 自动取消测试
 ```bash
 ros2 run pose_nav_action nav_client 3.0 0.0 0.0 3.0
 ```
 
 ![alt text](images/image-31.png)
-
 
 # 忙碌拒绝测试
 
@@ -2017,7 +2014,6 @@ ros2 run pose_nav_action nav_client 1.0 0.0 0.0
 ```
 
 ![alt text](images/image-32.png)
-
 
 # Action 检查
 
@@ -2044,6 +2040,5 @@ Action 是一种通信机制，适用于执行时间较长、需要实时反馈�
 真实运行的 DoDishes Action Server、Client 反馈进度和完成结果：
 
 ![ch05 动作通信运行输出](images/runtime/ch05_action.gif)
-
 
 原始录制：[ch05_action.cast](images/runtime/ch05_action.cast)。完整证据索引见[实际运行证据](runtime_evidence.md)。

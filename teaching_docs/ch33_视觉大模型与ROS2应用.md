@@ -878,12 +878,11 @@ ros2 topic echo /camera/camera_info --once
 
 ![ch20 视觉语言模型运行输出](../lab_manuals/images/runtime/ch20_vision.gif)
 
-
-> 参考来源：
-> - OpenAI 官方 API 文档 —— Vision 指南：https://platform.openai.com/docs/guides/vision
-> - Meta 官方 Segment Anything 代码库：https://github.com/facebookresearch/segment-anything
-> - OpenAI 官方 CLIP 代码库：https://github.com/openai/CLIP
-> - IDEA-Research 官方 Grounding DINO 代码库：https://github.com/IDEA-Research/GroundingDINO
-> - Hugging Face 官方文档：https://huggingface.co/docs
-> - The Construct —— ROS 2 视觉大模型课程：https://www.theconstructsim.com/
-> - Robotics Back-End —— ROS 2 视觉实战教程：https://roboticsbackend.com/
+学习材料：
+- OpenAI 官方 API 文档 —— Vision 指南：https://platform.openai.com/docs/guides/vision
+- Meta 官方 Segment Anything 代码库：https://github.com/facebookresearch/segment-anything
+- OpenAI 官方 CLIP 代码库：https://github.com/openai/CLIP
+- IDEA-Research 官方 Grounding DINO 代码库：https://github.com/IDEA-Research/GroundingDINO
+- Hugging Face 官方文档：https://huggingface.co/docs
+- The Construct —— ROS 2 视觉大模型课程：https://www.theconstructsim.com/
+- Robotics Back-End —— ROS 2 视觉实战教程：https://roboticsbackend.com/

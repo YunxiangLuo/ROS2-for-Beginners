@@ -862,10 +862,9 @@ ros2 topic echo /planning_scene --once
 
 ![ch18 MoveIt 路径跟随运行输出](../lab_manuals/images/runtime/ch18_beeline_demo.gif)
 
-
-> 参考来源：
-> - MoveIt 2 官方文档 —— Cartesian Path、Planning Scene 与 Motion Planning Pipeline 教程：https://moveit.picknik.ai/
-> - OMPL 官方文档 —— 规划器与 benchmark：https://ompl.kavrakilab.org/
-> - PickNik Academy —— MoveIt 官方培训课程：https://academy.picknik.ai/
-> - The Construct —— MoveIt 避障课程：https://www.theconstructsim.com/
-> - Robotics Back-End —— 规划场景实战教程：https://roboticsbackend.com/
+学习材料：
+- MoveIt 2 官方文档 —— Cartesian Path、Planning Scene 与 Motion Planning Pipeline 教程：https://moveit.picknik.ai/
+- OMPL 官方文档 —— 规划器与 benchmark：https://ompl.kavrakilab.org/
+- PickNik Academy —— MoveIt 官方培训课程：https://academy.picknik.ai/
+- The Construct —— MoveIt 避障课程：https://www.theconstructsim.com/
+- Robotics Back-End —— 规划场景实战教程：https://roboticsbackend.com/

@@ -34,7 +34,6 @@ ros2 run tf2_ros tf2_echo base_link laser
 
 ![ch16 URDF 与 TF 运行输出](images/runtime/ch16_urdf_tf.gif)
 
-
 原始录制：[ch16_urdf_tf.cast](images/runtime/ch16_urdf_tf.cast)。
 
 > **对应理论章节**：第25章《ROS2机械臂建模（URDF/Xacro）》

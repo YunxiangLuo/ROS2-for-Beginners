@@ -375,9 +375,9 @@ The Construct 的「Self-Driving Cars with ROS 2 and CARLA」课程把 CARLA 当
 
 > 本章扩展内容综合翻译自 SAE International 官方 J3016《驾驶自动化分级》标准文件、CARLA 官方文档（carla.readthedocs.io，含核心概念、Python API 与教程）、The Construct 的「Self-Driving Cars with ROS 2 and CARLA」课程与 Udacity 的自动驾驶工程师纳米学位课程。原文均为英文，此处为中文编译，供课后巩固与进阶阅读。
 
-> 参考来源：
-> - SAE International 官方 J3016 标准文件：https://www.sae.org/standards/content/j3016_202104/
-> - CARLA 官方文档（安装、核心概念、Python API 与教程）：https://carla.readthedocs.io/
-> - CARLA 官方代码库：https://github.com/carla-simulator/carla
-> - The Construct —— Self-Driving Cars with ROS 2 and CARLA 课程：https://www.theconstructsim.com/
-> - Udacity —— 自动驾驶工程师纳米学位：https://www.udacity.com/
+学习材料：
+- SAE International 官方 J3016 标准文件：https://www.sae.org/standards/content/j3016_202104/
+- CARLA 官方文档（安装、核心概念、Python API 与教程）：https://carla.readthedocs.io/
+- CARLA 官方代码库：https://github.com/carla-simulator/carla
+- The Construct —— Self-Driving Cars with ROS 2 and CARLA 课程：https://www.theconstructsim.com/
+- Udacity —— 自动驾驶工程师纳米学位：https://www.udacity.com/

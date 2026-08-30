@@ -281,17 +281,15 @@ Launch 文件位于 `src/robot_sim_demo/launch/gazebo2.launch.py`，桥接配置
 
 ![ch09 Gazebo headless 运行输出](../lab_manuals/images/runtime/ch09_gazebo_headless.gif)
 
-
 ![Campus PUCRS headless 运行输出](../lab_manuals/images/runtime/campus_pucrs_headless.gif)
-
 
 ---
 
-> 参考来源：
-> - ROS 2 Documentation (Humble) —— Gazebo Simulator 教程：https://docs.ros.org/en/humble/Tutorials/Advanced/Simulators/Gazebo-Simulator.html
-> - Gazebo 官方文档：https://gazebosim.org/docs
-> - gazebo_ros_pkgs（Gazebo Classic 与 ROS 2 集成）：https://github.com/ros-simulation/gazebo_ros_pkgs
-> - gz_ros2_control（Gazebo 与 ros2_control 集成）：https://github.com/ros-controls/gz_ros2_control
-> - ros2_control 官方文档：https://control.ros.org/
-> - The Construct —— ROS 2 Basics in 5 Days：https://www.theconstructsim.com/
-> - Articulated Robotics —— Gazebo / Simulation 系列视频：https://www.youtube.com/@ArticulatedRobotics
+学习材料：
+- ROS 2 Documentation (Humble) —— Gazebo Simulator 教程：https://docs.ros.org/en/humble/Tutorials/Advanced/Simulators/Gazebo-Simulator.html
+- Gazebo 官方文档：https://gazebosim.org/docs
+- gazebo_ros_pkgs（Gazebo Classic 与 ROS 2 集成）：https://github.com/ros-simulation/gazebo_ros_pkgs
+- gz_ros2_control（Gazebo 与 ros2_control 集成）：https://github.com/ros-controls/gz_ros2_control
+- ros2_control 官方文档：https://control.ros.org/
+- The Construct —— ROS 2 Basics in 5 Days：https://www.theconstructsim.com/
+- Articulated Robotics —— Gazebo / Simulation 系列视频：https://www.youtube.com/@ArticulatedRobotics

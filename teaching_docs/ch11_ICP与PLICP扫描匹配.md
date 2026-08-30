@@ -961,8 +961,8 @@ Bag 中同时包含扫描帧、里程计和 TF，可用于比较相邻帧的初�
 
 ---
 
-> 参考来源：
-> - SLAM Toolbox Wiki —— 扫描匹配参数与工作流：https://github.com/SteveMacenski/slam_toolbox/wiki
-> - Google Cartographer 官方文档：https://google-cartographer-ros.readthedocs.io/
-> - The Construct —— ROS 2 与 SLAM 相关课程：https://www.theconstructsim.com/
-> - Robotics Back-End —— SLAM 技术文章：https://roboticsbackend.com/
+学习材料：
+- SLAM Toolbox Wiki —— 扫描匹配参数与工作流：https://github.com/SteveMacenski/slam_toolbox/wiki
+- Google Cartographer 官方文档：https://google-cartographer-ros.readthedocs.io/
+- The Construct —— ROS 2 与 SLAM 相关课程：https://www.theconstructsim.com/
+- Robotics Back-End —— SLAM 技术文章：https://roboticsbackend.com/

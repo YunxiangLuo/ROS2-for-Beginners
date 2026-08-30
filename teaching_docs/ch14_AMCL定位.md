@@ -1020,9 +1020,9 @@ Nav2 Launch 位于 `src/navigation_sim_demo_ros2/launch/nav2_demo.launch.py`，�
 
 粒子云是否收敛应以本地 RViz 和 `/amcl_pose` 实际输出判断；启动日志本身不等于定位精度验证。
 
-> 参考来源：
-> - docs.ros.org —— nav2_amcl 参数与节点文档：https://docs.ros.org/en/jazzy/p/nav2_amcl/
-> - Nav2 官方文档 —— Navigation System 与定位教程：https://docs.nav2.org/
-> - ROS Wiki —— amcl 包文档（历史参数语义）：https://wiki.ros.org/amcl
-> - The Construct —— ROS 2 Localization with AMCL 课程：https://www.theconstructsim.com/
-> - Robotics Back-End —— AMCL 定位实战与调参指南：https://roboticsbackend.com/
+学习材料：
+- docs.ros.org —— nav2_amcl 参数与节点文档：https://docs.ros.org/en/jazzy/p/nav2_amcl/
+- Nav2 官方文档 —— Navigation System 与定位教程：https://docs.nav2.org/
+- ROS Wiki —— amcl 包文档（历史参数语义）：https://wiki.ros.org/amcl
+- The Construct —— ROS 2 Localization with AMCL 课程：https://www.theconstructsim.com/
+- Robotics Back-End —— AMCL 定位实战与调参指南：https://roboticsbackend.com/

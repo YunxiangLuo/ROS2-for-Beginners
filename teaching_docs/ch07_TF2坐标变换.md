@@ -273,14 +273,13 @@ TF 与状态发布配置位于 `src/robot_sim_demo/config/gazebo2_bridge.yaml`�
 
 ![ch07 TF2 运行输出](../lab_manuals/images/runtime/ch07_tf.gif)
 
-
 ---
 
-> 参考来源：
-> - ROS 2 Documentation (Humble) —— Introduction to tf2：https://docs.ros.org/en/humble/Tutorials/Intermediate/Tf2/Introduction-To-Tf2.html
-> - ROS 2 Documentation (Humble) —— Writing a tf2 broadcaster (Python)：https://docs.ros.org/en/humble/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Py.html
-> - ROS 2 Documentation (Humble) —— Using time in tf2：https://docs.ros.org/en/humble/Tutorials/Intermediate/Tf2/Using-Time-In-Tf2.html
-> - ROS 2 Documentation (Humble) —— Debugging tf2 (tf2_echo, tf2_monitor, view_frames)：https://docs.ros.org/en/humble/Tutorials/Intermediate/Tf2/Debugging-Tf2-With-Tf2-Echo.html
-> - ROS 2 Documentation (Humble) —— TF2 教程总览：https://docs.ros.org/en/humble/Tutorials/Intermediate/Tf2/Tf2-Main.html
-> - The Construct —— ROS 2 Basics in 5 Days：https://www.theconstructsim.com/
-> - Articulated Robotics —— ROS 2 Basics 系列视频：https://www.youtube.com/@ArticulatedRobotics
+学习材料：
+- ROS 2 Documentation (Humble) —— Introduction to tf2：https://docs.ros.org/en/humble/Tutorials/Intermediate/Tf2/Introduction-To-Tf2.html
+- ROS 2 Documentation (Humble) —— Writing a tf2 broadcaster (Python)：https://docs.ros.org/en/humble/Tutorials/Intermediate/Tf2/Writing-A-Tf2-Broadcaster-Py.html
+- ROS 2 Documentation (Humble) —— Using time in tf2：https://docs.ros.org/en/humble/Tutorials/Intermediate/Tf2/Using-Time-In-Tf2.html
+- ROS 2 Documentation (Humble) —— Debugging tf2 (tf2_echo, tf2_monitor, view_frames)：https://docs.ros.org/en/humble/Tutorials/Intermediate/Tf2/Debugging-Tf2-With-Tf2-Echo.html
+- ROS 2 Documentation (Humble) —— TF2 教程总览：https://docs.ros.org/en/humble/Tutorials/Intermediate/Tf2/Tf2-Main.html
+- The Construct —— ROS 2 Basics in 5 Days：https://www.theconstructsim.com/
+- Articulated Robotics —— ROS 2 Basics 系列视频：https://www.youtube.com/@ArticulatedRobotics

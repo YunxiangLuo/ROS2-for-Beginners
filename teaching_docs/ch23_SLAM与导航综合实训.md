@@ -1182,16 +1182,14 @@ SLAM 源码位于 `src/slam_sim_demo_ros2/`，Nav2 源码位于 `src/navigation_
 
 ![ch10 SLAM 组件启动](../lab_manuals/images/runtime/nonlab_slam.gif)
 
-
 ![ch11 Nav2 组件启动](../lab_manuals/images/runtime/nonlab_nav2.gif)
-
 
 两套 Launch 都可能启动 Gazebo，切换时必须先停止上一套进程，避免两个仿真器争用同一 ROS/Gazebo 图。
 
-> 参考来源：
-> - slam_toolbox 官方 Wiki（SteveMacenski）：https://wiki.ros.org/slam_toolbox
-> - Nav2 官方文档 —— 地图服务、调优与多机器人：https://docs.nav2.org/
-> - navigation2 仓库 —— multi_nav2 与 Simple Commander 示例：https://github.com/ros-navigation/navigation2
-> - explore-lite 官方仓库（m-explore ROS 2 移植）：https://github.com/robo-friends/m-explore-ros2
-> - The Construct —— SLAM 与导航综合实训课程：https://www.theconstructsim.com/
-> - Robotics Back-End —— 建图导航衔接实战教程：https://roboticsbackend.com/
+学习材料：
+- slam_toolbox 官方 Wiki（SteveMacenski）：https://wiki.ros.org/slam_toolbox
+- Nav2 官方文档 —— 地图服务、调优与多机器人：https://docs.nav2.org/
+- navigation2 仓库 —— multi_nav2 与 Simple Commander 示例：https://github.com/ros-navigation/navigation2
+- explore-lite 官方仓库（m-explore ROS 2 移植）：https://github.com/robo-friends/m-explore-ros2
+- The Construct —— SLAM 与导航综合实训课程：https://www.theconstructsim.com/
+- Robotics Back-End —— 建图导航衔接实战教程：https://roboticsbackend.com/

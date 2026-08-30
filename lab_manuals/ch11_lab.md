@@ -40,7 +40,6 @@ ros2 run navigation_sim_demo_ros2 nav_goal_runner \
 
 ![ch11 Nav2 运行输出](images/runtime/ch11_nav2.gif)
 
-
 原始录制：[ch11_nav2.cast](images/runtime/ch11_nav2.cast)。
 
 ## 环境说明

@@ -281,13 +281,12 @@ Launch 文件位于 `src/robot_sim_demo/launch/gazebo2.launch.py`；参数节点
 
 ![ch06 参数系统运行输出](../lab_manuals/images/runtime/ch06_parameters.gif)
 
-
 ---
 
-> 参考来源：
-> - ROS 2 Documentation (Humble) —— Understanding ROS 2 parameters：https://docs.ros.org/en/humble/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Parameters.html
-> - ROS 2 Documentation (Humble) —— Using parameters in a class (Python)：https://docs.ros.org/en/humble/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-Python.html
-> - ROS 2 Documentation (Humble) —— Creating a launch file：https://docs.ros.org/en/humble/Tutorials/Intermediate/Launch/Creating-Launch-Files.html
-> - ROS 2 Documentation (Humble) —— Using launch files for large projects（Launch 系统主页）：https://docs.ros.org/en/humble/Tutorials/Intermediate/Launch/Launch-Main.html
-> - The Construct —— ROS 2 Basics in 5 Days：https://www.theconstructsim.com/
-> - Articulated Robotics —— ROS 2 Basics 系列视频：https://www.youtube.com/@ArticulatedRobotics
+学习材料：
+- ROS 2 Documentation (Humble) —— Understanding ROS 2 parameters：https://docs.ros.org/en/humble/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Parameters.html
+- ROS 2 Documentation (Humble) —— Using parameters in a class (Python)：https://docs.ros.org/en/humble/Tutorials/Beginner-Client-Libraries/Using-Parameters-In-A-Class-Python.html
+- ROS 2 Documentation (Humble) —— Creating a launch file：https://docs.ros.org/en/humble/Tutorials/Intermediate/Launch/Creating-Launch-Files.html
+- ROS 2 Documentation (Humble) —— Using launch files for large projects（Launch 系统主页）：https://docs.ros.org/en/humble/Tutorials/Intermediate/Launch/Launch-Main.html
+- The Construct —— ROS 2 Basics in 5 Days：https://www.theconstructsim.com/
+- Articulated Robotics —— ROS 2 Basics 系列视频：https://www.youtube.com/@ArticulatedRobotics

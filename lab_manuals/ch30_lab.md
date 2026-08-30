@@ -31,7 +31,6 @@ source install/setup.bash
 
 ![ch30 安全监控运行输出](images/runtime/ch30_safety.gif)
 
-
 原始录制：[ch30_safety.cast](images/runtime/ch30_safety.cast)。
 
 ## 练习 30.1：验证安全监控节点

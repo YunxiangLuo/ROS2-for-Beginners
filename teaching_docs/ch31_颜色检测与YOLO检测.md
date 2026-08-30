@@ -815,9 +815,9 @@ ros2 run rqt_image_view rqt_image_view /camera/image_raw
 
 相关的参考实现包括：相机节点位于 `src/robot_sim_demo/robot_sim_demo/camera_info_publisher.py`，图像桥接配置见 `src/robot_sim_demo/config/gazebo2_bridge.yaml`，视觉实验参考代码位于 `src/lab_code/ch19_lab/vision_detection_lab/`。
 
-> 参考来源：
-> - OpenCV 官方文档 —— 颜色转换与 inRange 教程：https://docs.opencv.org/
-> - Ultralytics YOLO 官方文档 —— YOLOv8 快速入门与推理 API：https://docs.ultralytics.com/
-> - vision_msgs 官方消息定义：https://github.com/ros-perception/vision_msgs
-> - ROS 2 官方示例 —— image_tools / demo_nodes：https://docs.ros.org/
-> - The Construct / Robotics Back-End —— 目标检测课程：https://www.theconstructsim.com/ 、https://roboticsbackend.com/
+学习材料：
+- OpenCV 官方文档 —— 颜色转换与 inRange 教程：https://docs.opencv.org/
+- Ultralytics YOLO 官方文档 —— YOLOv8 快速入门与推理 API：https://docs.ultralytics.com/
+- vision_msgs 官方消息定义：https://github.com/ros-perception/vision_msgs
+- ROS 2 官方示例 —— image_tools / demo_nodes：https://docs.ros.org/
+- The Construct / Robotics Back-End —— 目标检测课程：https://www.theconstructsim.com/ 、https://roboticsbackend.com/

@@ -36,7 +36,6 @@ RViz 中添加 Map、LaserScan、TF；终端检查 `map_updates`、`known_cell_g
 
 ![ch10 SLAM 运行输出](images/runtime/ch10_slam.gif)
 
-
 原始录制：[ch10_slam.cast](images/runtime/ch10_slam.cast)。
 
 > **实验平台**：Ubuntu 22.04 + ROS 2 Humble + Gazebo 仿真
@@ -1223,7 +1222,6 @@ ros2 topic echo /map --once --field info
 
 ![alt text](images/image-76.png)
 
-
 ### 启动 RViz2 并设置初始位姿
 
 ```bash
@@ -1243,7 +1241,6 @@ rviz2 -d /opt/ros/humble/share/nav2_bringup/rviz/nav2_default_view.rviz \
 5. 观察粒子云是否逐渐收敛到机器人附近。
 
 ![alt text](images/image-77.png)
-
 
 ```bash
 source /opt/ros/humble/setup.bash
@@ -1528,7 +1525,6 @@ ros2 bag info "$BAG_DIR"
 
 ![alt text](images/image-79.png)
 
-
 ### 回放数据并建图
 
 停止 Gazebo，避免回放期间同时存在两套 `/scan`、`/odom` 和 TF 发布者。确认 Gazebo、`fake_laser` 和控制器节点已经退出，再打开终端1启动同步建图：
@@ -1584,7 +1580,6 @@ rviz2 -d "$HOME/lab10/slam_view.rviz" \
 RViz2 的 `Fixed Frame` 设为 `map`，添加 `/map`、`/scan` 和 `TF`。当前 VM 可能输出 GLSL 着色器错误，但只要日志持续出现 `Trying to create a map` 且地图尺寸更新，就不影响建图结果。
 
 ![alt text](images/image-80.png)
-
 
 回放过程中打开终端4验证数据来源、地图和 TF：
 

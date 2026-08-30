@@ -257,13 +257,12 @@ Xacro 模型位于 `src/urdf_demo_ros2/urdf/mybot.xacro`，Launch 文件为 `src
 
 ![ch08 URDF 与 RViz 运行输出](../lab_manuals/images/runtime/ch08_urdf.gif)
 
-
 ---
 
-> 参考来源：
-> - ROS 2 Documentation (Humble) —— Building a visual robot model with URDF from scratch：https://docs.ros.org/en/humble/Tutorials/Intermediate/URDF/Building-A-Visual-Robot-Model-With-URDF-From-Scratch.html
-> - ROS 2 Documentation (Humble) —— URDF 主要元素（URDF-Main）：https://docs.ros.org/en/humble/Tutorials/Intermediate/URDF/URDF-Main.html
-> - ROS 2 Documentation (Humble) —— Using Xacro to clean up a URDF file：https://docs.ros.org/en/humble/Tutorials/Intermediate/URDF/Using-Xacro-To-Clean-Up-A-URDF-File.html
-> - ROS 2 Documentation (Humble) —— Building a movable robot model with URDF：https://docs.ros.org/en/humble/Tutorials/Intermediate/URDF/Building-A-Movable-Robot-Model-With-URDF.html
-> - The Construct —— ROS 2 Basics in 5 Days：https://www.theconstructsim.com/
-> - Articulated Robotics —— Robot Modelling 系列视频：https://www.youtube.com/@ArticulatedRobotics
+学习材料：
+- ROS 2 Documentation (Humble) —— Building a visual robot model with URDF from scratch：https://docs.ros.org/en/humble/Tutorials/Intermediate/URDF/Building-A-Visual-Robot-Model-With-URDF-From-Scratch.html
+- ROS 2 Documentation (Humble) —— URDF 主要元素（URDF-Main）：https://docs.ros.org/en/humble/Tutorials/Intermediate/URDF/URDF-Main.html
+- ROS 2 Documentation (Humble) —— Using Xacro to clean up a URDF file：https://docs.ros.org/en/humble/Tutorials/Intermediate/URDF/Using-Xacro-To-Clean-Up-A-URDF-File.html
+- ROS 2 Documentation (Humble) —— Building a movable robot model with URDF：https://docs.ros.org/en/humble/Tutorials/Intermediate/URDF/Building-A-Movable-Robot-Model-With-URDF.html
+- The Construct —— ROS 2 Basics in 5 Days：https://www.theconstructsim.com/
+- Articulated Robotics —— Robot Modelling 系列视频：https://www.youtube.com/@ArticulatedRobotics

@@ -314,7 +314,6 @@ ros1多机器人、多实验环境相互干扰————通过ROS_DOMAIN_ID划
 
 ![alt text](images/image-1.png)
 
-
 ---
 
 ## 仿真结合实例（当前仓库）：Gazebo Harmonic 仿真中的 ROS 2 体系验证
@@ -358,14 +357,13 @@ ros2 topic info /scan
 
 ![ch01 生命周期节点运行输出](../lab_manuals/images/runtime/ch01_lifecycle.gif)
 
-
 ---
 
-> 参考来源：
-> - ROS 2 Documentation (Humble) —— About ROS 2：https://docs.ros.org/en/humble/About/About-ROS-2.html
-> - ROS 2 Documentation (Humble) —— ROS 2 Concepts：https://docs.ros.org/en/humble/Concepts.html
-> - ROS 2 Documentation (Humble) —— Beginner: CLI Tools（turtlesim 入门）：https://docs.ros.org/en/humble/Tutorials/Beginner-CLI-Tools.html
-> - ROS 2 Documentation (Humble) —— 使用 colcon 构建工作区：https://docs.ros.org/en/humble/Tutorials/Beginner-Client-Libraries/Colcon-Tutorial.html
-> - ROS 2 Documentation (Humble) —— About Lifecycle Nodes：https://docs.ros.org/en/humble/Concepts/About-Lifecycle-Nodes.html
-> - The Construct —— ROS 2 Basics in 5 Days：https://www.theconstructsim.com/
-> - Articulated Robotics —— ROS 2 Basics 系列视频：https://www.youtube.com/@ArticulatedRobotics
+学习材料：
+- ROS 2 Documentation (Humble) —— About ROS 2：https://docs.ros.org/en/humble/About/About-ROS-2.html
+- ROS 2 Documentation (Humble) —— ROS 2 Concepts：https://docs.ros.org/en/humble/Concepts.html
+- ROS 2 Documentation (Humble) —— Beginner: CLI Tools（turtlesim 入门）：https://docs.ros.org/en/humble/Tutorials/Beginner-CLI-Tools.html
+- ROS 2 Documentation (Humble) —— 使用 colcon 构建工作区：https://docs.ros.org/en/humble/Tutorials/Beginner-Client-Libraries/Colcon-Tutorial.html
+- ROS 2 Documentation (Humble) —— About Lifecycle Nodes：https://docs.ros.org/en/humble/Concepts/About-Lifecycle-Nodes.html
+- The Construct —— ROS 2 Basics in 5 Days：https://www.theconstructsim.com/
+- Articulated Robotics —— ROS 2 Basics 系列视频：https://www.youtube.com/@ArticulatedRobotics

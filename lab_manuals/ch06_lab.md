@@ -434,7 +434,6 @@ ros2 param get /param_demo max_speed
 
 ![alt text](images/image-54.png)
 
-
 ### 测试大于上限的值
 
 ```bash
@@ -1225,12 +1224,10 @@ ros2 topic info /cmd_vel --verbose
 
 ![alt text](images/image-72.png)
 
-
 ## 实际运行证据
 
 真实运行的参数列表、合法参数更新和非法边界值拒绝输出：
 
 ![ch06 参数系统运行输出](images/runtime/ch06_parameters.gif)
-
 
 原始录制：[ch06_parameters.cast](images/runtime/ch06_parameters.cast)。完整证据索引见[实际运行证据](runtime_evidence.md)。

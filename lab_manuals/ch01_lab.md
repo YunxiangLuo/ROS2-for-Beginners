@@ -300,7 +300,6 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard
 
 ![alt text](images/image-11.png)
 
-
 **补充：验证激光雷达与深度相机话题**
 
 ```bash
@@ -574,6 +573,5 @@ if __name__ == '__main__':
 ROS 2 生命周期节点、状态查询和 `/cmd_vel` 输出的真实限时运行记录：
 
 ![ch01 生命周期节点运行输出](images/runtime/ch01_lifecycle.gif)
-
 
 原始录制：[ch01_lifecycle.cast](images/runtime/ch01_lifecycle.cast)。完整证据索引见[实际运行证据](runtime_evidence.md)。

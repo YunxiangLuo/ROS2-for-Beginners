@@ -33,7 +33,6 @@ RViz 中检查 `xarm` 规划组和 `gripper_centor_link` 末端；程序输出�
 
 ![ch17 MoveIt 运动学规划运行输出](images/runtime/ch17_ik_demo.gif)
 
-
 原始录制：[ch17_ik_demo.cast](images/runtime/ch17_ik_demo.cast)。
 
 > **对应理论章节**：第26章《MoveIt2配置与基础规划》、第27章《Python关节空间规划》

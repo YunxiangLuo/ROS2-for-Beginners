@@ -745,9 +745,9 @@ ros2 topic info /scan
 
 ---
 
-> 参考来源：
-> - ROS 2 官方文档 —— slam_toolbox 包文档：https://docs.ros.org/
-> - SLAM Toolbox Wiki —— Steve Macenski 维护：https://github.com/SteveMacenski/slam_toolbox/wiki
-> - Google Cartographer 官方文档：https://google-cartographer-ros.readthedocs.io/
-> - Nav2 官方文档 —— AMCL 配置：https://docs.nav2.org/
-> - The Construct —— ROS 2 与 SLAM 相关课程：https://www.theconstructsim.com/
+学习材料：
+- ROS 2 官方文档 —— slam_toolbox 包文档：https://docs.ros.org/
+- SLAM Toolbox Wiki —— Steve Macenski 维护：https://github.com/SteveMacenski/slam_toolbox/wiki
+- Google Cartographer 官方文档：https://google-cartographer-ros.readthedocs.io/
+- Nav2 官方文档 —— AMCL 配置：https://docs.nav2.org/
+- The Construct —— ROS 2 与 SLAM 相关课程：https://www.theconstructsim.com/

@@ -1003,9 +1003,9 @@ ros2 bag info /tmp/gmapping_input
 
 本例不运行 gmapping 算法，也不把 `slam_toolbox` 的地图作为 gmapping 结果。
 
-> 参考来源：
-> - ROS Wiki —— gmapping 包文档与参数说明：https://wiki.ros.org/gmapping
-> - OpenSLAM —— gmapping 项目页（RBPF 网格建图）：https://openslam-org.github.io/gmapping.html
-> - SLAM Toolbox Wiki —— Steve Macenski 维护的参数与架构说明：https://github.com/SteveMacenski/slam_toolbox/wiki
-> - The Construct —— ROS 2 SLAM 课程（gmapping 到 slam_toolbox 的迁移）：https://www.theconstructsim.com/
-> - Robotics Back-End —— gMapping vs Cartographer 对比与建图实践：https://roboticsbackend.com/
+学习材料：
+- ROS Wiki —— gmapping 包文档与参数说明：https://wiki.ros.org/gmapping
+- OpenSLAM —— gmapping 项目页（RBPF 网格建图）：https://openslam-org.github.io/gmapping.html
+- SLAM Toolbox Wiki —— Steve Macenski 维护的参数与架构说明：https://github.com/SteveMacenski/slam_toolbox/wiki
+- The Construct —— ROS 2 SLAM 课程（gmapping 到 slam_toolbox 的迁移）：https://www.theconstructsim.com/
+- Robotics Back-End —— gMapping vs Cartographer 对比与建图实践：https://roboticsbackend.com/

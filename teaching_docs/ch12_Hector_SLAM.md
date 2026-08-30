@@ -874,9 +874,9 @@ RViz 中可同时显示 LaserScan 和 TF；外部 Hector 节点应将激光 fram
 
 当前仓库没有 Hector SLAM 实现，不能把 `slam_toolbox` 输出标为 Hector 结果。
 
-> 参考来源：
-> - ROS Wiki —— hector_slam（Tutorials 与 hector_mapping 参数说明）：https://wiki.ros.org/hector_slam
-> - GitHub（tu-darmstadt-ros-pkg）—— hector_slam 官方仓库与 README：https://github.com/tu-darmstadt-ros-pkg/hector_slam
-> - docs.ros.org —— nav2_map_server map_saver_cli 用法：https://docs.ros.org/en/jazzy/p/nav2_map_server/
-> - The Construct —— ROS 2 SLAM 相关课程（Hector 与 slam_toolbox 对比）：https://www.theconstructsim.com/
-> - Robotics Back-End —— 激光 SLAM 建图教程与实测对比：https://roboticsbackend.com/
+学习材料：
+- ROS Wiki —— hector_slam（Tutorials 与 hector_mapping 参数说明）：https://wiki.ros.org/hector_slam
+- GitHub（tu-darmstadt-ros-pkg）—— hector_slam 官方仓库与 README：https://github.com/tu-darmstadt-ros-pkg/hector_slam
+- docs.ros.org —— nav2_map_server map_saver_cli 用法：https://docs.ros.org/en/jazzy/p/nav2_map_server/
+- The Construct —— ROS 2 SLAM 相关课程（Hector 与 slam_toolbox 对比）：https://www.theconstructsim.com/
+- Robotics Back-End —— 激光 SLAM 建图教程与实测对比：https://roboticsbackend.com/

@@ -757,10 +757,9 @@ ros2 run rqt_image_view rqt_image_view /camera/image_raw
 
 ![ch19 视觉检测运行输出](../lab_manuals/images/runtime/ch19_vision.gif)
 
-
-> 参考来源：
-> - ROS 2 官方消息定义 —— sensor_msgs/Image 与 CameraInfo：https://docs.ros.org/
-> - image_pipeline 官方文档 —— camera_calibration：https://docs.ros.org/ 、https://github.com/ros-perception/image_pipeline
-> - usb_cam 官方仓库文档：https://github.com/ros-drivers/usb_cam
-> - image_transport 官方文档：https://github.com/ros-perception/image_common
-> - OpenCV 官方标定教程：https://docs.opencv.org/
+学习材料：
+- ROS 2 官方消息定义 —— sensor_msgs/Image 与 CameraInfo：https://docs.ros.org/
+- image_pipeline 官方文档 —— camera_calibration：https://docs.ros.org/ 、https://github.com/ros-perception/image_pipeline
+- usb_cam 官方仓库文档：https://github.com/ros-drivers/usb_cam
+- image_transport 官方文档：https://github.com/ros-perception/image_common
+- OpenCV 官方标定教程：https://docs.opencv.org/

@@ -34,7 +34,6 @@ RViz 应显示 Xacro 模型及其 TF；Gazebo 显示 Wheeltec 传感器模型。
 
 ![ch08 URDF 与 RViz 运行输出](images/runtime/ch08_urdf.gif)
 
-
 原始录制：[ch08_urdf.cast](images/runtime/ch08_urdf.cast)。
 
 > **实验课时**：2 课时（90 分钟） | XBot-U 模型

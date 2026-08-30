@@ -682,9 +682,9 @@ RViz 显示规划轨迹和碰撞模型；规划器、关节限位和规划组可
 
 相关源码包括 MoveIt 启动文件 `src/xarm/launch/arm_only_move_group.launch.py`、OMPL 配置 `src/xarm/config/arm_only_ompl_planning.yaml` 以及控制器配置 `src/xarm/config/arm_only_controllers.yaml`。
 
-> 参考来源：
-> - MoveIt 2 官方文档 —— Concepts、MoveItPy 与 Collision Checking：https://moveit.picknik.ai/
-> - OMPL 官方文档 —— 规划器与 benchmark：https://ompl.kavrakilab.org/
-> - PickNik Academy —— MoveIt 官方培训课程：https://academy.picknik.ai/
-> - The Construct —— MoveIt 2 课程：https://www.theconstructsim.com/
-> - Robotics Back-End —— MoveIt 规划器对比教程：https://roboticsbackend.com/
+学习材料：
+- MoveIt 2 官方文档 —— Concepts、MoveItPy 与 Collision Checking：https://moveit.picknik.ai/
+- OMPL 官方文档 —— 规划器与 benchmark：https://ompl.kavrakilab.org/
+- PickNik Academy —— MoveIt 官方培训课程：https://academy.picknik.ai/
+- The Construct —— MoveIt 2 课程：https://www.theconstructsim.com/
+- Robotics Back-End —— MoveIt 规划器对比教程：https://roboticsbackend.com/
