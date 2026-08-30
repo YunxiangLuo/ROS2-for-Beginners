@@ -25,14 +25,15 @@
 cd /path/to/Technologies-of-ROS2-Programming-master
 bash setup_course.sh --with-carla
 source ~/.config/ros2-course/env.bash
+# Windows 原生 CARLA 服务端只需在 WSL 安装 Python API 和 Bridge：
+# bash setup_course.sh --carla-bridge-only
 cd ~/carla_ws
 rosdep install --from-paths src --ignore-src -r -y
 # 可选：使用 gezp 维护版（兼容性更好）
 # ROS 2 Jazzy 下建议使用课程根目录 setup_course.sh 管理的固定 bridge commit
 
-# 编译前确保PYTHONPATH包含CARLA的.egg文件
-export CARLA_ROOT=~/carla
-export PYTHONPATH=$PYTHONPATH:$CARLA_ROOT/PythonAPI/carla:$CARLA_ROOT/PythonAPI/carla/dist
+# 安装器生成的环境文件已设置 CARLA Python API 和连接参数。
+# Linux CARLA 手动安装时才需要额外设置 CARLA_ROOT/PYTHONPATH。
 
 colcon build
 source install/setup.bash
@@ -46,8 +47,9 @@ if grep -qi microsoft /proc/version; then
 fi
 carla-server
 
-# Windows (CARLA安装在C:/CARLA)
-C:/CARLA/CarlaUE4.exe -quality-level=Low
+# Windows (CARLA安装在C:/CARLA，PowerShell中执行)
+./CarlaUE4.exe -quality-level=Low -carla-map=Town10HD_Opt `
+  -carla-rpc-port=2000 -carla-streaming-port=2001
 ```
 
 ### 验证环境就绪
@@ -61,7 +63,7 @@ pgrep -x CarlaUE4 && echo "CARLA服务器运行中" || echo "CARLA未启动"
 ros2 node list 2>/dev/null | head -5 || echo "ROS2环境未加载，请先 source install/setup.bash"
 
 # 3. 验证CARLA Python API
-python3 -c "import carla; c=carla.Client('localhost',2000); c.set_timeout(5); print(f'CARLA {c.get_server_version()}')" 2>&1
+python3 -c "import carla, os; c=carla.Client(os.environ['CARLA_HOST'], int(os.environ['CARLA_PORT'])); c.set_timeout(5); print(f'CARLA {c.get_server_version()}')" 2>&1
 
 # 4. 验证Bridge可启动
 ros2 launch carla_ros_bridge carla_ros_bridge.launch.py --show-args 2>&1 | head -3
@@ -76,7 +78,8 @@ ros2 launch carla_ros_bridge carla_ros_bridge.launch.py --show-args 2>&1 | head 
 ```bash
 source ~/carla_ws/install/setup.bash
 ros2 launch carla_ros_bridge carla_ros_bridge.launch.py \
-  synchronous_mode:=False
+  host:="$CARLA_HOST" port:="$CARLA_PORT" timeout:="$CARLA_BRIDGE_TIMEOUT" \
+  town:="$CARLA_MAP" synchronous_mode:=False
 ```
 
 3. 在新终端中验证Bridge节点已启动：
@@ -115,7 +118,7 @@ ros2 topic list | grep carla
 
 ```bash
 cd src/lab_code/ch23_lab/
-python3 spawn_ego.py --spawn-point 10
+python3 spawn_ego.py --spawn-point 10 --duration 30
 ```
 
 2. 验证新话题出现：

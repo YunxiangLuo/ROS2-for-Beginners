@@ -1,5 +1,12 @@
 # 第36章 自动驾驶概述与CARLA基础
 
+> **课程**：ROS2 Python 编程  
+> **章节**：第36章  
+> **课时**：2 课时（90 分钟）  
+> **教学方式**：讲授 + 演示  
+
+---
+
 ## 学习目标
 
 本章将带领读者系统认识自动驾驶技术：先了解自动驾驶技术的发展历程与 SAE J3016 分级标准，在此基础上掌握感知—规划—控制三层系统架构；随后进入开源自动驾驶仿真平台 CARLA，理解其以 Unreal Engine 为基础的核心概念与架构，学会搭建 CARLA 仿真环境并开展基本操作，最终掌握 World、Map、Actor、Sensor 等核心概念的实际用法。
@@ -101,6 +108,13 @@ source ~/.config/ros2-course/env.bash
 ```
 
 如果只需要 CARLA 与 Bridge，可以使用 `bash setup_course.sh --carla-only`。
+
+如果 CARLA 服务端运行在 Windows 主机上，WSL2 中不需要再下载 Linux 服务端，使用：
+
+```bash
+bash setup_course.sh --carla-bridge-only
+source ~/.config/ros2-course/env.bash
+```
 
 手动安装时，至少需要以下系统依赖：
 

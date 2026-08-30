@@ -1,6 +1,6 @@
 # 第3章 PPT：话题通信（Topics）
 
-> 共 16 页，标注页码
+> 共 16 页，标注页码 · 图号与教学文档对应
 
 ---
 
@@ -16,348 +16,285 @@
 
 ## P2 · 本课学习目标
 
-- 掌握发布-订阅模型的工作机制
-- 熟悉常用标准消息类型
-- 创建自定义消息接口
-- 理解 QoS 策略配置
-- 掌握多线程执行器与回调组
+- 理解发布-订阅模型：异步、多对多、完全解耦
+- 掌握 create_publisher / create_subscription API
+- 熟悉 std_msgs、sensor_msgs、geometry_msgs 标准消息
+- 掌握自定义消息 .msg 接口的创建与使用
+- 理解 QoS 可靠性兼容性规则及违约现象
+- 使用多线程执行器与回调组提升并行处理能力
 
 ---
 
-## P3 · 发布-订阅模型
+## P3 · 话题通信架构
 
 ```
-Publisher 1 ────┐
-Publisher 2 ────┤  Topic: "/chatter"  ──── Subscriber A
-Publisher 3 ────┘                          Subscriber B
-
-   异步 · 多对多 · 解耦
+Publisher 1 ─────┐
+                 ├──►  Topic: "/camera/image"  ──► Subscriber A
+Publisher 2 ─────┘                                  Subscriber B
+                                                    Subscriber C
 ```
 
-图 3-1：话题通信模型
+图 3-1：话题通信的多对多发布-订阅模型
+
+- 发布者与订阅者完全解耦，互不知晓对方的存在
+- 话题名 + 消息类型 = 通信双方的唯一协议
 
 ---
 
-## P4 · Publisher 关键 API
+## P4 · Python Publisher API
 
 ```python
-# 创建发布者
-self.pub = self.create_publisher(
-    String,          # 消息类型
-    'chatter',       # 话题名称
-    10)              # QoS 深度
+from std_msgs.msg import String
 
-# 发布消息
-msg = String()
-msg.data = 'Hello'
-self.pub.publish(msg)
-```
-
----
-
-## P5 · Publisher 完整代码
-
-程序 3-1：Talker 节点
-
-```python
 class TalkerNode(Node):
     def __init__(self):
         super().__init__('talker')
-        self.pub = self.create_publisher(String, 'chatter', 10)
-        self.timer = self.create_timer(0.5, self.callback)
+        # 创建发布者：话题名 "chatter"，队列深度 10
+        self.publisher = self.create_publisher(
+            String, 'chatter', 10)
+        self.timer = self.create_timer(0.5, self.timer_callback)
         self.count = 0
 
-    def callback(self):
+    def timer_callback(self):
         msg = String()
-        msg.data = f'Hello {self.count}'
-        self.pub.publish(msg)
+        msg.data = f'Hello ROS 2: {self.count}'
+        self.publisher.publish(msg)
+        self.get_logger().info(f'发布: "{msg.data}"')
         self.count += 1
 ```
 
----
-
-## P6 · Subscriber 关键 API
-
-```python
-# 创建订阅者
-self.sub = self.create_subscription(
-    String,              # 消息类型
-    'chatter',           # 话题名称
-    self.callback,       # 回调函数
-    10)                  # QoS 深度
-
-# 回调函数签名
-def callback(self, msg):
-    print(msg.data)
-```
+程序 3-1：Publisher 完整示例——`create_publisher(消息类型, 话题名, QoS 队列深度)`
 
 ---
 
-## P7 · Subscriber 完整代码
-
-程序 3-2：Listener 节点
+## P5 · Python Subscriber API
 
 ```python
+from std_msgs.msg import String
+
 class ListenerNode(Node):
     def __init__(self):
         super().__init__('listener')
-        self.sub = self.create_subscription(
-            String, 'chatter', self.callback, 10)
+        self.subscription = self.create_subscription(
+            String, 'chatter',      # 话题名
+            self.listener_callback, # 回调函数
+            10)                     # QoS 队列深度
 
-    def callback(self, msg):
-        self.get_logger().info(f'收到: {msg.data}')
+    def listener_callback(self, msg):
+        self.get_logger().info(f'收到: "{msg.data}"')
 ```
+
+程序 3-2：Subscriber 完整示例——回调签名必须为 `callback(msg)`
+
+- 回调中 `msg` 对象在回调返回后即失效，切勿保存引用
+- 不要用 while + time.sleep 代替 create_timer——会阻塞回调
 
 ---
 
-## P8 · 常用标准消息类型
+## P6 · 标准消息类型
 
 ```
-std_msgs/    → String, Int32, Float64, Bool, Header
-sensor_msgs/ → Image, LaserScan, PointCloud2, Imu
-geometry_msgs/ → Twist, Pose, Quaternion
+std_msgs/                 # 基础类型
+├── String / Int32 / Int64 / Float32 / Float64
+├── Bool / Empty / Header (stamp + frame_id)
+
+sensor_msgs/              # 传感器消息
+├── Image (rgb, depth) / LaserScan / PointCloud2
+├── Imu / Joy
+
+geometry_msgs/            # 几何消息
+├── Twist (linear + angular) / Pose / Vector3 / Quaternion
 ```
 
-查看消息定义：
+- 自定义消息类型必须在接口包中定义（见 P8–P9）
+
+---
+
+## P7 · 查看消息定义
+
 ```bash
 ros2 interface show std_msgs/msg/String
+# 输出：string data
+
 ros2 interface show geometry_msgs/msg/Twist
+# Vector3 linear
+#   float64 x / y / z
+# Vector3 angular
+#   float64 x / y / z
+
+ros2 interface proto std_msgs/msg/String   # 查看消息属性
 ```
+
+```bash
+ros2 topic list -t     # 含类型
+ros2 topic echo /topic # 查看消息流
+ros2 topic info /topic # 发布/订阅计数与 QoS
+ros2 topic hz /topic   # 测频率
+ros2 topic bw /topic   # 测带宽
+```
+
+- 类比「广播电台」：发布者广播、订阅者收听、频道与节目单必须一致
 
 ---
 
-## P9 · 创建自定义消息
+## P8 · 自定义消息接口包
 
 ```
-interfaces_pkg/
+custom_interfaces/
 ├── CMakeLists.txt
 ├── package.xml
 └── msg/
     └── SensorData.msg
 ```
 
-```python
-# SensorData.msg 定义
-float64 temperature
-float64 humidity
-float64 pressure
-string device_id
+```cmake
+find_package(rosidl_default_generators REQUIRED)
+rosidl_generate_interfaces(${PROJECT_NAME}
+  "msg/SensorData.msg")
 ```
+
+```python
+# msg/SensorData.msg
+float64 temperature    # 温度 (℃)
+float64 humidity       # 湿度 (%)
+float64 pressure       # 气压 (hPa)
+string device_id       # 设备ID
+```
+
+- 接口包仅支持 CMake 构建、单独建包独立编译，避免连锁重编译
 
 ---
 
-## P10 · 使用自定义消息
+## P9 · 使用自定义消息
 
 ```python
-# 在 package.xml 添加
-<exec_depend>custom_interfaces</exec_depend>
+# package.xml 中添加：
+# <exec_depend>custom_interfaces</exec_depend>
 
-# Python 导入
 from custom_interfaces.msg import SensorData
+
 msg = SensorData()
 msg.temperature = 25.5
+msg.humidity = 60.0
+msg.pressure = 1013.25
+msg.device_id = 'sensor_01'
+self.publisher.publish(msg)
 ```
+
+- IDL 支持默认值、数组、嵌套类型；.msg 可引用其他接口包类型（如 `geometry_msgs/Point position`）
+- 编译后用 `ros2 interface show` 验证
 
 ---
 
-## P11 · QoS 兼容性矩阵
+## P10 · QoS 兼容性规则
 
 ```
-Publisher ↓  Subscriber → RELIABLE │ BEST_EFFORT
-────────────────────────────────────────────
-RELIABLE                    ✓      │    ✓
-BEST_EFFORT                 ✗      │    ✓
+           Publisher ╲ Subscriber │ RELIABLE │ BEST_EFFORT
+           ───────────────────────┼──────────┼─────────────
+           RELIABLE               │    ✓     │     ✓
+           BEST_EFFORT            │    ✗     │     ✓
 ```
 
-图 3-2：QoS Reliability 兼容性
+图 3-2：QoS Reliability 兼容性矩阵
 
-> 规则：Publisher 可靠级别必须 ≥ Subscriber 可靠级别
+- Publisher 的可靠级别必须 >= Subscriber 的可靠级别
+- 控制指令像电话（RELIABLE 保证接通），传感器流像对讲机（BEST_EFFORT 丢一条接着听）
+- 日志出现 `Incompatible QoS policies` 即两端不兼容，用 `ros2 topic info -v` 排障
 
 ---
 
-## P12 · QoS 配置代码
+## P11 · Python 中配置 QoS
 
 ```python
-from rclpy.qos import QoSProfile, ReliabilityPolicy
+from rclpy.qos import QoSProfile, ReliabilityPolicy, \
+    DurabilityPolicy, HistoryPolicy
 
-# 方式1：预定义
-from rclpy.qos import qos_profile_sensor_data
+# 方式1：预定义配置（传感器数据）
+self.publisher = self.create_publisher(
+    Image, 'camera/image', qos_profile_sensor_data)
 
-# 方式2：自定义
-qos = QoSProfile(
+# 方式2：自定义 QoS
+custom_qos = QoSProfile(
     reliability=ReliabilityPolicy.BEST_EFFORT,
-    depth=5
-)
-self.pub = self.create_publisher(Image, 'cam', qos)
+    durability=DurabilityPolicy.VOLATILE,
+    history=HistoryPolicy.KEEP_LAST,
+    depth=5)
+self.subscription = self.create_subscription(
+    LaserScan, 'scan', self.callback, custom_qos)
 ```
+
+- 默认档案：sensor_data (BEST_EFFORT+KEEP_LAST(5))、system_default (RELIABLE+KEEP_LAST(10))、params
 
 ---
 
-## P13 · 执行器与回调组
+## P12 · 多线程执行器
 
 ```python
-# 单线程（默认）
+from rclpy.executors import \
+    SingleThreadedExecutor, MultiThreadedExecutor
+
+# 单线程（默认）：顺序执行所有回调
 executor = SingleThreadedExecutor()
+executor.add_node(node);  executor.spin()
 
-# 多线程并行
+# 多线程：并行执行回调，提升吞吐量
 executor = MultiThreadedExecutor(num_threads=4)
-
-# 回调组
-from rclpy.callback_groups import ReentrantCallbackGroup
-group = ReentrantCallbackGroup()
-self.sub = self.create_subscription(
-    ..., callback_group=group)
+executor.add_node(node);  executor.spin()
 ```
+
+- 多节点共用同一 executor，spin 统一驱动
+
+---
+
+## P13 · 回调组
+
+```python
+from rclpy.callback_groups import \
+    MutuallyExclusiveCallbackGroup, ReentrantCallbackGroup
+
+# 互斥回调组：组内回调串行执行（默认行为）
+group1 = MutuallyExclusiveCallbackGroup()
+
+# 可重入回调组：组内回调可并行执行
+group2 = ReentrantCallbackGroup()
+
+self.sub = self.create_subscription(
+    Image, 'camera', self.callback, 10,
+    callback_group=group2)
+```
+
+- 回调组 + 多线程执行器组合使用才能发挥并行能力
 
 ---
 
 ## P14 · 本章要点
 
-1. Topic = 异步多对多发布-订阅
-2. `create_publisher(msg_type, topic, qos)`
-3. `create_subscription(msg_type, topic, callback, qos)`
-4. 自定义消息在 CMake 包中定义 .msg
-5. QoS 兼容性：RELIABLE → BEST_EFFORT ✓，反向 ✗
-6. MultiThreadedExecutor + ReentrantCallbackGroup 实现并发
+1. 话题通信：异步、多对多、发布者与订阅者完全解耦
+2. create_publisher(类型, 话题, QoS) / create_subscription(类型, 话题, 回调, QoS)
+3. 标准消息分类：std_msgs 基础、sensor_msgs 传感器、geometry_msgs 几何
+4. 自定义消息在独立 CMake 接口包中定义 .msg，编译后 import 使用
+5. QoS 兼容性：RELIABLE 发布者可与 BEST_EFFORT 订阅者通信，反之不行
+6. 多线程执行器 + 回调组并行处理，提高吞吐量
 
 ---
 
 ## P15 · 练习题
 
-1. 发布 Twist 消息控制机器人 4
-2. 订阅 /cmd_vel 并打印![alt text](images/image-1.png)
-·补充 /cmd_vel 订阅节点
-nano ~/my_ros2_ws/src/topic_demo/topic_demo/cmd_vel_subscriber.py
-输入：
-import rclpy
-from geometry_msgs.msg import Twist
-from rclpy.node import Node
-class CmdVelSubscriber(Node):
-    def __init__(self):
-        super().__init__('cmd_vel_subscriber')
-        self.subscription = self.create_subscription(
-            Twist, '/cmd_vel', self.callback, 10)
+1. 编写 Publisher 发布 Twist 消息控制机器人运动（含线速度、角速度）
+2. 编写 Subscriber 订阅 /cmd_vel，打印收到的速度指令
+3. 创建自定义接口包，定义含姓名、年龄、身高字段的 Person.msg
+4. 基于 Person.msg 编写发布者/订阅者：`ros2 run sensor_pub person_pub` 与 `person_sub`
+5. 测试 RELIABLE/BEST_EFFORT 兼容性：`ros2 run topic_demo qos_pub`，再用 `ros2 topic echo --qos-reliability best_effort` 观察（RELIABLE 发布者 + BEST_EFFORT 订阅者可行）
+6. MultiThreadedExecutor 运行 2 Publisher + 2 Subscriber（executor_single / executor_multi 对比线程与耗时）
 
-    def callback(self, msg):
-        self.get_logger().info(
-            f'linear.x={msg.linear.x:.2f}, '
-            f'angular.z={msg.angular.z:.2f}')
-def main(args=None):
-    rclpy.init(args=args)
-    rclpy.spin(CmdVelSubscriber())
-    rclpy.shutdown()
-编辑 topic_demo/setup.py，在 console_scripts 中添加：
-'cmd_vel_sub = topic_demo.cmd_vel_subscriber:main',
-          'square_driver = topic_demo.twist_square:main'
-确认 topic_demo/package.xml 包含：
-<exec_depend>geometry_msgs</exec_depend>
-编译：
-source /opt/ros/humble/setup.bash
-cd ~/my_ros2_ws
-colcon build --packages-select topic_demo --symlink-install
-source install/setup.bash
-运行时打开三个终端：
-# 终端1
-source ~/ros2_course_ws/install/setup.bash
-ros2 launch robot_sim_demo_ros2 sim_bringup.launch.py
-# 终端2
-source ~/my_ros2_ws/install/setup.bash
-ros2 run topic_demo cmd_vel_sub
-# 终端3
-source ~/my_ros2_ws/install/setup.bash
-ros2 run topic_demo square_driver
-终端2应打印 linear.x=0.20、angular.z=1.57 等速度。
+> 提示：练习 4 需先 `colcon build --packages-select sensor_interfaces sensor_pub`；练习 6 用 `ros2 node list` 验证四个节点
 
-3. 创建自定义 Person.msg 3.2![alt text](images/image-2.png)
-·补充 Person.msg
-mkdir -p ~/my_ros2_ws/src/sensor_interfaces/msg
-nano ~/my_ros2_ws/src/sensor_interfaces/msg/Person.msg
-输入：
-string name
-uint8 age
-float32 height
-在 sensor_interfaces/CMakeLists.txt 的接口列表中增加：
-rosidl_generate_interfaces(${PROJECT_NAME}
-  "msg/SensorData.msg"
-  "msg/Person.msg"
-)
-编译并检查：
-source /opt/ros/humble/setup.bash
-cd ~/my_ros2_ws
-colcon build --packages-select sensor_interfaces
-source install/setup.bash
-ros2 interface show sensor_interfaces/msg/Person
-测试：
-# 终端1
-source /opt/ros/humble/setup.bash
-source ~/my_ros2_ws/install/setup.bash
-ros2 interface show sensor_interfaces/msg/Person
-ros2 topic echo /person_info sensor_interfaces/msg/Person
-# 终端2
-source /opt/ros/humble/setup.bash
-source ~/my_ros2_ws/install/setup.bash
-ros2 topic pub --once /person_info sensor_interfaces/msg/Person \
-"{name: 'Li Ming', age: 20, height: 1.75}"
-
-4. 测试 QoS 兼容性 3.3
-5. 多线程 executor 并行测试![alt text](images/image-3.png)
-创建 executor_demo.py：
-import threading
-import time
-
-import rclpy
-from rclpy.callback_groups import ReentrantCallbackGroup
-from rclpy.executors import MultiThreadedExecutor
-from rclpy.node import Node
-
-
-class ExecutorDemo(Node):
-    def __init__(self):
-        super().__init__('executor_demo')
-        self.start = time.monotonic()
-        group = ReentrantCallbackGroup()
-        self.timer_a = self.create_timer(3.0, self.callback_a,
-                                         callback_group=group)
-        self.timer_b = self.create_timer(3.0, self.callback_b,
-                                         callback_group=group)
-
-    def work(self, name):
-        now = time.monotonic() - self.start
-        thread = threading.get_ident()
-        self.get_logger().info(
-            f'{name} 开始: {now:.2f}s, thread={thread}')
-        time.sleep(2.0)
-        now = time.monotonic() - self.start
-        self.get_logger().info(
-            f'{name} 结束: {now:.2f}s, thread={thread}')
-
-    def callback_a(self):
-        self.work('A')
-
-    def callback_b(self):
-        self.work('B')
-
-
-def main(args=None):
-    rclpy.init(args=args)
-    node = ExecutorDemo()
-    executor = MultiThreadedExecutor(num_threads=2)
-    executor.add_node(node)
-    executor.spin()
-    rclpy.shutdown()
-在 setup.py 添加：
-'executor_demo = topic_demo.executor_demo:main',
-然后执行：
-cd ~/my_ros2_ws
-colcon build --packages-select topic_demo --symlink-install
-source install/setup.bash
-ros2 run topic_demo executor_demo
 ---
 
 ## P16 · 下章预告
 
 **第 4 章：服务通信（Services）**
 
-- 请求-响应模式
-- 同步 vs 异步调用
-- 超时与重试机制
+- 客户端 / 服务器模型（Client / Service）
+- 请求-响应（request-response）同步通信模式
+- 自定义 .srv 接口与异步调用

@@ -115,10 +115,12 @@
 
 | 模块 | 文档 |
 |:---|:---|
-| Part 1 | [第1章](teaching_docs/ch01_ROS2概述与架构.md) · [第2章](teaching_docs/ch02_核心编程基础.md) · [第3章](teaching_docs/ch03_话题通信.md) · [第4章](teaching_docs/ch04_服务通信.md) · [第5章](teaching_docs/ch05_动作通信.md) · [第6章](teaching_docs/ch06_参数与Launch.md) · [第7章](teaching_docs/ch07_TF2坐标变换.md) · [第8章](teaching_docs/ch08_URDF机器人建模.md) · [第9章](teaching_docs/ch09_Gazebo仿真.md) |
-| Part 2 | [第10章](teaching_docs/ch10_SLAM基本概念与贝叶斯框架.md) · [第11章](teaching_docs/ch11_ICP与PLICP扫描匹配.md) · [第12章](teaching_docs/ch12_Hector_SLAM.md) · [第13章](teaching_docs/ch13_gmapping粒子滤波SLAM.md) · [第14章](teaching_docs/ch14_AMCL定位.md) · [第15章](teaching_docs/ch15_Cartographer图优化SLAM.md) · [第16章](teaching_docs/ch16_Nav2架构与核心组件.md) · [第17章](teaching_docs/ch17_全局代价地图.md) · [第18章](teaching_docs/ch18_全局路径规划.md) · [第19章](teaching_docs/ch19_局部路径规划.md) · [第20章](teaching_docs/ch20_行为树与恢复行为.md) · [第21章](teaching_docs/ch21_视觉SLAM导论.md) · [第22章](teaching_docs/ch22_多传感器融合SLAM.md) · [第23章](teaching_docs/ch23_SLAM与导航综合实训.md) |
-| Part 3 | [第24章](teaching_docs/ch24_机械臂基础知识.md) · [第25章](teaching_docs/ch25_ROS2机械臂建模.md) · [第26章](teaching_docs/ch26_MoveIt2基础.md) · [第27章](teaching_docs/ch27_MoveIt2_Python规划.md) · [第28章](teaching_docs/ch28_MoveIt2_笛卡尔空间与避障.md) · [第29章](teaching_docs/ch29_抓取与放置编程.md) · [第30章](teaching_docs/ch30_ROS2图像接口与相机标定.md) · [第31章](teaching_docs/ch31_颜色检测与YOLO检测.md) · [第32章](teaching_docs/ch32_AR标签检测与手眼标定.md) · [第33章](teaching_docs/ch33_视觉大模型与ROS2应用.md) · [第34章](teaching_docs/ch34_视觉抓取应用.md) · [第35章](teaching_docs/ch35_综合实训.md) |
-| Part 4 | [第36章](teaching_docs/ch36_自动驾驶概述与CARLA基础.md) · [第37章](teaching_docs/ch37_CARLA_ROS2桥接与车辆部署.md) · [第38章](teaching_docs/ch38_多传感器套件与数据采集.md) · [第39章](teaching_docs/ch39_全局路径规划与地图导航.md) · [第40章](teaching_docs/ch40_车辆纵横向控制.md) · [第41章](teaching_docs/ch41_多传感器融合定位.md) · [第42章](teaching_docs/ch42_交通参与者感知.md) · [第43章](teaching_docs/ch43_行为决策与交通规则.md) · [第44章](teaching_docs/ch44_安全验证与系统集成.md) · [第45章](teaching_docs/ch45_综合项目.md) |
+| Part 1 | [ch01_ROS2概述与架构.md](teaching_docs/ch01_ROS2概述与架构.md) · [ch02_核心编程基础.md](teaching_docs/ch02_核心编程基础.md) · [ch03_话题通信.md](teaching_docs/ch03_话题通信.md) · [ch04_服务通信.md](teaching_docs/ch04_服务通信.md) · [ch05_动作通信.md](teaching_docs/ch05_动作通信.md) · [ch06_参数与Launch.md](teaching_docs/ch06_参数与Launch.md) · [ch07_TF2坐标变换.md](teaching_docs/ch07_TF2坐标变换.md) · [ch08_URDF机器人建模.md](teaching_docs/ch08_URDF机器人建模.md) · [ch09_Gazebo仿真.md](teaching_docs/ch09_Gazebo仿真.md) |
+| Part 2 | [ch10_SLAM基本概念与贝叶斯框架.md](teaching_docs/ch10_SLAM基本概念与贝叶斯框架.md) · [ch11_ICP与PLICP扫描匹配.md](teaching_docs/ch11_ICP与PLICP扫描匹配.md) · [ch12_Hector_SLAM.md](teaching_docs/ch12_Hector_SLAM.md) · [ch13_gmapping粒子滤波SLAM.md](teaching_docs/ch13_gmapping粒子滤波SLAM.md) · [ch14_AMCL定位.md](teaching_docs/ch14_AMCL定位.md) · [ch15_Cartographer图优化SLAM.md](teaching_docs/ch15_Cartographer图优化SLAM.md) · [ch16_Nav2架构与核心组件.md](teaching_docs/ch16_Nav2架构与核心组件.md) · [ch17_全局代价地图.md](teaching_docs/ch17_全局代价地图.md) · [ch18_全局路径规划.md](teaching_docs/ch18_全局路径规划.md) · [ch19_局部路径规划.md](teaching_docs/ch19_局部路径规划.md) · [ch20_行为树与恢复行为.md](teaching_docs/ch20_行为树与恢复行为.md) · [ch21_视觉SLAM导论.md](teaching_docs/ch21_视觉SLAM导论.md) · [ch22_多传感器融合SLAM.md](teaching_docs/ch22_多传感器融合SLAM.md) · [ch23_SLAM与导航综合实训.md](teaching_docs/ch23_SLAM与导航综合实训.md) |
+| Part 3 | [ch24_机械臂基础知识.md](teaching_docs/ch24_机械臂基础知识.md) · [ch25_ROS2机械臂建模.md](teaching_docs/ch25_ROS2机械臂建模.md) · [ch26_MoveIt2基础.md](teaching_docs/ch26_MoveIt2基础.md) · [ch27_MoveIt2_Python规划.md](teaching_docs/ch27_MoveIt2_Python规划.md) · [ch28_MoveIt2笛卡尔空间与避障.md](teaching_docs/ch28_MoveIt2笛卡尔空间与避障.md) · [ch29_抓取与放置编程.md](teaching_docs/ch29_抓取与放置编程.md) · [ch30_ROS2图像接口与相机标定.md](teaching_docs/ch30_ROS2图像接口与相机标定.md) · [ch31_颜色检测与YOLO检测.md](teaching_docs/ch31_颜色检测与YOLO检测.md) · [ch32_AR标签检测与手眼标定.md](teaching_docs/ch32_AR标签检测与手眼标定.md) · [ch33_视觉大模型与ROS2应用.md](teaching_docs/ch33_视觉大模型与ROS2应用.md) · [ch34_视觉抓取应用.md](teaching_docs/ch34_视觉抓取应用.md) · [ch35_综合实训.md](teaching_docs/ch35_综合实训.md) |
+| Part 4 | [ch36_自动驾驶概述与CARLA基础.md](teaching_docs/ch36_自动驾驶概述与CARLA基础.md) · [ch37_CARLA_ROS2桥接与车辆部署.md](teaching_docs/ch37_CARLA_ROS2桥接与车辆部署.md) · [ch38_多传感器套件与数据采集.md](teaching_docs/ch38_多传感器套件与数据采集.md) · [ch39_全局路径规划与地图导航.md](teaching_docs/ch39_全局路径规划与地图导航.md) · [ch40_车辆纵横向控制.md](teaching_docs/ch40_车辆纵横向控制.md) · [ch41_多传感器融合定位.md](teaching_docs/ch41_多传感器融合定位.md) · [ch42_交通参与者感知.md](teaching_docs/ch42_交通参与者感知.md) · [ch43_行为决策与交通规则.md](teaching_docs/ch43_行为决策与交通规则.md) · [ch44_安全验证与系统集成.md](teaching_docs/ch44_安全验证与系统集成.md) · [ch45_综合项目.md](teaching_docs/ch45_综合项目.md) |
+
+> 理论章节链接使用 `teaching_docs/` 当前规范文件名，并与 `scripts/generate_textbook.py` 的 45 个章节清单保持一致；旧版重号文件不作为课程入口。
 
 ### 实验手册
 
@@ -227,6 +229,9 @@ bash setup_course.sh --with-hardware
 
 # CARLA 0.9.16 与固定版本的 ROS Bridge
 bash setup_course.sh --with-carla
+
+# 只在 WSL 安装 Python API 和 Bridge，CARLA 服务端运行在 Windows 主机
+bash setup_course.sh --carla-bridge-only
 
 # 启用全部 profile，并在编译后运行 colcon 测试
 bash setup_course.sh --all-profiles --run-tests
@@ -343,14 +348,21 @@ Windows 10/11 已内置 DirectX 12 API。CARLA 启动器另外需要旧版 Direc
 ```powershell
 cd C:\CARLA
 .\CarlaUE4.exe -quality-level=Low -nosound `
-  -carla-rpc-port=2000 -carla-streaming-port=2001
+  -carla-map=Town10HD_Opt -carla-rpc-port=2000 -carla-streaming-port=2001
 ```
 
-确认 Windows 主机的 `127.0.0.1:2000` 已监听后，再在 WSL2 中连接它。当前 WSL 网络模式下 `localhost` 不一定指向 Windows 主机，应使用 WSL 默认网关：
+如果 CARLA 服务端运行在 Windows 主机上，WSL2 中只需安装 Python API 和 Bridge：
+
+```bash
+bash setup_course.sh --carla-bridge-only
+source ~/.config/ros2-course/env.bash
+```
+
+确认 Windows 主机的 `2000` 端口已监听后，再在 WSL2 中连接它。当前 WSL 网络模式下 `localhost` 不一定指向 Windows 主机，应使用 WSL 默认网关。环境文件会自动设置 `CARLA_HOST`、`CARLA_PORT`、`CARLA_MAP` 和 `CARLA_BRIDGE_TIMEOUT`，也可以手动覆盖：
 
 ```bash
 source ~/.config/ros2-course/env.bash
-export CARLA_HOST="$(ip route show default | awk '/default via/ {print $3; exit}')"
+echo "CARLA server: ${CARLA_HOST}:${CARLA_PORT}"
 cd "$ROS2_COURSE_ROOT"
 
 # 验证 Python API 和服务端版本
@@ -362,13 +374,11 @@ python3 src/lab_code/ch22_lab/explore_carla.py \
 
 ```bash
 source ~/.config/ros2-course/env.bash
-export CARLA_HOST="$(ip route show default | awk '/default via/ {print $3; exit}')"
-source /opt/ros/jazzy/setup.bash
-source ~/carla_ws/install/setup.bash
 
 # 异步模式适合可视化和数据采集
 ros2 launch carla_ros_bridge carla_ros_bridge.launch.py \
-  host:="$CARLA_HOST" port:=2000 \
+  host:="$CARLA_HOST" port:="$CARLA_PORT" \
+  timeout:="$CARLA_BRIDGE_TIMEOUT" town:="$CARLA_MAP" \
   synchronous_mode:=False register_all_sensors:=True
 ```
 
@@ -376,10 +386,16 @@ Bridge 启动后，在另一个终端生成带 RGB 相机和 LiDAR 的 Ego Vehic
 
 ```bash
 source ~/.config/ros2-course/env.bash
-export CARLA_HOST="$(ip route show default | awk '/default via/ {print $3; exit}')"
 cd "$ROS2_COURSE_ROOT"
 python3 src/lab_code/ch23_lab/spawn_ego.py \
-  --host "$CARLA_HOST" --port 2000 --spawn-point 10
+  --host "$CARLA_HOST" --port "$CARLA_PORT" --spawn-point 10 \
+  --duration 30
+```
+
+也可以使用一键 30 秒验证脚本；将 `CARLA_DURATION=0` 可恢复为持续运行直到按下 Ctrl+C：
+
+```bash
+CARLA_DURATION=30 bash src/lab_code/ch23_lab/bridge_launch.sh
 ```
 
 最后检查节点、话题和传感器数据：
@@ -586,3 +602,20 @@ src/xarm/
 备注：
 
 1. [openEuler(x86/arm/RISC-V)下ROS2的安装](https://docs.openeuler.org/zh/docs/24.03_LTS_SP3/tools/application/ros/ros_user_guide.html)
+
+---
+
+## 变更记录
+
+### 2026-08-30 教学文档名称与索引统一
+
+- `README.md` 和 `scripts/generate_textbook.py` 统一使用 `teaching_docs/` 的 45 个规范文件名；上方理论章节索引直接显示当前文件名并链接到实际路径。
+- 旧版 ch10–ch15 重号文档不再位于 `teaching_docs/`，不作为课程入口；历史副本保留在 `teaching_docs_backup_20260830/`，教材生成时会忽略该备份目录。
+
+- **`ch07_TF2坐标变换.md` 现状说明**：对标新版章节模板，ch07 有意保留当前现状。与旧版备份（`teaching_docs_backup_20260830`）相比存在 3 处预期差异，内容与结构等价：
+
+  1. 文首 2 个 bash 代码块移至文末；
+  2. 文末新增 15 行诊断命令块；
+  3. 备份版本一处行尾多 3 个空格。
+
+- **全面重构已收官**：45 篇教学章节按统一模板重塑（头部 blockquote、章节结构、禁用尾缀清零、官方要点 16/16 补齐）；指纹校验基线已刷新；`scripts/generate_textbook.py` 已重新生成 `output/ROS2编程技术_教材.docx`（45 章 + 31 实验）。

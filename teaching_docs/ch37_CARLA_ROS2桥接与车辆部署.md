@@ -1,5 +1,12 @@
 # 第37章 CARLA-ROS2 桥接与车辆部署
 
+> **课程**：ROS2 Python 编程  
+> **章节**：第37章  
+> **课时**：2 课时（90 分钟）  
+> **教学方式**：讲授 + 演示  
+
+---
+
 ## 学习目标
 
 本章学习目标包括：理解CARLA-ROS2 Bridge的架构原理与通信机制，掌握Ego Vehicle的Blueprint选取与生成流程，学会在RViz2中可视化传感器话题与TF树，掌握车辆控制接口的使用与模式切换。
@@ -19,27 +26,26 @@ cd /path/to/Technologies-of-ROS2-Programming-master
 bash setup_course.sh --with-carla
 source ~/.config/ros2-course/env.bash
 
+# 如果 CARLA 服务端运行在 Windows 主机，改用：
+# bash setup_course.sh --carla-bridge-only
+
 # 2. 手动验证 bridge 工作空间（安装器已完成依赖安装和构建）
 source /opt/ros/jazzy/setup.bash
 source ~/carla_ws/install/setup.bash
 
-# 3. 加载课程生成的 CARLA Python 环境
-source ~/.config/ros2-course/env.bash
-export CARLA_ROOT=~/carla
+# 3. 安装器生成的环境文件会设置 CARLA Python 路径和 Bridge 参数
+#    包括 CARLA_HOST、CARLA_PORT、CARLA_MAP、CARLA_BRIDGE_TIMEOUT
 
 # 4. 验证安装
 ros2 launch carla_ros_bridge carla_ros_bridge.launch.py --show-args
 # 期望：显示可用参数列表，无报错
-
-# WSL2 使用 Intel/AMD GPU 时，启动 CARLA 前选择 WSLg D3D12 后端
-export GALLIUM_DRIVER="${GALLIUM_DRIVER:-d3d12}"
 ```
 
 #### 安装验证清单
 
 | 检查项 | 命令 | 预期结果 |
 |--------|------|---------|
-| Python路径 | `python3 -c "import carla; print(carla.Client)"` | 能导入 CARLA Python API |
+| Python路径 | `echo $PYTHONPATH \| grep carla` | 包含 `PythonAPI/carla` |
 | Bridge包 | `ros2 pkg list \| grep carla` | `carla_ros_bridge` 等包名 |
 | 编译状态 | `colcon build --packages-select carla_ros_bridge` | 无错误，SUCCESS |
 | 启动参数 | `ros2 launch carla_ros_bridge carla_ros_bridge.launch.py --show-args` | 显示参数列表 |
@@ -121,10 +127,14 @@ Bridge 支持两种运行模式，通过参数 `synchronous_mode` 控制：
 
 ```bash
 # 同步模式启动
-ros2 launch carla_ros_bridge carla_ros_bridge.launch.py synchronous_mode:=True
+ros2 launch carla_ros_bridge carla_ros_bridge.launch.py \
+  host:="$CARLA_HOST" port:="$CARLA_PORT" timeout:="$CARLA_BRIDGE_TIMEOUT" \
+  town:="$CARLA_MAP" synchronous_mode:=True
 
 # 异步模式启动
-ros2 launch carla_ros_bridge carla_ros_bridge.launch.py synchronous_mode:=False
+ros2 launch carla_ros_bridge carla_ros_bridge.launch.py \
+  host:="$CARLA_HOST" port:="$CARLA_PORT" timeout:="$CARLA_BRIDGE_TIMEOUT" \
+  town:="$CARLA_MAP" synchronous_mode:=False
 ```
 
 ### 37.1.4 官方要点——官方桥接架构：双向映射的完整形态

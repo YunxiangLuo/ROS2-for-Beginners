@@ -17,6 +17,9 @@ ML_VENV="${ROS2_COURSE_ML_VENV:-${HOME}/.venvs/ros2-course-ml}"
 CARLA_VENV="${ROS2_COURSE_CARLA_VENV:-${HOME}/.venvs/carla-${CARLA_VERSION}}"
 CARLA_DIR="${CARLA_ROOT:-${HOME}/carla}"
 CARLA_WS="${CARLA_BRIDGE_WS:-${HOME}/carla_ws}"
+CARLA_MAP_DEFAULT="Carla/Maps/Town10HD_Opt"
+CARLA_PORT_DEFAULT="2000"
+CARLA_BRIDGE_TIMEOUT_DEFAULT="30"
 ENV_DIR="${XDG_CONFIG_HOME:-${HOME}/.config}/ros2-course"
 ENV_FILE="${ENV_DIR}/env.bash"
 
@@ -27,6 +30,8 @@ RUN_TESTS=false
 VERIFY_ONLY=false
 DRY_RUN=false
 CARLA_ONLY=false
+CARLA_BRIDGE_ONLY=false
+REFRESH_ENV=false
 
 CURRENT_STEP="startup"
 LOCK_FD=9
@@ -43,6 +48,7 @@ BASE_APT_PACKAGES=(
   git
   gnupg
   libomp5
+  iproute2
   locales
   lsb-release
   mesa-utils
@@ -144,10 +150,12 @@ Options:
   --with-ml             Install ML dependencies in an isolated venv
   --with-hardware       Install camera, RealSense, and ArUco dependencies
   --with-carla          Install CARLA 0.9.16 and the pinned ROS bridge
+  --carla-bridge-only   Install the Python API and bridge for an external CARLA server
   --all-profiles        Enable ML, hardware, and CARLA profiles
   --workspace PATH      Use a managed workspace other than ~/ros2_course_ws
   --run-tests           Run colcon tests after a successful build
   --verify              Verify an existing installation without changing it
+  --refresh-env         Regenerate the shell environment without reinstalling
   --dry-run             Print mutating commands without executing them
   --help                Show this help
 
@@ -158,7 +166,8 @@ Legacy aliases:
 
 Environment overrides:
   ROS2_COURSE_WS, ROS2_COURSE_ML_VENV, ROS2_COURSE_CARLA_VENV,
-  CARLA_ROOT, CARLA_BRIDGE_WS, CARLA_SHA256, CARLA_ARCHIVE_URL
+  CARLA_ROOT, CARLA_BRIDGE_WS, CARLA_SHA256, CARLA_ARCHIVE_URL,
+  CARLA_HOST, CARLA_PORT, CARLA_MAP, CARLA_BRIDGE_TIMEOUT
 EOF
 }
 
@@ -232,6 +241,9 @@ parse_args() {
       --verify)
         VERIFY_ONLY=true
         ;;
+      --refresh-env)
+        REFRESH_ENV=true
+        ;;
       --dry-run)
         DRY_RUN=true
         ;;
@@ -243,6 +255,11 @@ parse_args() {
         ;;
       --carla-only)
         CARLA_ONLY=true
+        WITH_CARLA=true
+        ;;
+      --carla-bridge-only)
+        CARLA_ONLY=true
+        CARLA_BRIDGE_ONLY=true
         WITH_CARLA=true
         ;;
       --help|-h)
@@ -508,6 +525,17 @@ install_hardware_profile() {
   log_warn "The course's broad FTDI udev rule is intentionally not installed automatically"
 }
 
+install_carla_python_api() {
+  CURRENT_STEP="CARLA Python API"
+  log_info "Installing CARLA ${CARLA_VERSION} Python API into ${CARLA_VENV}"
+  run mkdir -p "$(dirname "${CARLA_VENV}")"
+  if [[ ! -x "${CARLA_VENV}/bin/python" ]]; then
+    run python3 -m venv --system-site-packages "${CARLA_VENV}"
+  fi
+  run "${CARLA_VENV}/bin/python" -m pip install \
+    --disable-pip-version-check "carla==${CARLA_VERSION}"
+}
+
 install_carla_server() {
   local marker="${CARLA_DIR}/.ros2-course-carla-${CARLA_VERSION}"
   local archive_dir="${HOME}/.cache/ros2-course"
@@ -548,11 +576,6 @@ install_carla_server() {
     touch "${marker}"
   fi
 
-  run mkdir -p "$(dirname "${CARLA_VENV}")"
-  if [[ ! -x "${CARLA_VENV}/bin/python" ]]; then
-    run python3 -m venv --system-site-packages "${CARLA_VENV}"
-  fi
-  run "${CARLA_VENV}/bin/python" -m pip install "carla==${CARLA_VERSION}"
 }
 
 carla_python_path() {
@@ -652,7 +675,12 @@ install_carla_profile() {
   [[ "${WITH_CARLA}" == true ]] || return 0
   CURRENT_STEP="CARLA profile"
   apt_install "${CARLA_APT_PACKAGES[@]}"
-  install_carla_server
+  if [[ "${CARLA_BRIDGE_ONLY}" == true ]]; then
+    log_info "Skipping the Linux CARLA server; using an external server at ${CARLA_HOST:-WSL gateway}:${CARLA_PORT:-${CARLA_PORT_DEFAULT}}"
+  else
+    install_carla_server
+  fi
+  install_carla_python_api
   install_carla_bridge
 }
 
@@ -740,18 +768,32 @@ write_environment_file() {
       printf 'export ROS2_COURSE_ML_PYTHON=%q\n' "${ML_VENV}/bin/python"
     fi
     if [[ -x "${CARLA_VENV}/bin/python" ]]; then
-      printf 'export CARLA_ROOT=%q\n' "${CARLA_DIR}"
+      printf '%s\n' \
+        'if [[ -z "${CARLA_HOST:-}" ]]; then' \
+        '  if grep -qi microsoft /proc/version 2>/dev/null && command -v ip >/dev/null 2>&1; then' \
+        '    CARLA_HOST="$(ip route show default | awk '\''/default via/ {print $3; exit}'\'')"' \
+        '  fi' \
+        '  CARLA_HOST="${CARLA_HOST:-127.0.0.1}"' \
+        'fi' \
+        'export CARLA_HOST'
+      printf 'export CARLA_PORT="${CARLA_PORT:-%s}"\n' "${CARLA_PORT_DEFAULT}"
+      printf 'export CARLA_MAP="${CARLA_MAP:-%s}"\n' "${CARLA_MAP_DEFAULT}"
+      printf 'export CARLA_BRIDGE_TIMEOUT="${CARLA_BRIDGE_TIMEOUT:-%s}"\n' \
+        "${CARLA_BRIDGE_TIMEOUT_DEFAULT}"
       # PYTHONPATH must be expanded when the generated file is sourced.
       # shellcheck disable=SC2016
       printf 'export PYTHONPATH=%q:${PYTHONPATH:-}\n' "$(carla_python_path)"
-      if grep -qi microsoft /proc/version 2>/dev/null; then
-        printf "alias carla-server='cd \"\${CARLA_ROOT}\" && GALLIUM_DRIVER=\"\${GALLIUM_DRIVER:-d3d12}\" ./CarlaUE4.sh -quality-level=Low'\n"
-      else
-        printf "alias carla-server='cd \"\${CARLA_ROOT}\" && ./CarlaUE4.sh -quality-level=Low'\n"
+      if [[ "${CARLA_BRIDGE_ONLY}" == false && -x "${CARLA_DIR}/CarlaUE4.sh" ]]; then
+        printf 'export CARLA_ROOT=%q\n' "${CARLA_DIR}"
+        if grep -qi microsoft /proc/version 2>/dev/null; then
+          printf "alias carla-server='cd \"\${CARLA_ROOT}\" && GALLIUM_DRIVER=\"\${GALLIUM_DRIVER:-d3d12}\" ./CarlaUE4.sh -quality-level=Low'\n"
+        else
+          printf "alias carla-server='cd \"\${CARLA_ROOT}\" && ./CarlaUE4.sh -quality-level=Low'\n"
+        fi
       fi
     fi
     if [[ -f "${CARLA_WS}/install/setup.bash" ]]; then
-      printf "alias carla-bridge='source %q && ros2 launch carla_ros_bridge carla_ros_bridge.launch.py'\n" \
+      printf "alias carla-bridge='source %q && ros2 launch carla_ros_bridge carla_ros_bridge.launch.py host:=\"\${CARLA_HOST}\" port:=\"\${CARLA_PORT}\" timeout:=\"\${CARLA_BRIDGE_TIMEOUT}\" town:=\"\${CARLA_MAP}\" synchronous_mode:=False register_all_sensors:=True'\n" \
         "${CARLA_WS}/install/setup.bash"
     fi
     printf "alias cw='cd \"\${ROS2_COURSE_WS}\"'\n"
@@ -786,6 +828,20 @@ check() {
   fi
   log_warn "${description}"
   return 1
+}
+
+verify_carla_bridge_packages() {
+  local setup_file="${CARLA_WS}/install/setup.bash"
+  [[ -f "${setup_file}" ]] || return 1
+  set +u
+  # shellcheck disable=SC1090
+  source "${setup_file}" || {
+    set -u
+    return 1
+  }
+  set -u
+  ros2 pkg prefix carla_ros_bridge >/dev/null && \
+    ros2 pkg prefix carla_msgs >/dev/null
 }
 
 verify_installation() {
@@ -835,17 +891,23 @@ verify_installation() {
       ros2 pkg prefix realsense2_camera >/dev/null || ((failures += 1))
   fi
   if [[ "${WITH_CARLA}" == true ]]; then
-    check "CARLA server is installed" test -x "${CARLA_DIR}/CarlaUE4.sh" || ((failures += 1))
+    if [[ "${CARLA_BRIDGE_ONLY}" == true ]]; then
+      log_ok "External CARLA server mode enabled; Linux server check skipped"
+    else
+      check "CARLA server is installed" test -x "${CARLA_DIR}/CarlaUE4.sh" || ((failures += 1))
+    fi
     check "CARLA Python API imports" "${CARLA_VENV}/bin/python" -c \
       'import carla; from importlib.metadata import version; assert version("carla") == "0.9.16"' || \
       ((failures += 1))
     check "CARLA bridge overlay exists" test -f "${CARLA_WS}/install/setup.bash" || ((failures += 1))
+    check "CARLA bridge packages are discoverable" verify_carla_bridge_packages || ((failures += 1))
     if command -v glxinfo >/dev/null 2>&1; then
       local renderer
-      renderer="$(glxinfo -B 2>/dev/null | awk -F': ' '/OpenGL renderer string:/ {print $2; exit}')"
+      renderer="$(glxinfo -B 2>/dev/null | \
+        awk -F': ' '/OpenGL renderer string:/ {print $2; exit}' || true)"
       if [[ "${renderer}" == *llvmpipe* ]] && grep -qi microsoft /proc/version 2>/dev/null; then
         renderer="$(GALLIUM_DRIVER=d3d12 glxinfo -B 2>/dev/null | \
-          awk -F': ' '/OpenGL renderer string:/ {print $2; exit}')"
+          awk -F': ' '/OpenGL renderer string:/ {print $2; exit}' || true)"
       fi
       if [[ -n "${renderer}" && "${renderer}" != *llvmpipe* ]]; then
         log_ok "CARLA OpenGL renderer: ${renderer}"
@@ -875,6 +937,14 @@ main() {
 
   if [[ "${VERIFY_ONLY}" == true ]]; then
     verify_installation
+    return 0
+  fi
+
+  if [[ "${REFRESH_ENV}" == true ]]; then
+    source_ros
+    write_environment_file
+    verify_installation
+    log_ok "Shell environment refreshed"
     return 0
   fi
 

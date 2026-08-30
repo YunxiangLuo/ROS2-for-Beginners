@@ -83,10 +83,11 @@ def spawn_ego_vehicle(
     print(f'  Rotation:   yaw={spawn_point.rotation.yaw:.1f}')
 
     # 附加传感器
+    sensors = []
     if attach_sensors:
-        _attach_sensors(world, vehicle, role_name)
+        sensors = _attach_sensors(world, vehicle, role_name)
 
-    return vehicle
+    return vehicle, sensors
 
 
 def _attach_sensors(world, vehicle, role_name):
@@ -145,9 +146,15 @@ def main():
                         help='Vehicle color as R,G,B (default: 255,0,0)')
     parser.add_argument('--no-sensors', action='store_true',
                         help='Skip attaching sensors')
+    parser.add_argument('--duration', type=float, default=0.0,
+                        help='Keep the vehicle alive for this many seconds; '
+                             '0 keeps running until Ctrl+C (default: 0)')
     args = parser.parse_args()
 
-    vehicle = spawn_ego_vehicle(
+    if args.duration < 0.0:
+        parser.error('--duration must be zero or greater')
+
+    vehicle, sensors = spawn_ego_vehicle(
         host=args.host,
         port=args.port,
         spawn_point_index=args.spawn_point,
@@ -159,13 +166,24 @@ def main():
 
     print('\nVehicle is ready. Bridge will publish topics with '
           f'prefix: /carla/{args.role_name}/')
-    print('Press Ctrl+C to destroy the vehicle and exit.')
+    if args.duration > 0.0:
+        print(f'Keeping the vehicle alive for {args.duration:g} seconds.')
+    else:
+        print('Press Ctrl+C to destroy the vehicle and exit.')
 
     try:
-        while True:
-            time.sleep(1.0)
+        if args.duration > 0.0:
+            time.sleep(args.duration)
+        else:
+            while True:
+                time.sleep(1.0)
     except KeyboardInterrupt:
+        pass
+    finally:
         print('\nDestroying vehicle...')
+        for sensor in reversed(sensors):
+            sensor.stop()
+            sensor.destroy()
         vehicle.destroy()
         print('Done.')
 
