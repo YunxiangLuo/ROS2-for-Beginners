@@ -155,7 +155,7 @@ ROS2/
 ├── teaching_docs/               # 教学文档（45 章，含 images/）
 ├── lecture_slides/              # 教学课件（45 章）
 ├── lab_manuals/                 # 实验手册（31 个，含 images/）
-└── src/                         # ROS2 课程源码（50 个可构建包 + 1 个嵌套资源包）
+└── src/                         # ROS2 课程源码（52 个可构建包 + 1 个嵌套资源包）
     ├── topic_demo_cpp/          # 话题通信 C++ 示例（车载传感器数据流）
     ├── topic_demo_py/           # 话题通信 Python 示例
     ├── topic_demo_interfaces/   # 话题通信自定义接口
@@ -209,7 +209,7 @@ ROS2/
 ## 快速开始
 
 ```bash
-# 默认：ROS2 + src/lab 依赖 + 50 个可构建 ROS 包编译 + ~/.bashrc 配置
+# 默认：ROS2 + src/lab_code 依赖 + 52 个可构建 ROS 包编译 + ~/.bashrc 配置
 bash setup_course.sh
 
 # 先检查将执行的安装命令
@@ -240,29 +240,34 @@ bash setup_course.sh --all-profiles --run-tests
 
 ## 机械臂与 CARLA 安装
 
-下面的步骤覆盖本项目中 xArm6 机械臂仿真和 CARLA 0.9.16 自动驾驶仿真。两套仿真都建议在 Ubuntu 24.04 / WSL2、ROS 2 Jazzy 环境中使用；CARLA 服务端也可以单独运行在 Windows 主机上。
-
-
-## 机械臂安装（Windows x86 主机端）
-
-下面的 xArm6 机械臂仿真步骤在 **Windows x86 主机端**执行（WSL2 或 Windows 原生），不安装在 openEuler RISC-V 板卡上。本次验证环境为 WSL2 Ubuntu 22.04 + ROS 2 Jazzy；使用 Humble 时将发行版名替换为 `humble`。
+下面步骤以 Ubuntu 24.04 Noble / WSL2 + ROS 2 Jazzy 为准。xArm6 仿真在
+Windows 主机的 WSL2 Linux 环境中运行；CARLA 服务端也可以单独运行在 Windows 主机上。
 
 ### xArm6 机械臂仿真
 
 #### 1. 安装依赖并编译课程包
 
-```bash
-cd /path/to/ROS2
+推荐使用安装器。它会从当前仓库的 `src/` 同步源码，并在
+`~/ros2_course_ws` 中编译全部 52 个 ROS 包：
 
-# 主机端需预先安装 ROS 2、ros2_control、MoveIt 2、Gazebo Harmonic 和 RViz2
+```bash
+cd /path/to/Technologies-of-ROS2-Programming-master
+bash setup_course.sh
+source ~/.config/ros2-course/env.bash
+```
+
+如果只直接验证当前 checkout 的 `src/`，可在包含 `src/` 的仓库根目录执行：
+
+```bash
 source /opt/ros/jazzy/setup.bash
+cd /path/to/Technologies-of-ROS2-Programming-master
 colcon build --base-paths src --symlink-install \
   --packages-select xarm_description xarm_ros2_arm_only
 source install/setup.bash
 ```
 
 本项目的 `xarm_ros2_arm_only` 位于 `src/xarm/`，兼容的 `xarm_description` 已包含在
-`src/xarm_description/`。安装后检查：
+`src/xarm_description/`，不需要独立的描述包工作区。安装后检查：
 
 ```bash
 ros2 pkg prefix xarm_description
@@ -274,30 +279,36 @@ ros2 pkg prefix gz_ros2_control
 如果只需要重新构建机械臂包：
 
 ```bash
-cd /path/to/ROS2
-colcon build --symlink-install --packages-select xarm_description xarm_ros2_arm_only
+cd /path/to/Technologies-of-ROS2-Programming-master
+source /opt/ros/jazzy/setup.bash
+colcon build --base-paths src --symlink-install \
+  --packages-select xarm_description xarm_ros2_arm_only
 source install/setup.bash
 ```
 
 #### 2. 启动和验证机械臂
 
+以下命令使用 `setup_course.sh` 创建的托管工作区；如果使用上面的直接
+`src/` 构建方式，请将环境命令改为 `source install/setup.bash`。
+
 完整模式会启动 Gazebo、ros2_control、MoveIt 2 和 RViz2：
 
 ```bash
-source install/setup.bash
+source ~/.config/ros2-course/env.bash
 ros2 launch xarm_ros2_arm_only arm_only.launch.py
 ```
 
-完整模式启动后，另开一个终端执行动作序列；启动命令本身只负责保持仿真和 RViz2 运行：
+完整模式启动后，另开一个终端运行端到端检查；启动命令本身只负责保持仿真和 RViz2 运行：
 
 ```bash
-source install/setup.bash
-ros2 run xarm_ros2_arm_only arm_only_moveit_sequence --timeout 60
+source ~/.config/ros2-course/env.bash
+ros2 run xarm_ros2_arm_only arm_only_runtime_smoke --timeout 60
 ```
 
 只查看 RViz2 中的机械臂和 MoveIt MotionPlanning 面板时，可使用轻量模式：
 
 ```bash
+source ~/.config/ros2-course/env.bash
 ros2 launch xarm_ros2_arm_only arm_only.launch.py \
   use_gazebo:=false use_sim_time:=false
 ```
@@ -398,7 +409,7 @@ cd "$ROS2_COURSE_ROOT"
 
 # 验证 Python API 和服务端版本
 python3 src/lab_code/ch22_lab/explore_carla.py \
-  --host "$CARLA_HOST" --port 2000 --timeout 30
+  --host "$CARLA_HOST" --port "$CARLA_PORT" --timeout 30
 ```
 
 #### 3. 启动 Bridge、生成车辆并验证话题
@@ -564,10 +575,13 @@ ros2 topic hz /camera/image_raw
 ros2_control、MoveIt2 和 RViz 集成。兼容的 `xarm_description` 已包含在
 `src/xarm_description/`，不需要另外准备底层描述包。
 
+以下命令假定已通过 `setup_course.sh` 加载托管工作区；直接在仓库 checkout
+中构建时，请改为 `source install/setup.bash`。
+
 ### 完整 MoveIt2 演示（含 RViz、move_group 和 Gazebo）
 
 ```bash
-source install/setup.bash
+source ~/.config/ros2-course/env.bash
 
 # 启动完整 xArm6 仿真环境
 ros2 launch xarm_ros2_arm_only arm_only.launch.py

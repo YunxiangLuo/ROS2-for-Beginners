@@ -844,6 +844,24 @@ verify_carla_bridge_packages() {
     ros2 pkg prefix carla_msgs >/dev/null
 }
 
+verify_course_packages() {
+  local source_packages=()
+  local installed_packages=()
+  local missing_packages
+
+  mapfile -t source_packages < <(discover_source_package_names)
+  mapfile -t installed_packages < <(ros2 pkg list | LC_ALL=C sort)
+  missing_packages="$(comm -23 \
+    <(printf '%s\n' "${source_packages[@]}") \
+    <(printf '%s\n' "${installed_packages[@]}"))"
+
+  if [[ -n "${missing_packages}" ]]; then
+    log_warn "Packages missing from the ROS 2 index: ${missing_packages//$'\n'/ }"
+    return 1
+  fi
+  return 0
+}
+
 verify_installation() {
   CURRENT_STEP="installation verification"
   [[ "${DRY_RUN}" == true ]] && {
@@ -876,6 +894,11 @@ verify_installation() {
     mapfile -t workspace_packages < <(discover_package_names "${COURSE_WS}/src")
     if [[ "${source_packages[*]}" == "${workspace_packages[*]}" ]]; then
       log_ok "All ${#workspace_packages[@]} source packages are present in the workspace"
+      if verify_course_packages; then
+        log_ok "All ${#workspace_packages[@]} course packages are discoverable"
+      else
+        ((failures += 1))
+      fi
     else
       log_warn "Workspace package list differs from the source tree"
       ((failures += 1))
