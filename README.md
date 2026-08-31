@@ -176,7 +176,8 @@ ROS2/
     ├── slam_sim_demo_ros2/      # SLAM 仿真
     ├── urdf_demo_ros2/          # URDF 建模示例
     ├── tf_follower_ros2/        # TF 跟随机器人
-    ├── xarm/                    # xarm_ros2_arm_only：xArm6 + MoveIt2 仿真
+    ├── xarm/                    # xArm6 + MoveIt2 仿真
+    ├── xarm_description/        # xArm6 URDF、mesh 和 ros2_control 描述
     ├── course_lab_interfaces/   # 课程实验共享接口
     ├── course_lab_utils/        # 课程实验共享实现
     ├── lab_code/                # 实验代码（31 章，ch01_lab/ ~ ch31_lab/）
