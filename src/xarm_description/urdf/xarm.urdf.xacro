@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="xarm">
+  <xacro:arg name="hardware_type" default="mock_components" />
+  <xacro:arg name="use_ros2_control" default="true" />
+  <xacro:arg
+    name="initial_positions_file"
+    default="$(find xarm_description)/config/initial_positions.yaml" />
+  <xacro:arg name="controllers_file" default="" />
+
+  <xacro:property name="M_PI" value="3.1415926535897931" />
+  <xacro:property name="M_PI_2" value="1.570796327" />
+  <xacro:property name="selected_hardware_type" value="$(arg hardware_type)" />
+
+  <xacro:include filename="$(find xarm_description)/urdf/arm.urdf.xacro" />
+  <xacro:include filename="$(find xarm_description)/urdf/xarm.ros2_control.xacro" />
+
+  <xacro:xarm />
+
+  <xacro:if value="$(arg use_ros2_control)">
+    <xacro:xarm_ros2_control
+      name="XBotArmSystem"
+      hardware_type="${selected_hardware_type}"
+      initial_positions_file="$(arg initial_positions_file)" />
+  </xacro:if>
+
+  <xacro:if value="${selected_hardware_type == 'gz'}">
+    <gazebo>
+      <plugin
+        filename="gz_ros2_control-system"
+        name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+        <parameters>$(arg controllers_file)</parameters>
+      </plugin>
+    </gazebo>
+  </xacro:if>
+</robot>
