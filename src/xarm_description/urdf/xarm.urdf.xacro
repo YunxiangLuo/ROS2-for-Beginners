@@ -14,13 +14,14 @@
   <xacro:include filename="$(find xarm_description)/urdf/arm.urdf.xacro" />
   <xacro:include filename="$(find xarm_description)/urdf/xarm.ros2_control.xacro" />
 
-  <xacro:xarm />
+  <xacro:xarm gripper_mimic="true" />
 
   <xacro:if value="$(arg use_ros2_control)">
     <xacro:xarm_ros2_control
       name="XBotArmSystem"
       hardware_type="${selected_hardware_type}"
-      initial_positions_file="$(arg initial_positions_file)" />
+      initial_positions_file="$(arg initial_positions_file)"
+      gripper_mimic="true" />
   </xacro:if>
 
   <xacro:if value="${selected_hardware_type == 'gz'}">

@@ -16,7 +16,7 @@ xarm_ros2_arm_only/
 
   resource/  ament 软件包索引标记
 
-  tests/     源码级隔离和配置检查
+  test/      源码级隔离和配置检查
 
   urdf/      xArm Gazebo 封装 Xacro
 
@@ -29,9 +29,9 @@ xarm_ros2_arm_only/
 - ROS 2 Jazzy
 - Gazebo Harmonic
 - `ros_gz`、`gz_ros2_control`、ros2_control、MoveIt 2 和 TRAC-IK
-- 与父项目使用的 Jazzy 兼容 `xarm_description` 底层软件包完全一致
+- 本仓库提供的 Jazzy 兼容 `xarm_description` 软件包
 
-本软件包面向父项目使用的自定义 **XBot Arm** `xarm_description` 版本 `2.0.0`。它提供 `arm_1_joint` 至 `arm_6_joint`、`gripper_1_joint`、`gripper_2_joint` 和 `gripper_centor_link`。底层软件包必须提供以下文件及其引用的网格资源：
+本软件包使用本仓库 `src/xarm_description/` 中的 **XBot Arm** `xarm_description` 版本 `2.0.0`。它提供 `arm_1_joint` 至 `arm_6_joint`、`gripper_1_joint`、`gripper_2_joint` 和 `gripper_centor_link`，以及以下文件和其引用的网格资源：
 
 ```text
 xarm_description/urdf/arm.urdf.xacro
@@ -39,7 +39,7 @@ xarm_description/urdf/arm.urdf.xacro
 
 此接口与使用 `joint1` 至 `joint6` 等关节名的当前 UFACTORY 官方描述软件包不兼容。除非同时迁移 Xacro、SRDF、控制器和 MoveIt 配置，否则不要用该官方软件包替换父项目的底层软件包。
 
-在 source ROS 和 xArm 底层环境后，检查所需软件包：
+在 source ROS 2 工作区后，检查所需软件包：
 
 ```bash
 
@@ -58,17 +58,15 @@ ros2 pkg prefix trac_ik_kinematics_plugin
 
 请在工作区根目录执行命令。`xarm_ros2_arm_only` 位于 `src/xarm/`，可被 colcon 直接发现并作为工作区的一个软件包构建。
 
-构建前必须先 source 兼容的 XBot Arm `xarm_description` `2.0.0` 底层工作区；该描述包不随本软件包提供。
-
 ```bash
 source /opt/ros/jazzy/setup.bash
-source /path/to/xarm_description_workspace/install/setup.bash
 cd /path/to/ROS2
-colcon build --symlink-install --packages-select xarm_ros2_arm_only
+colcon build --base-paths src --symlink-install \
+  --packages-select xarm_description xarm_ros2_arm_only
 source install/setup.bash
 ```
 
-完整构建整个工作区时，使用 `colcon build --symlink-install`；课程源码当前由安装器发现 50 个可构建包。xArm 的运行和 MoveIt 验证仍要求先提供兼容的 `xarm_description` 底层包。
+完整构建整个工作区时，使用 `colcon build --base-paths src --symlink-install`；课程源码当前发现 46 个可构建包，其中 `lab_code/ch16_lab/` 是不带 `package.xml` 的纯文件示例。xArm 的运行和 MoveIt 验证使用同一工作区中的 `xarm_description`。
 
 不要复用其他机器上的 `build/`、`install/` 或 `log/` 目录。
 
@@ -106,7 +104,7 @@ ros2 launch xarm_ros2_arm_only arm_only.launch.py base_height:=0.20
 
 ```bash
 
-python3 -m pytest tests -q
+python3 -m pytest test -q
 
 xacro urdf/arm_only_xarm.urdf.xacro \
 

@@ -34,6 +34,7 @@ setup(
     entry_points={
         "console_scripts": [
             "arm_only_runtime_smoke = xarm_ros2_arm_only.runtime_smoke:main",
+            "arm_only_moveit_sequence = xarm_ros2_arm_only.moveit_sequence:main",
         ],
     },
 )

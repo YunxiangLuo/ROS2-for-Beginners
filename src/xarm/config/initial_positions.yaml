@@ -6,3 +6,4 @@ initial_positions:
   arm_5_joint: 0.0
   arm_6_joint: 0.0
   gripper_1_joint: 0.0
+  gripper_2_joint: 0.0

@@ -47,23 +47,21 @@
       <xacro:controlled_joint joint_name="arm_4_joint" />
       <xacro:controlled_joint joint_name="arm_5_joint" />
       <xacro:controlled_joint joint_name="arm_6_joint" />
-      <xacro:controlled_joint joint_name="gripper_1_joint" />
-
-      <joint name="gripper_2_joint">
-        <param name="mimic">gripper_1_joint</param>
-        <param name="multiplier">1.0</param>
-        <xacro:unless value="${hardware_type == 'gz'}">
-          <command_interface name="position" />
-          <state_interface name="position" />
-          <state_interface name="velocity" />
-        </xacro:unless>
-      </joint>
+       <xacro:controlled_joint joint_name="gripper_1_joint" />
+       <xacro:controlled_joint joint_name="gripper_2_joint" />
     </ros2_control>
   </xacro:macro>
 
-  <xacro:xarm
-    include_world_joint="$(arg include_world_joint)"
-    base_height="$(arg base_height)" />
+  <xacro:xarm gripper_mimic="false" gripper_lower_limit="-0.05" />
+
+  <xacro:if value="$(arg include_world_joint)">
+    <link name="world" />
+    <joint name="world_joint" type="fixed">
+      <parent link="world" />
+      <child link="base_link" />
+      <origin xyz="0 0 $(arg base_height)" rpy="0 0 0" />
+    </joint>
+  </xacro:if>
 
   <xacro:if value="$(arg use_ros2_control)">
     <xacro:arm_only_ros2_control
@@ -71,6 +69,13 @@
       hardware_type="${selected_hardware_type}"
       initial_positions_file="$(arg initial_positions_file)" />
   </xacro:if>
+
+  <gazebo reference="gripper_1_link">
+    <gravity>false</gravity>
+  </gazebo>
+  <gazebo reference="gripper_2_link">
+    <gravity>false</gravity>
+  </gazebo>
 
   <xacro:if value="${selected_hardware_type == 'gz'}">
     <gazebo>

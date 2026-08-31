@@ -2,7 +2,7 @@
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
 <xacro:property name="arm_friction"       value="1.0" />
 <xacro:property name="arm_damping"        value="1.0" />
-<xacro:macro name="xarm" >
+<xacro:macro name="xarm" params="gripper_mimic:=true gripper_lower_limit:=0.0">
   <!-- link name="world" / -->
 
   <!--joint name="virtual_joint" type="fixed">
@@ -425,7 +425,7 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="0"
+       lower="${gripper_lower_limit}"
       upper="0.698"
       effort="100"
       velocity="0.35" />
@@ -482,14 +482,16 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="0"
+       lower="${gripper_lower_limit}"
       upper="0.698"
       effort="100"
       velocity="0.35" />
     <dynamics friction="${arm_friction}" damping="${arm_damping}"/>
-    <mimic joint="gripper_1_joint" >
-      <multiplier>1</multiplier>
-    </mimic>
+    <xacro:if value="${gripper_mimic}">
+      <mimic joint="gripper_1_joint">
+        <multiplier>1</multiplier>
+      </mimic>
+    </xacro:if>
   </joint>
 
   <link

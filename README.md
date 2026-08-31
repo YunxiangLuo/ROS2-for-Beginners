@@ -241,23 +241,27 @@ bash setup_course.sh --all-profiles --run-tests
 
 下面的步骤覆盖本项目中 xArm6 机械臂仿真和 CARLA 0.9.16 自动驾驶仿真。两套仿真都建议在 Ubuntu 24.04 / WSL2、ROS 2 Jazzy 环境中使用；CARLA 服务端也可以单独运行在 Windows 主机上。
 
+
+## 机械臂安装（Windows x86 主机端）
+
+下面的 xArm6 机械臂仿真步骤在 **Windows x86 主机端**执行（WSL2 或 Windows 原生），不安装在 openEuler RISC-V 板卡上。本次验证环境为 WSL2 Ubuntu 22.04 + ROS 2 Jazzy；使用 Humble 时将发行版名替换为 `humble`。
+
 ### xArm6 机械臂仿真
 
-#### 1. 安装 ROS 2、Gazebo、MoveIt 2 和课程包
+#### 1. 安装依赖并编译课程包
 
 ```bash
-cd /path/to/Technologies-of-ROS2-Programming-master
+cd /path/to/ROS2
 
-# 如果使用外部兼容的 XBot Arm 描述包，请将实际路径替换到下一行后再执行
-# 要求：xarm_description 2.0.0，关节名为 arm_1_joint ~ arm_6_joint
-# source /path/to/xarm_description_workspace/install/setup.bash
-
-# 安装基础依赖、ros2_control、MoveIt 2、Gazebo Harmonic 并编译课程工作空间
-bash setup_course.sh
-source ~/.config/ros2-course/env.bash
+# 主机端需预先安装 ROS 2、ros2_control、MoveIt 2、Gazebo Harmonic 和 RViz2
+source /opt/ros/jazzy/setup.bash
+colcon build --base-paths src --symlink-install \
+  --packages-select xarm_description xarm_ros2_arm_only
+source install/setup.bash
 ```
 
-本项目的 `xarm_ros2_arm_only` 位于 `src/xarm/`，底层 `xarm_description` 不随本仓库提供，必须使用与本项目 SRDF、URDF 和控制器配置兼容的 XBot Arm 版本。安装后检查：
+本项目的 `xarm_ros2_arm_only` 位于 `src/xarm/`，兼容的 `xarm_description` 已包含在
+`src/xarm_description/`。安装后检查：
 
 ```bash
 ros2 pkg prefix xarm_description
@@ -269,8 +273,8 @@ ros2 pkg prefix gz_ros2_control
 如果只需要重新构建机械臂包：
 
 ```bash
-cd ~/ros2_course_ws
-colcon build --symlink-install --packages-select xarm_ros2_arm_only
+cd /path/to/ROS2
+colcon build --symlink-install --packages-select xarm_description xarm_ros2_arm_only
 source install/setup.bash
 ```
 
@@ -279,8 +283,15 @@ source install/setup.bash
 完整模式会启动 Gazebo、ros2_control、MoveIt 2 和 RViz2：
 
 ```bash
-source ~/ros2_course_ws/install/setup.bash
+source install/setup.bash
 ros2 launch xarm_ros2_arm_only arm_only.launch.py
+```
+
+完整模式启动后，另开一个终端执行动作序列；启动命令本身只负责保持仿真和 RViz2 运行：
+
+```bash
+source install/setup.bash
+ros2 run xarm_ros2_arm_only arm_only_moveit_sequence --timeout 60
 ```
 
 只查看 RViz2 中的机械臂和 MoveIt MotionPlanning 面板时，可使用轻量模式：
@@ -298,9 +309,28 @@ ros2 topic echo /joint_states --once
 ros2 run xarm_ros2_arm_only arm_only_runtime_smoke
 ```
 
-启动后的 xArm6 RViz/MoveIt 画面（30 秒录制）：
+启动后的 xArm6 Gazebo/MoveIt 动作画面（约 71 秒录制）：
 
 ![xArm6 RViz MoveIt2 启动画面](lab_manuals/images/runtime/xarm_startup.gif)
+
+源码会使用 `rsync --delete` 同步到脚本管理的 `~/ros2_course_ws`：课程 ROS 包位于
+
+`src/course/`，实验代码位于 `src/labs/`；源码树中的 `src/lab_code/` 不会再次复制到
+
+`src/course/`，以避免嵌套实验包重复发现。比如源码中的 `src/xarm/` 在托管工作空间中
+
+对应 `src/course/xarm/`。这样也能避开 WSL 中 `/mnt/c` 的编译性能和中文路径问题。
+
+脚本不会修改已有的非托管工作空间；可通过 `--workspace /absolute/path` 选择新的目标目录。
+
+安装完成后重新打开终端，或执行：
+
+```bash
+
+source ~/.config/ros2-course/env.bash
+
+cd ~/ros2_course_ws
+```
 
 ### CARLA 0.9.16
 
@@ -530,13 +560,13 @@ ros2 topic hz /camera/image_raw
 ## xArm MoveIt2 演示启动（xarm_ros2_arm_only）
 
 `xarm_ros2_arm_only` 包位于 `src/xarm/`，为 xArm6 纯机械臂提供 Gazebo Harmonic、
-ros2_control、MoveIt2 和 RViz 集成。启动前必须先 source 与本项目接口匹配的
-`xarm_description` 底层包，详见“环境要求”章节。
+ros2_control、MoveIt2 和 RViz 集成。兼容的 `xarm_description` 已包含在
+`src/xarm_description/`，不需要另外准备底层描述包。
 
 ### 完整 MoveIt2 演示（含 RViz、move_group 和 Gazebo）
 
 ```bash
-source ~/ros2_course_ws/install/setup.bash
+source install/setup.bash
 
 # 启动完整 xArm6 仿真环境
 ros2 launch xarm_ros2_arm_only arm_only.launch.py
@@ -604,18 +634,3 @@ src/xarm/
 1. [openEuler(x86/arm/RISC-V)下ROS2的安装](https://docs.openeuler.org/zh/docs/24.03_LTS_SP3/tools/application/ros/ros_user_guide.html)
 
 ---
-
-## 变更记录
-
-### 2026-08-30 教学文档名称与索引统一
-
-- `README.md` 和 `scripts/generate_textbook.py` 统一使用 `teaching_docs/` 的 45 个规范文件名；上方理论章节索引直接显示当前文件名并链接到实际路径。
-- 旧版 ch10–ch15 重号文档不再位于 `teaching_docs/`，不作为课程入口；历史副本保留在 `teaching_docs_backup_20260830/`，教材生成时会忽略该备份目录。
-
-- **`ch07_TF2坐标变换.md` 现状说明**：对标新版章节模板，ch07 有意保留当前现状。与旧版备份（`teaching_docs_backup_20260830`）相比存在 3 处预期差异，内容与结构等价：
-
-  1. 文首 2 个 bash 代码块移至文末；
-  2. 文末新增 15 行诊断命令块；
-  3. 备份版本一处行尾多 3 个空格。
-
-- **全面重构已收官**：45 篇教学章节按统一模板重塑（头部 blockquote、章节结构、禁用尾缀清零、官方要点 16/16 补齐）；指纹校验基线已刷新；`scripts/generate_textbook.py` 已重新生成 `output/ROS2编程技术_教材.docx`（45 章 + 31 实验）。
