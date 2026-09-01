@@ -105,8 +105,6 @@
 | ch21 | 第34-35章 | 视觉抓取与智能产线综合实训合并 |
 | ch22-ch31 | 第36-45章 | CARLA 自动驾驶实验重新编号 |
 
-第21章视觉 SLAM 导论保留理论讲授，不再单独维护没有对应源码的 ORB-SLAM2 实验手册。
-
 ---
 
 ## 课程资料索引
@@ -119,8 +117,6 @@
 | Part 2 | [ch10_SLAM基本概念与贝叶斯框架.md](teaching_docs/ch10_SLAM基本概念与贝叶斯框架.md) · [ch11_ICP与PLICP扫描匹配.md](teaching_docs/ch11_ICP与PLICP扫描匹配.md) · [ch12_Hector_SLAM.md](teaching_docs/ch12_Hector_SLAM.md) · [ch13_gmapping粒子滤波SLAM.md](teaching_docs/ch13_gmapping粒子滤波SLAM.md) · [ch14_AMCL定位.md](teaching_docs/ch14_AMCL定位.md) · [ch15_Cartographer图优化SLAM.md](teaching_docs/ch15_Cartographer图优化SLAM.md) · [ch16_Nav2架构与核心组件.md](teaching_docs/ch16_Nav2架构与核心组件.md) · [ch17_全局代价地图.md](teaching_docs/ch17_全局代价地图.md) · [ch18_全局路径规划.md](teaching_docs/ch18_全局路径规划.md) · [ch19_局部路径规划.md](teaching_docs/ch19_局部路径规划.md) · [ch20_行为树与恢复行为.md](teaching_docs/ch20_行为树与恢复行为.md) · [ch21_视觉SLAM导论.md](teaching_docs/ch21_视觉SLAM导论.md) · [ch22_多传感器融合SLAM.md](teaching_docs/ch22_多传感器融合SLAM.md) · [ch23_SLAM与导航综合实训.md](teaching_docs/ch23_SLAM与导航综合实训.md) |
 | Part 3 | [ch24_机械臂基础知识.md](teaching_docs/ch24_机械臂基础知识.md) · [ch25_ROS2机械臂建模.md](teaching_docs/ch25_ROS2机械臂建模.md) · [ch26_MoveIt2基础.md](teaching_docs/ch26_MoveIt2基础.md) · [ch27_MoveIt2_Python规划.md](teaching_docs/ch27_MoveIt2_Python规划.md) · [ch28_MoveIt2笛卡尔空间与避障.md](teaching_docs/ch28_MoveIt2笛卡尔空间与避障.md) · [ch29_抓取与放置编程.md](teaching_docs/ch29_抓取与放置编程.md) · [ch30_ROS2图像接口与相机标定.md](teaching_docs/ch30_ROS2图像接口与相机标定.md) · [ch31_颜色检测与YOLO检测.md](teaching_docs/ch31_颜色检测与YOLO检测.md) · [ch32_AR标签检测与手眼标定.md](teaching_docs/ch32_AR标签检测与手眼标定.md) · [ch33_视觉大模型与ROS2应用.md](teaching_docs/ch33_视觉大模型与ROS2应用.md) · [ch34_视觉抓取应用.md](teaching_docs/ch34_视觉抓取应用.md) · [ch35_综合实训.md](teaching_docs/ch35_综合实训.md) |
 | Part 4 | [ch36_自动驾驶概述与CARLA基础.md](teaching_docs/ch36_自动驾驶概述与CARLA基础.md) · [ch37_CARLA_ROS2桥接与车辆部署.md](teaching_docs/ch37_CARLA_ROS2桥接与车辆部署.md) · [ch38_多传感器套件与数据采集.md](teaching_docs/ch38_多传感器套件与数据采集.md) · [ch39_全局路径规划与地图导航.md](teaching_docs/ch39_全局路径规划与地图导航.md) · [ch40_车辆纵横向控制.md](teaching_docs/ch40_车辆纵横向控制.md) · [ch41_多传感器融合定位.md](teaching_docs/ch41_多传感器融合定位.md) · [ch42_交通参与者感知.md](teaching_docs/ch42_交通参与者感知.md) · [ch43_行为决策与交通规则.md](teaching_docs/ch43_行为决策与交通规则.md) · [ch44_安全验证与系统集成.md](teaching_docs/ch44_安全验证与系统集成.md) · [ch45_综合项目.md](teaching_docs/ch45_综合项目.md) |
-
-> 理论章节链接使用 `teaching_docs/` 当前规范文件名，并与 `scripts/generate_textbook.py` 的 45 个章节清单保持一致；旧版重号文件不作为课程入口。
 
 ### 实验手册
 
