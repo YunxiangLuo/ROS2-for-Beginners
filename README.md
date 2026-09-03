@@ -642,6 +642,6 @@ src/xarm/
 
 备注：
 
-1. [openEuler(x86/arm/RISC-V)下ROS2的安装](https://docs.openeuler.org/zh/docs/24.03_LTS_SP3/tools/application/ros/ros_user_guide.html)
-
+1. [openEuler(x86/arm/RISC-V)下ROS2的安装(支持玄铁Licheepi4A等多种RISC-V开发板)](https://docs.openeuler.org/zh/docs/24.03_LTS_SP3/tools/application/ros/ros_user_guide.html)
+2. [进迭时空 RISC-V 开发板 K1/K3 + Bianbu Linux发行版操作系统 ROS2的安装](https://www.spacemit.com/community/document/info?lang=zh&nodepath=competition/%E7%AB%9E%E8%B5%9B%E6%95%99%E7%A8%8B/01_Bianbu_%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3%E5%8F%8A%E6%A1%88%E4%BE%8B%E9%9B%86/02_ROS2%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E.md)
 ---
